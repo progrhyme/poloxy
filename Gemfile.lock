@@ -10,6 +10,8 @@ GEM
       rack
     rake (11.1.2)
     redis (3.2.2)
+    redis-namespace (1.5.2)
+      redis (~> 3.0, >= 3.0.4)
     rspec (3.4.0)
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
@@ -40,6 +42,7 @@ PLATFORMS
 
 DEPENDENCIES
   rake (~> 11.1)
+  redis-namespace (~> 1.5)
   rspec (~> 3.4)
   sidekiq (~> 4.1)
   sinatra (~> 1.4)
