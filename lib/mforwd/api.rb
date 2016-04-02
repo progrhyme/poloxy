@@ -1,7 +1,7 @@
 require 'sinatra/base'
 require 'json'
 
-require 'mforwd'
+require_relative '../mforwd'
 
 class MForwd::API < Sinatra::Application
   get '/' do

@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.push(File.expand_path('../../lib', __FILE__))
-require 'mforwd/worker'
+require_relative '../lib/mforwd/worker'
 
 p MForwd::Worker.perform_async({ foo: 1, bar: 'Bar' })

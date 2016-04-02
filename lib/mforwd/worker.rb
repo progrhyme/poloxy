@@ -1,6 +1,6 @@
 require 'sidekiq'
 
-require 'mforwd'
+require_relative '../mforwd'
 
 Sidekiq.configure_client do |config|
   config.redis = {

@@ -8,13 +8,6 @@ lib_dir="${run_dir}/../lib"
 worker="${lib_dir}/mforwd/worker.rb"
 threads=1
 
-RUBYLIB=${RUBYLIB:-}
-if [ "${RUBYLIB}" = "" ]; then
-  export RUBYLIB=${lib_dir}
-else
-  RUBYLIB=${lib_dir}:${RUBYLIB}
-fi
-
 exec bundle exec ${sidekiq} -c ${threads} -r ${worker}
 
 # Never comes here
