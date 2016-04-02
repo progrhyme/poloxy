@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 
 gem 'rake', '~> 11.1'
+gem 'redis', '~> 3.2'
+gem 'hiredis', '~> 0.6.1'
 gem 'sinatra', '~> 1.4'
 gem 'redis-namespace', '~> 1.5'
 gem 'toml-rb'
