@@ -6,7 +6,7 @@ class MForwd::Config
     },
   }
 
-  def initialize path: ENV['MFORWD_CONFIG'] || '.mforwd.toml'
+  def initialize path: ENV['MFORWD_CONFIG'] || 'config/mforwd.toml'
     @mine = File.readable?(path) ? TOML.load_file(path) : {}
   end
 
