@@ -1,7 +1,9 @@
 class MForwd::Config
   @@default = {
-    #min_interval: 60,
-    min_interval: 10, ## For Development
+    deliver: {
+      #min_interval: 60,
+      'min_interval' => 10, ## For Development
+    },
   }
 
   def initialize path: ENV['MFORWD_CONFIG'] || '.mforwd.toml'
