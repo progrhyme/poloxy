@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require_relative '../lib/mforwd/worker'
-
-p MForwd::Worker.perform_async({ foo: 1, bar: 'Bar' })
