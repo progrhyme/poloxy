@@ -22,12 +22,12 @@ class MForwd::Worker
   @@queued       = 0
   @@invoked      = 0
   @@last_invoked = 0
-  @@min_interval = 60
+  @@config       = MForwd::Config.new
 
   def perform obj
     @@queued += 1
     p "#{@@queued}, #{obj.to_s}"
-    if (Time.now - @@last_invoked).to_i >= @@min_interval
+    if (Time.now - @@last_invoked).to_i >= config(:min_interval)
       invoke
       @@queued = 0
     end
@@ -37,5 +37,9 @@ class MForwd::Worker
     @@invoked += 1
     @@last_invoked = Time.now
     p "invoked at #{@@last_invoked.to_s}"
+  end
+
+  def config key
+    @@config.send(key)
   end
 end
