@@ -3,9 +3,9 @@ require_relative '../mforwd'
 class MForwd::Worker
   def initialize
     @config = MForwd::Config.new
-    redis   = Redis.new url: @config.worker['redis_url'], driver: :hiredis
-    @redis  = Redis::Namespace.new(:mforwd, redis: redis)
-    @interval = 10
+    @buffer = MForwd::Buffer.new config: @config, role: :server
+    @interval = 5 # DEVELOP
+    #@interval = 15
   end
 
   def run
@@ -14,7 +14,8 @@ class MForwd::Worker
     @cnt = 0
     while @running
       @cnt += 1
-      p @cnt
+      data = @buffer.pop_all
+      p "#{@cnt} #{data.inspect}"
       sleep @interval
     end
     Signal.trap :INT, :DEFAULT
