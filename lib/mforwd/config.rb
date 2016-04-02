@@ -1,6 +1,4 @@
 class MForwd::Config
-  include Singleton
-
   @@default = {
     api: {
       'redis_url' => 'redis://localhost:6379',
