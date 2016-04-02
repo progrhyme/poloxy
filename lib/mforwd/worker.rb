@@ -15,7 +15,10 @@ class MForwd::Worker
     while @running
       @cnt += 1
       data = @buffer.pop_all
-      p "#{@cnt} #{data.inspect}"
+      list = data.map do |d|
+        MForwd::Item.decode(d)
+      end
+      p "#{@cnt} #{list.to_s}"
       sleep @interval
     end
     Signal.trap :INT, :DEFAULT

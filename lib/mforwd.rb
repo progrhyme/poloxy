@@ -9,3 +9,4 @@ require 'toml'
 
 require_relative 'mforwd/buffer'
 require_relative 'mforwd/config'
+require_relative 'mforwd/item'

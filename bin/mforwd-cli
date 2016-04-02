@@ -3,4 +3,4 @@
 require_relative '../lib/mforwd'
 require_relative '../lib/mforwd/buffer'
 
-MForwd::Buffer.new.push({ foo: 1, bar: 'Bar' })
+MForwd::Buffer.new.push(MForwd::Item.new({id: 'foo', kind: :Yellow}).encode)
