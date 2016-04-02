@@ -2,9 +2,11 @@ require 'sidekiq'
 
 require_relative '../mforwd'
 
+mconf = MForwd::Config.instance
+
 Sidekiq.configure_client do |config|
   config.redis = {
-    url:       'redis://localhost:6379',
+    url:       mconf.api['redis_url'],
     namespace: 'mforwd',
     size:      1
   }
@@ -12,7 +14,7 @@ end
 
 Sidekiq.configure_server do |config|
   config.redis = {
-    url:       'redis://localhost:6379',
+    url:       mconf.worker['redis_url'],
     namespace: 'mforwd'
   }
 end
@@ -22,7 +24,7 @@ class MForwd::Worker
   @@queued       = 0
   @@invoked      = 0
   @@last_invoked = 0
-  @@config       = MForwd::Config.new
+  @@config       = MForwd::Config.instance
 
   def perform obj
     @@queued += 1

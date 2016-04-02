@@ -1,5 +1,13 @@
 class MForwd::Config
+  include Singleton
+
   @@default = {
+    api: {
+      'redis_url' => 'redis://localhost:6379',
+    },
+    worker: {
+      'redis_url' => 'redis://localhost:6379',
+    },
     deliver: {
       #min_interval: 60,
       'min_interval' => 10, ## For Development
