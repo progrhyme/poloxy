@@ -6,6 +6,7 @@ run_dir=$(cd ${0%/*}; pwd)
 sidekiq="${run_dir}/sidekiq"
 lib_dir="${run_dir}/../lib"
 worker="${lib_dir}/mforwd/worker.rb"
+threads=1
 
 RUBYLIB=${RUBYLIB:-}
 if [ "${RUBYLIB}" = "" ]; then
@@ -14,7 +15,7 @@ else
   RUBYLIB=${lib_dir}:${RUBYLIB}
 fi
 
-exec bundle exec ${sidekiq} -r ${worker}
+exec bundle exec ${sidekiq} -c ${threads} -r ${worker}
 
 # Never comes here
 exit 1
