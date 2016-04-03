@@ -4,7 +4,7 @@ class MForwd::Item::Merge
     @config = config || MForwd::Config.new.deliver['item']
     merger = config['merger']
     require "mforwd/item/merge/#{merger.downcase}"
-    klass = Object.const_get("MForwd::Item::Merge::#{merger.capitalize}")
+    klass = Object.const_get("MForwd::Item::Merge::#{merger}")
     @merger = klass.new
   end
 
