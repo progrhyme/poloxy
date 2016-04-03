@@ -4,11 +4,12 @@ class MForwd::Worker
   include MForwd::Logging
 
   def initialize
-    @config = MForwd::Config.new
-    @logger = logger config: @config.log
-    @buffer = MForwd::Buffer.new config: @config, role: :server
+    @config      = MForwd::Config.new
+    @logger      = logger config: @config.log
+    @buffer      = MForwd::Buffer.new config: @config, role: :server
+    @deliver     = MForwd::Deliver.new
     @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']
-    @interval = 5
+    @interval    = 5
   end
 
   def run
@@ -35,6 +36,9 @@ class MForwd::Worker
       @logger.debug "Fetched from buffer:\n  #{list}"
       messages = @item_merger.merge_into_messages list
       @logger.debug "Messages to deliver:\n  #{messages}"
+      messages.each do |msg|
+        @deliver.deliver msg
+      end
       sleep @interval
     end
     Signal.trap :INT, :DEFAULT
