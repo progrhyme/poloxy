@@ -1,5 +1,5 @@
-module MForwd
-end
+MForwd       = Module.new
+MForwd::Util = Module.new
 
 require 'json'
 require 'logger-with_stdout'
@@ -10,6 +10,7 @@ require 'toml'
 
 require_relative 'mforwd/buffer'
 require_relative 'mforwd/config'
+require_relative 'mforwd/util/string'
 require_relative 'mforwd/error'
 require_relative 'mforwd/item'
 require_relative 'mforwd/item/merge'
