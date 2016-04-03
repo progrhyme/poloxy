@@ -12,6 +12,7 @@ class MForwd::Item::Merge::Summary < MForwd::Item::Merge::Base
 ----
 #{list.first.message}
 EOMSG
+      params['type'] = list.first.type
     else
       params['title'] = '%s+ / %s' % [kinds.last, id]
       messages = []
@@ -21,6 +22,7 @@ EOMSG
 
 #{list.first.message}
 EOMSG
+        params['type'] ||= list.first.type
       end
       params['body'] = messages.join "====\n"
     end
