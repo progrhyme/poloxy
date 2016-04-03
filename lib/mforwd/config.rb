@@ -1,5 +1,8 @@
 class MForwd::Config
   @@default = {
+    log: {
+      'level' => 'INFO',
+    },
     api: {
       'redis_url' => 'redis://localhost:6379',
     },

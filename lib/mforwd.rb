@@ -2,6 +2,7 @@ module MForwd
 end
 
 require 'json'
+require 'logger'
 require 'redis'
 require 'redis-namespace'
 require 'hiredis'
@@ -13,4 +14,5 @@ require_relative 'mforwd/error'
 require_relative 'mforwd/item'
 require_relative 'mforwd/item/merge'
 require_relative 'mforwd/item/merge/base'
+require_relative 'mforwd/logging'
 require_relative 'mforwd/message'

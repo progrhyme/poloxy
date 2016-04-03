@@ -1,5 +1,10 @@
 # General Setting
 
+[log]
+level  = "INFO"  # from Ruby Logger::LEVEL
+rotate = "daily" # from Ruby Logger shift_age
+# file = /path/to/logfile
+
 [api]
 redis_url = 'redis://localhost:6379'
 

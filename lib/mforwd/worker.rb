@@ -1,8 +1,11 @@
 require_relative '../mforwd'
 
 class MForwd::Worker
+  include MForwd::Logging
+
   def initialize
     @config = MForwd::Config.new
+    @logger = logger config: @config.log
     @buffer = MForwd::Buffer.new config: @config, role: :server
     @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']
     @interval = 5
@@ -16,12 +19,12 @@ class MForwd::Worker
       data = @buffer.pop_all
       if data.empty?
         @waiting += 1
-        p "#{@waiting} No queue in buffer."
+        @logger.debug "#{@waiting} No queue in buffer."
         sleep @interval
         next
       end
 
-      p "Queued in buffer. wait interval"
+      @logger.debug "Queued in buffer. wait interval"
       @waiting = 0
       sleep @config.deliver['min_interval']
 
@@ -29,9 +32,9 @@ class MForwd::Worker
       list = data.map do |d|
         MForwd::Item.decode(d)
       end
-      p "Fetched from buffer:\n  #{list}"
+      @logger.debug "Fetched from buffer:\n  #{list}"
       messages = @item_merger.merge_into_messages list
-      p "Messages to deliver:\n  #{messages}"
+      @logger.debug "Messages to deliver:\n  #{messages}"
       sleep @interval
     end
     Signal.trap :INT, :DEFAULT
@@ -42,7 +45,7 @@ class MForwd::Worker
     def sighandler sym=:shutdown
       @sighandlers ||= {
         shutdown: Proc.new { |sig|
-          p "called #{sig}"
+          p "Signal #{sig} trapped. Exiting ..." if ENV['MFORWD_DEBUG']
           @running = false
         },
       }
