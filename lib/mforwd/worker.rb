@@ -19,6 +19,7 @@ class MForwd::Worker
         MForwd::Item.decode(d)
       end
       p "#{@cnt} #{list.to_s}"
+      MForwd::Item::Merge.merge list, method: :summary
       sleep @interval
     end
     Signal.trap :INT, :DEFAULT
