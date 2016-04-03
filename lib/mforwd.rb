@@ -2,7 +2,7 @@ module MForwd
 end
 
 require 'json'
-require 'logger'
+require 'logger-with_stdout'
 require 'redis'
 require 'redis-namespace'
 require 'hiredis'

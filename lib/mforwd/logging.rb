@@ -1,38 +1,26 @@
 module MForwd::Logging
 
-  # @return [Logger]
+  # @return [Logger::WithStdout]
   def logger config: nil
     return @logger if @lgger
 
     config ||= MForwd::Config.new.log
 
-    outs = []
-    outs << STDOUT if STDOUT.tty?
-    outs << File.open(config['file'], 'a') if config['file']
-    if outs.empty?
-      outs << File.open('/dev/null', 'a')
+    # Returns dummy logger object if no log destination available
+    if !$stdout.tty? and !config['file']
+      @logger = Class.new { def method_missing *args; nil; end }.new
+      return @logger
     end
 
-    @logger = Logger.new( MultiIO.new(outs), config['rotate'] || 0 ).tap do |lg|
-      lg.level     = Object.const_get("Logger::#{config['level']}")
-      lg.progname  = [$0, ARGV].join(%q[ ])
-      lg.formatter = proc do |level, date, prog, msg|
-        "#{date} [#{level}] #{msg} -- #{prog}\n"
-      end
+    @logger = Logger::WithStdout.new(
+      config['file'],
+      shift_age: config['rotate'] || 0,
+    )
+    @logger.level     = Object.const_get("Logger::#{config['level']}")
+    @logger.progname  = [$0, ARGV].join(%q[ ])
+    @logger.formatter = proc do |level, date, prog, msg|
+      "#{date} [#{level}] #{msg} -- #{prog}\n"
     end
-  end
-
-  class MultiIO
-    def initialize targets
-      @targets = targets
-    end
-
-    def write *args
-      @targets.each { |t| t.write(*args) }
-    end
-
-    def close
-      @targets.each { |t| t.close }
-    end
+    @logger
   end
 end
