@@ -20,7 +20,8 @@ class MForwd::Worker
         MForwd::Item.decode(d)
       end
       p "#{@cnt} #{list.to_s}"
-      @item_merger.merge list
+      messages = @item_merger.merge_into_messages list
+      p messages if messages.present?
       sleep @interval
     end
     Signal.trap :INT, :DEFAULT

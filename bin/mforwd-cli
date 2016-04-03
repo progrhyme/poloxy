@@ -3,4 +3,10 @@
 require_relative '../lib/mforwd'
 require_relative '../lib/mforwd/buffer'
 
-MForwd::Buffer.new.push(MForwd::Item.new({id: 'foo', kind: :Yellow}).encode)
+MForwd::Buffer.new.push(MForwd::Item.new({
+  id: 'foo',
+  kind: :Yellow,
+  type: :HttpPost,
+  address: 'https://api.example.com/',
+  message: "Something went wrong!\nPlease check!\n",
+}).encode)

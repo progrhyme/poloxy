@@ -9,7 +9,7 @@ class MForwd::Item::Merge
   end
 
   # Delegates to Item Merger Object
-  def merge list
-    @merger.merge list
+  def merge_into_messages list
+    @merger.merge_into_messages list
   end
 end
