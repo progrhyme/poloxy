@@ -1,8 +1,15 @@
+# Factorial Delegator for Item Merger Class
 class MForwd::Item::Merge
-  def self.merge list, method: :base
-    require "mforwd/item/merge/#{method}"
-    klass = Object.const_get('MForwd::Item::Merge::%s' % [method.capitalize])
-    merger = klass.new
-    merger.merge list
+  def initialize config: nil
+    @config = config || MForwd::Config.new.deliver['item']
+    merger = config['merger']
+    require "mforwd/item/merge/#{merger.downcase}"
+    klass = Object.const_get("MForwd::Item::Merge::#{merger.capitalize}")
+    @merger = klass.new
+  end
+
+  # Delegates to Item Merger Object
+  def merge list
+    @merger.merge list
   end
 end

@@ -4,6 +4,7 @@ class MForwd::Worker
   def initialize
     @config = MForwd::Config.new
     @buffer = MForwd::Buffer.new config: @config, role: :server
+    @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']
     @interval = 5 # DEVELOP
     #@interval = 15
   end
@@ -19,7 +20,7 @@ class MForwd::Worker
         MForwd::Item.decode(d)
       end
       p "#{@cnt} #{list.to_s}"
-      MForwd::Item::Merge.merge list, method: :summary
+      @item_merger.merge list
       sleep @interval
     end
     Signal.trap :INT, :DEFAULT

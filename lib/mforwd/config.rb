@@ -7,8 +7,10 @@ class MForwd::Config
       'redis_url' => 'redis://localhost:6379',
     },
     deliver: {
-      #min_interval: 60,
-      'min_interval' => 10, ## For Development
+      'min_interval' => 60,
+      'item' => {
+        'merger' => 'Summary',
+      },
     },
   }
 
