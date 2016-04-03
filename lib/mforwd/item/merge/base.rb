@@ -3,6 +3,6 @@ class MForwd::Item::Merge::Base
   end
 
   def merge list
-    p '%s %s' % [self.class, list]
+    raise MForwd::Error, 'Must be overridden in subclass!'
   end
 end
