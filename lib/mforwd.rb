@@ -2,10 +2,10 @@ MForwd       = Module.new
 MForwd::Util = Module.new
 
 require 'json'
-require 'logger-with_stdout'
 require 'redis'
 require 'redis-namespace'
 require 'hiredis'
+require 'stdlogger'
 require 'toml'
 
 require_relative 'mforwd/buffer'

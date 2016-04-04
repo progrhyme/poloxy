@@ -12,7 +12,7 @@ module MForwd::Logging
       return @logger
     end
 
-    @logger = Logger::WithStdout.new(
+    @logger = StdLogger.create(
       config['file'],
       shift_age: config['rotate'] || 0,
     )
