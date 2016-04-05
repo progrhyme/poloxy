@@ -3,10 +3,21 @@
 require_relative '../lib/mforwd'
 require_relative '../lib/mforwd/buffer'
 
-MForwd::Buffer.new.push(MForwd::Item.new({
-  id: 'foo',
-  kind: :Yellow,
-  type: :HttpPost,
+param = {
+  id:      'foo',
+  kind:     :Yellow,
+  type:     :HttpPost,
   address: 'https://api.example.com/',
   message: "Something went wrong!\nPlease check!\n",
-}).encode)
+}
+OptionParser.new do |opt|
+  opt.on('-i', '--item=ITEM')       { |i| param[:id]      = i}
+  opt.on('-k', '--kind=KIND')       { |k| param[:kind]    = k}
+  opt.on('-t', '--type=TYPE')       { |t| param[:type]    = t}
+  opt.on('-a', '--addr=ADDRESS')    { |a| param[:address] = a}
+  opt.on('-m', '--message=MESSAGE') { |m| param[:message] = m}
+  opt.parse! ARGV
+end
+
+p param
+MForwd::Buffer.new.push(MForwd::Item.new(param).encode)

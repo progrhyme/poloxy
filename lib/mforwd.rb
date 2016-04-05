@@ -3,6 +3,7 @@ MForwd::Util = Module.new
 
 require 'camel_snake'
 require 'json'
+require 'optparse'
 require 'redis'
 require 'redis-namespace'
 require 'hiredis'
