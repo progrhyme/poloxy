@@ -1,5 +1,6 @@
 class MForwd::Deliver::Base
-  def initialize
+  def initialize logger: nil
+    @logger = logger
   end
 
   # @param message [MForwd::Message]

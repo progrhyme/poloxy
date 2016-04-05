@@ -7,7 +7,7 @@ class MForwd::Worker
     @config      = MForwd::Config.new
     @logger      = logger config: @config.log
     @buffer      = MForwd::Buffer.new config: @config, role: :server
-    @deliver     = MForwd::Deliver.new
+    @deliver     = MForwd::Deliver.new logger: @logger
     @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']
     @interval    = 5
   end

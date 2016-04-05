@@ -1,6 +1,7 @@
 # Factorial Delegator for Deliver Class
 class MForwd::Deliver
-  def initialize
+  def initialize logger: nil
+    @logger    = logger
     @deliverer = {}
   end
 
@@ -16,7 +17,7 @@ class MForwd::Deliver
       type_s = type.extend(CamelSnake).to_snake
       @deliverer[type] ||= Proc.new {
         require "mforwd/deliver/#{type_s}"
-        Object.const_get("MForwd::Deliver::#{type}").new
+        Object.const_get("MForwd::Deliver::#{type}").new logger: @logger
       }.call
     end
 end

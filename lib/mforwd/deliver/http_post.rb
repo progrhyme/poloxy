@@ -1,6 +1,4 @@
-class MForwd::Deliver::HttpPost
-  def initialize
-  end
+class MForwd::Deliver::HttpPost < MForwd::Deliver::Base
 
   # @param message [MForwd::Message]
   def deliver message
