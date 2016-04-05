@@ -3,16 +3,21 @@ class MForwd::Item::Merge::Summary < MForwd::Item::Merge::Base
   def merge_items id, stash
     params = {}
 
+    stash.first[1].first.tap do |item|
+      %w[type address].each do |key|
+        params[key] = item.send(key)
+      end
+    end
+
     kinds = stash.keys
     if kinds.size == 1
-      list = stash.fetch(kinds.first)
+      list = stash.first[1]
       params['title'] = '%s / %s' % [kinds.first, id]
       params['body']  = <<"EOMSG"
 #{list.length} messages
 ----
 #{list.first.message}
 EOMSG
-      params['type'] = list.first.type
     else
       params['title'] = '%s+ / %s' % [kinds.last, id]
       messages = []
@@ -22,7 +27,6 @@ EOMSG
 
 #{list.first.message}
 EOMSG
-        params['type'] ||= list.first.type
       end
       params['body'] = messages.join "====\n"
     end
