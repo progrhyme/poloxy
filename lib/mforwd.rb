@@ -3,12 +3,14 @@ MForwd::Util = Module.new
 
 require 'camel_snake'
 require 'json'
+require 'net/http'
 require 'optparse'
 require 'redis'
 require 'redis-namespace'
 require 'hiredis'
 require 'stdlogger'
 require 'toml'
+require 'uri'
 
 require_relative 'mforwd/buffer'
 require_relative 'mforwd/config'
