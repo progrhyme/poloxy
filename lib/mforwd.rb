@@ -1,6 +1,7 @@
 MForwd       = Module.new
 MForwd::Util = Module.new
 
+require 'camel_snake'
 require 'json'
 require 'redis'
 require 'redis-namespace'
@@ -10,7 +11,6 @@ require 'toml'
 
 require_relative 'mforwd/buffer'
 require_relative 'mforwd/config'
-require_relative 'mforwd/util/string'
 require_relative 'mforwd/deliver'
 require_relative 'mforwd/deliver/base'
 require_relative 'mforwd/error'
