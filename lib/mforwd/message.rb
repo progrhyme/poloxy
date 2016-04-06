@@ -1,5 +1,5 @@
 class MForwd::Message
-  @@accessors = [:title, :body, :position, :type, :address, :delivered_at, :extra]
+  @@accessors = [:title, :body, :kind, :position, :type, :address, :delivered_at, :extra]
   @@accessors.each do |accr|
     attr accr
   end
