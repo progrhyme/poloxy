@@ -16,3 +16,6 @@ min_interval = 60
 
 [deliver.item]
 merger = "Summary"
+
+[database.connect]
+url = 'sqlite//tmp/mforwd.sqlite.db'

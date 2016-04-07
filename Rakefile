@@ -1,7 +1,7 @@
 namespace :db do
-  require 'sequel'
+  require_relative 'lib/mforwd'
   Sequel.extension :migration
-  db = Sequel.connect 'sqlite://tmp/mforwd.sqlite.db'
+  db = MForwd::DataStore.new.connect
 
   desc "Apply DB schema by Sequel"
   task :migrate, [:version] do |t, args|
