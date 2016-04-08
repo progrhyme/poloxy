@@ -18,4 +18,4 @@ min_interval = 60
 merger = "Summary"
 
 [database.connect]
-url = 'sqlite//tmp/mforwd.sqlite.db'
+url = 'sqlite//tmp/poloxy.sqlite.db'

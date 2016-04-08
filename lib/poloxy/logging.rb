@@ -1,10 +1,10 @@
-module MForwd::Logging
+module Poloxy::Logging
 
   # @return [Logger::WithStdout]
   def self.logger config: nil
     return @logger if @lgger
 
-    config ||= MForwd::Config.new.log
+    config ||= Poloxy::Config.new.log
 
     @logger = StdLogger.create(
       config['file'],

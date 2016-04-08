@@ -1,8 +1,8 @@
-class MForwd::ItemMerge::Summary < MForwd::ItemMerge::Base
+class Poloxy::ItemMerge::Summary < Poloxy::ItemMerge::Base
 
-  # @param name [String] MForwd::DataModel::Item#name
-  # @param stash [Hash] MForwd::DataModel::Item#name
-  #  => Hash of Array of MForwd::DataModel::Item
+  # @param name [String] Poloxy::DataModel::Item#name
+  # @param stash [Hash] Poloxy::DataModel::Item#name
+  #  => Hash of Array of Poloxy::DataModel::Item
   def merge_items name, stash
     params = {
       'items' => [],

@@ -2,7 +2,7 @@ Sequel.migration do
   up do
     create_table :graph_nodes do
       primary_key :id
-      Integer :parent_id, null: false
+      Integer :parent_id, null: false, default: 0
       String  :name,      size: 32, null: false
     end
 
@@ -22,7 +22,7 @@ Sequel.migration do
 
     create_table :items do
       primary_key :id
-      Integer  :message_id,  index: true, null: false
+      Integer  :message_id,  index: true, null: false, default: 0
       String   :address,     size:  1024, null: false
       String   :type,        size:  32,   null: false
       String   :kind,        size:  32,   null: false

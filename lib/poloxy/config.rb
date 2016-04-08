@@ -1,4 +1,4 @@
-class MForwd::Config
+class Poloxy::Config
   @@default = {
     log: {
       'level' => 'INFO',
@@ -20,7 +20,7 @@ class MForwd::Config
     },
   }
 
-  def initialize path: ENV['MFORWD_CONFIG'] || 'config/mforwd.toml'
+  def initialize path: ENV['POLOXY_CONFIG'] || 'config/poloxy.toml'
     @mine = File.readable?(path) ? TOML.load_file(path) : {}
   end
 

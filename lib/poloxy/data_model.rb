@@ -1,4 +1,4 @@
-class MForwd::DataModel
+class Poloxy::DataModel
   def initialize
     @classes = {}
   end
@@ -12,7 +12,7 @@ class MForwd::DataModel
     @classes[klass] ||= Proc.new {
       file = klass.extend(CamelSnake).to_snake
       require_relative "data_model/#{file}"
-      Object.const_get("MForwd::DataModel::#{klass}")
+      Object.const_get("Poloxy::DataModel::#{klass}")
     }.call
   end
 end

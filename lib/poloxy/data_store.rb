@@ -1,6 +1,6 @@
-class MForwd::DataStore
+class Poloxy::DataStore
   def initialize config: nil, logger: nil
-    @config = config || MForwd::Config.new.database
+    @config = config || Poloxy::Config.new.database
     @logger = logger
   end
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
 $LOAD_PATH.push(File.expand_path('../../lib', __FILE__))
-require_relative '../lib/mforwd/worker'
+require_relative '../lib/poloxy/worker'
 
-MForwd::Worker.new.run
+Poloxy::Worker.new.run

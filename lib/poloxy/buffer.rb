@@ -1,15 +1,15 @@
-class MForwd::Buffer
+class Poloxy::Buffer
   @@list = 'buffer'
 
   def initialize config: nil, role: nil
-    @config = config || MForwd::Config.new
+    @config = config || Poloxy::Config.new
     if role == :server
       @role_config = @config.worker
     else
       @role_config = @config.api
     end
     redis  = Redis.new url: @role_config['redis_url'], driver: :hiredis
-    @redis = Redis::Namespace.new(:mforwd, redis: redis)
+    @redis = Redis::Namespace.new(:poloxy, redis: redis)
   end
 
   # @param data [Array]

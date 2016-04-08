@@ -1,13 +1,13 @@
 desc 'Open an irb session preloaded with the library'
 task :console do
-  sh 'irb -rubygems -I lib -r mforwd'
+  sh 'irb -rubygems -I lib -r poloxy'
 end
 task :c => :console
 
 namespace :db do
-  require_relative 'lib/mforwd'
+  require_relative 'lib/poloxy'
   Sequel.extension :migration
-  db = MForwd::DataStore.new.connect
+  db = Poloxy::DataStore.new.connect
 
   desc "Apply DB schema by Sequel"
   task :migrate, [:version] do |t, args|

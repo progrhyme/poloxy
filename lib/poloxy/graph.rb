@@ -1,8 +1,8 @@
-class MForwd::Graph
+class Poloxy::Graph
   def initialize config: nil, logger: nil
-    @config = config || MForwd::Config.new.graph
+    @config = config || Poloxy::Config.new.graph
     @logger = logger
-    @data_model = MForwd::DataModel.new
+    @data_model = Poloxy::DataModel.new
     @tree = Proc.new {
       nodes = @data_model.load_class('GraphNode').all
       if nodes.empty?

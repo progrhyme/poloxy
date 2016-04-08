@@ -1,9 +1,9 @@
-class MForwd::ItemMerge::Base
+class Poloxy::ItemMerge::Base
   def initialize
-    @data_model = MForwd::DataModel.new
+    @data_model = Poloxy::DataModel.new
   end
 
-  # @param list [Array<MForwd::DataModel::Item>]
+  # @param list [Array<Poloxy::DataModel::Item>]
   def merge_into_messages list
     return [] if list.empty?
 
@@ -17,7 +17,7 @@ class MForwd::ItemMerge::Base
 
   private
 
-    # @param list [Array<MForwd::DataModel::Item>]
+    # @param list [Array<Poloxy::DataModel::Item>]
     def pre_merge_items list
       items = {}
       list.each do |i|
@@ -28,10 +28,10 @@ class MForwd::ItemMerge::Base
       items
     end
 
-    # @param name [String] MForwd::DataModel::Item#name
-    # @param stash [Hash] MForwd::DataModel::Item#name
-    #  => Hash of Array of MForwd::DataModel::Item
+    # @param name [String] Poloxy::DataModel::Item#name
+    # @param stash [Hash] Poloxy::DataModel::Item#name
+    #  => Hash of Array of Poloxy::DataModel::Item
     def merge_items name, stash
-      raise MForwd::Error, 'Please override in subclass!'
+      raise Poloxy::Error, 'Please override in subclass!'
     end
 end

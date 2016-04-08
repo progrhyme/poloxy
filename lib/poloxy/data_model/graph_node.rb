@@ -1,4 +1,4 @@
-class MForwd::DataModel::GraphNode < Sequel::Model
+class Poloxy::DataModel::GraphNode < Sequel::Model
   attr_accessor :children
 
   def children

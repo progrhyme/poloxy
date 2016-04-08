@@ -1,17 +1,17 @@
-require_relative '../mforwd'
+require_relative '../poloxy'
 
-class MForwd::Worker
+class Poloxy::Worker
 
   def initialize
-    @config      = MForwd::Config.new
-    @logger      = MForwd::Logging.logger config: @config.log
-    @buffer      = MForwd::Buffer.new config: @config, role: :server
-    @datastore   = MForwd::DataStore.new config: @config.database, logger: @logger
+    @config      = Poloxy::Config.new
+    @logger      = Poloxy::Logging.logger config: @config.log
+    @buffer      = Poloxy::Buffer.new config: @config, role: :server
+    @datastore   = Poloxy::DataStore.new config: @config.database, logger: @logger
     @datastore.connect
-    @data_model  = MForwd::DataModel.new
-    @graph       = MForwd::Graph.new config: @config.graph, logger: @logger
-    @deliver     = MForwd::Deliver.new logger: @logger
-    @item_merger = MForwd::ItemMerge.new config: @config.deliver['item']
+    @data_model  = Poloxy::DataModel.new
+    @graph       = Poloxy::Graph.new config: @config.graph, logger: @logger
+    @deliver     = Poloxy::Deliver.new logger: @logger
+    @item_merger = Poloxy::ItemMerge.new config: @config.deliver['item']
     @interval    = 5
   end
 
@@ -61,7 +61,7 @@ class MForwd::Worker
     def sighandler sym=:shutdown
       @sighandlers ||= {
         shutdown: Proc.new { |sig|
-          p "Signal #{sig} trapped. Exiting ..." if ENV['MFORWD_DEBUG']
+          p "Signal #{sig} trapped. Exiting ..." if ENV['POLOXY_DEBUG']
           @running = false
         },
       }

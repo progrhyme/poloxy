@@ -1,4 +1,4 @@
-class MForwd::Deliver::Slack < MForwd::Deliver::HttpPost
+class Poloxy::Deliver::Slack < Poloxy::Deliver::HttpPost
 
   @@color_of_kind = {
     'good'    => /^(green$|ok$|good$|recover)/i,
@@ -8,7 +8,7 @@ class MForwd::Deliver::Slack < MForwd::Deliver::HttpPost
 
   private
 
-  # @param message [MForwd::DataModel::Message]
+  # @param message [Poloxy::DataModel::Message]
   def create_body message
     param = {
       attachments: [{

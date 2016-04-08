@@ -1,11 +1,11 @@
 # Factorial Delegator for Deliver Class
-class MForwd::Deliver
+class Poloxy::Deliver
   def initialize logger: nil
     @logger    = logger
     @deliverer = {}
   end
 
-  # @param message [MForwd::Message]
+  # @param message [Poloxy::Message]
   def deliver message
     deliverer(message.type).deliver message
   end
@@ -17,7 +17,7 @@ class MForwd::Deliver
       type_s = type.extend(CamelSnake).to_snake
       @deliverer[type] ||= Proc.new {
         require_relative "deliver/#{type_s}"
-        Object.const_get("MForwd::Deliver::#{type}").new logger: @logger
+        Object.const_get("Poloxy::Deliver::#{type}").new logger: @logger
       }.call
     end
 end

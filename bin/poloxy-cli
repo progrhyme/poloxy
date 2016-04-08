@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative '../lib/mforwd'
-require_relative '../lib/mforwd/buffer'
+require_relative '../lib/poloxy'
+require_relative '../lib/poloxy/buffer'
 
 param = {
   name:        'foo',
@@ -22,10 +22,10 @@ OptionParser.new do |opt|
   opt.parse! ARGV
 end
 
-MForwd::DataStore.new.connect
+Poloxy::DataStore.new.connect
 
 p param
 
-item = MForwd::DataModel.new.spawn('Item', param)
+item = Poloxy::DataModel.new.spawn('Item', param)
 item.save
-MForwd::Buffer.new.push item.id
+Poloxy::Buffer.new.push item.id

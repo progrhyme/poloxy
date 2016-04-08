@@ -1,6 +1,6 @@
-class MForwd::Deliver::HttpPost < MForwd::Deliver::Base
+class Poloxy::Deliver::HttpPost < Poloxy::Deliver::Base
 
-  # @param message [MForwd::DataModel::Message]
+  # @param message [Poloxy::DataModel::Message]
   def deliver message
     body = create_body message
     do_post message, body
@@ -8,12 +8,12 @@ class MForwd::Deliver::HttpPost < MForwd::Deliver::Base
 
   private
 
-  # @param message [MForwd::DataModel::Message]
+  # @param message [Poloxy::DataModel::Message]
   def create_body message
     message.body
   end
 
-  # @param message [MForwd::DataModel::Message]
+  # @param message [Poloxy::DataModel::Message]
   # @param body [String] POST Body
   def do_post message, body
     url  = URI.parse(message.address)
@@ -23,7 +23,7 @@ class MForwd::Deliver::HttpPost < MForwd::Deliver::Base
     end
     http = Net::HTTP.new(url.host, url.port).tap do |http|
       http.use_ssl = true
-      http.set_debug_output $stderr if ENV['MFORWD_DEBUG']
+      http.set_debug_output $stderr if ENV['POLOXY_DEBUG']
     end
     res = http.request post
     case res
