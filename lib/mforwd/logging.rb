@@ -1,7 +1,7 @@
 module MForwd::Logging
 
   # @return [Logger::WithStdout]
-  def logger config: nil
+  def self.logger config: nil
     return @logger if @lgger
 
     config ||= MForwd::Config.new.log

@@ -1,11 +1,10 @@
 require_relative '../mforwd'
 
 class MForwd::Worker
-  include MForwd::Logging
 
   def initialize
     @config      = MForwd::Config.new
-    @logger      = logger config: @config.log
+    @logger      = MForwd::Logging.logger config: @config.log
     @buffer      = MForwd::Buffer.new config: @config, role: :server
     @datastore   = MForwd::DataStore.new config: @config.database
     @datastore.connect
