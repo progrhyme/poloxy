@@ -1,4 +1,5 @@
 MForwd = Module.new
+MForwd::Item = Module.new
 
 require 'camel_snake'
 require 'json'
@@ -20,7 +21,6 @@ require_relative 'mforwd/deliver'
 require_relative 'mforwd/deliver/base'
 require_relative 'mforwd/deliver/http_post'
 require_relative 'mforwd/error'
-require_relative 'mforwd/item'
 require_relative 'mforwd/item/merge'
 require_relative 'mforwd/item/merge/base'
 require_relative 'mforwd/logging'

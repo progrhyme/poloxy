@@ -1,5 +1,8 @@
 class MForwd::Item::Merge::Summary < MForwd::Item::Merge::Base
-  # @param stash [Hash] MForwd::Item#name => Hash of Array of MForwd::Item
+
+  # @param name [String] MForwd::DataModel::Item#name
+  # @param stash [Hash] MForwd::DataModel::Item#name
+  #  => Hash of Array of MForwd::DataModel::Item
   def merge_items name, stash
     params = {
       'items' => [],

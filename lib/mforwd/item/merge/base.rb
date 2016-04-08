@@ -3,7 +3,7 @@ class MForwd::Item::Merge::Base
     @data_model = MForwd::DataModel.new
   end
 
-  # @param list [Array<MForwd::Item>]
+  # @param list [Array<MForwd::DataModel::Item>]
   def merge_into_messages list
     return [] if list.empty?
 
@@ -17,7 +17,7 @@ class MForwd::Item::Merge::Base
 
   private
 
-    # @param list [Array<MForwd::Item>]
+    # @param list [Array<MForwd::DataModel::Item>]
     def pre_merge_items list
       items = {}
       list.each do |i|
@@ -28,8 +28,9 @@ class MForwd::Item::Merge::Base
       items
     end
 
-    # @param name [String] MForwd::Item#name
-    # @param stash [Hash] MForwd::Item#name => Hash of Array of MForwd::Item
+    # @param name [String] MForwd::DataModel::Item#name
+    # @param stash [Hash] MForwd::DataModel::Item#name
+    #  => Hash of Array of MForwd::DataModel::Item
     def merge_items name, stash
       raise MForwd::Error, 'Please override in subclass!'
     end

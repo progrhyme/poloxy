@@ -20,4 +20,7 @@ OptionParser.new do |opt|
 end
 
 p param
-MForwd::Buffer.new.push(MForwd::Item.new(param).encode)
+MForwd::DataStore.new.connect
+MForwd::Buffer.new.push(
+  MForwd::DataModel.new.spawn('Item', param).encode
+)

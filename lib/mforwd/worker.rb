@@ -8,6 +8,7 @@ class MForwd::Worker
     @buffer      = MForwd::Buffer.new config: @config, role: :server
     @datastore   = MForwd::DataStore.new config: @config.database, logger: @logger
     @datastore.connect
+    @data_model  = MForwd::DataModel.new
     @deliver     = MForwd::Deliver.new logger: @logger
     @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']
     @interval    = 5
@@ -32,7 +33,7 @@ class MForwd::Worker
 
       data.concat(@buffer.pop_all)
       list = data.map do |d|
-        MForwd::Item.decode(d)
+        @data_model.load_class('Item').decode(d)
       end
       @logger.debug "Fetched from buffer:\n  #{list}"
       messages = @item_merger.merge_into_messages list
