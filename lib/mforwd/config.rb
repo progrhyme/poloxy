@@ -15,6 +15,9 @@ class MForwd::Config
         'merger' => 'Summary',
       },
     },
+    graph: {
+      'delimiter' => '/',
+    },
   }
 
   def initialize path: ENV['MFORWD_CONFIG'] || 'config/mforwd.toml'

@@ -9,6 +9,7 @@ class MForwd::Worker
     @datastore   = MForwd::DataStore.new config: @config.database, logger: @logger
     @datastore.connect
     @data_model  = MForwd::DataModel.new
+    @graph       = MForwd::Graph.new config: @config.graph, logger: @logger
     @deliver     = MForwd::Deliver.new logger: @logger
     @item_merger = MForwd::ItemMerge.new config: @config.deliver['item']
     @interval    = 5
@@ -44,6 +45,8 @@ class MForwd::Worker
         rescue => e
           @logger.error "Failed to deliver! Error: #{e}"
         ensure
+          node = @graph.node msg.group
+          msg.node_id = node.id
           msg.save
         end
         item_dm.where(id: msg.items.map(&:id)).update(message_id: msg.id)
