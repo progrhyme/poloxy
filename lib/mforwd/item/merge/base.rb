@@ -8,8 +8,8 @@ class MForwd::Item::Merge::Base
 
     messages = []
     items = pre_merge_items list
-    items.each_pair do |id, stash|
-      messages << merge_items(id, stash)
+    items.each_pair do |name, stash|
+      messages << merge_items(name, stash)
     end
     messages
   end
@@ -20,16 +20,16 @@ class MForwd::Item::Merge::Base
     def pre_merge_items list
       items = {}
       list.each do |i|
-        items[i.id]         ||= {}
-        items[i.id][i.kind] ||= []
-        items[i.id][i.kind]  << i
+        items[i.name]         ||= {}
+        items[i.name][i.kind] ||= []
+        items[i.name][i.kind]  << i
       end
       items
     end
 
-    # @param id [String] MForwd::Item#id
-    # @param stash [Hash] MForwd::Item#id => Hash of Array of MForwd::Item
-    def merge_items id, stash
+    # @param name [String] MForwd::Item#name
+    # @param stash [Hash] MForwd::Item#name => Hash of Array of MForwd::Item
+    def merge_items name, stash
       raise MForwd::Error, 'Please override in subclass!'
     end
 end

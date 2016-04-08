@@ -4,14 +4,14 @@ require_relative '../lib/mforwd'
 require_relative '../lib/mforwd/buffer'
 
 param = {
-  id:      'foo',
+  name:    'foo',
   kind:     :Yellow,
   type:     :HttpPost,
   address: 'https://api.example.com/',
   message: "Something went wrong!\nPlease check!\n",
 }
 OptionParser.new do |opt|
-  opt.on('-i', '--item=ITEM')       { |i| param[:id]      = i}
+  opt.on('-n', '--name=NAME')       { |n| param[:name]    = n}
   opt.on('-k', '--kind=KIND')       { |k| param[:kind]    = k}
   opt.on('-t', '--type=TYPE')       { |t| param[:type]    = t}
   opt.on('-a', '--addr=ADDRESS')    { |a| param[:address] = a}
