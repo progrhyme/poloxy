@@ -3,7 +3,7 @@ class MForwd::Deliver::Base
     @logger = logger
   end
 
-  # @param message [MForwd::Message]
+  # @param message [MForwd::DataModel::Message]
   def deliver message
     raise MForwd::Error, 'Please override in subclass!'
   end

@@ -1,5 +1,4 @@
-MForwd       = Module.new
-MForwd::Util = Module.new
+MForwd = Module.new
 
 require 'camel_snake'
 require 'json'
@@ -15,6 +14,7 @@ require 'uri'
 
 require_relative 'mforwd/buffer'
 require_relative 'mforwd/config'
+require_relative 'mforwd/data_model'
 require_relative 'mforwd/data_store'
 require_relative 'mforwd/deliver'
 require_relative 'mforwd/deliver/base'
@@ -24,4 +24,3 @@ require_relative 'mforwd/item'
 require_relative 'mforwd/item/merge'
 require_relative 'mforwd/item/merge/base'
 require_relative 'mforwd/logging'
-#require_relative 'mforwd/message'

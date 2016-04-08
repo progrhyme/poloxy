@@ -10,7 +10,6 @@ class MForwd::DataStore
     else
       Sequel.connect conf
     end
-    require_relative 'message'
     @conn
   end
 end

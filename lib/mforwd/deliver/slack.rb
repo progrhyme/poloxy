@@ -8,7 +8,7 @@ class MForwd::Deliver::Slack < MForwd::Deliver::HttpPost
 
   private
 
-  # @param message [MForwd::Message]
+  # @param message [MForwd::DataModel::Message]
   def create_body message
     param = {
       attachments: [{

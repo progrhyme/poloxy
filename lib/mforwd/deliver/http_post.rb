@@ -1,6 +1,6 @@
 class MForwd::Deliver::HttpPost < MForwd::Deliver::Base
 
-  # @param message [MForwd::Message]
+  # @param message [MForwd::DataModel::Message]
   def deliver message
     body = create_body message
     do_post message, body
@@ -8,12 +8,12 @@ class MForwd::Deliver::HttpPost < MForwd::Deliver::Base
 
   private
 
-  # @param message [MForwd::Message]
+  # @param message [MForwd::DataModel::Message]
   def create_body message
     message.body
   end
 
-  # @param message [MForwd::Message]
+  # @param message [MForwd::DataModel::Message]
   # @param body [String] POST Body
   def do_post message, body
     url  = URI.parse(message.address)

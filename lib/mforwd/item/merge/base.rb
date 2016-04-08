@@ -1,5 +1,6 @@
 class MForwd::Item::Merge::Base
   def initialize
+    @data_model = MForwd::DataModel.new
   end
 
   # @param list [Array<MForwd::Item>]

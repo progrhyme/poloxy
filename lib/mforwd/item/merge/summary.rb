@@ -34,11 +34,7 @@ EOMSG
       params['body'] = messages.join "====\n"
     end
 
-    message = MForwd::Message.new
-    params.each_pair do |k,v|
-      message.send("#{k}=", v)
-    end
-    message
+    @data_model.spawn 'Message', params
   end
 
   private :merge_items
