@@ -19,8 +19,8 @@ class MForwd::Worker
     @running = true
     @waiting = 0
     while @running
-      data = @buffer.pop_all
-      if data.empty?
+      item_ids = @buffer.pop_all
+      if item_ids.empty?
         @waiting += 1
         @logger.debug "#{@waiting} No queue in buffer."
         sleep @interval
@@ -31,10 +31,8 @@ class MForwd::Worker
       @waiting = 0
       sleep @config.deliver['min_interval']
 
-      data.concat(@buffer.pop_all)
-      list = data.map do |d|
-        @data_model.load_class('Item').decode(d)
-      end
+      item_ids.concat(@buffer.pop_all)
+      list = @data_model.load_class('Item').where(id: item_ids)
       @logger.debug "Fetched from buffer:\n  #{list}"
       messages = @item_merger.merge_into_messages list
       @logger.debug "Messages to deliver:\n  #{messages}"

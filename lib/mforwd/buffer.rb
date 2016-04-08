@@ -12,8 +12,9 @@ class MForwd::Buffer
     @redis = Redis::Namespace.new(:mforwd, redis: redis)
   end
 
+  # @param data [Array]
   def push *data
-    @redis.lpush(@@list, data.map { |d| d.to_json })
+    @redis.lpush(@@list, data)
   end
 
   def pop_all

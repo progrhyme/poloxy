@@ -4,11 +4,12 @@ require_relative '../lib/mforwd'
 require_relative '../lib/mforwd/buffer'
 
 param = {
-  name:    'foo',
-  kind:     :Yellow,
-  type:     :HttpPost,
-  address: 'https://api.example.com/',
-  message: "Something went wrong!\nPlease check!\n",
+  name:        'foo',
+  kind:        :Yellow,
+  type:        :HttpPost,
+  address:     'https://api.example.com/',
+  message:     "Something went wrong!\nPlease check!\n",
+  received_at: Time.now,
 }
 OptionParser.new do |opt|
   opt.on('-n', '--name=NAME')       { |n| param[:name]    = n}
@@ -19,8 +20,10 @@ OptionParser.new do |opt|
   opt.parse! ARGV
 end
 
-p param
 MForwd::DataStore.new.connect
-MForwd::Buffer.new.push(
-  MForwd::DataModel.new.spawn('Item', param).encode
-)
+
+p param
+
+item = MForwd::DataModel.new.spawn('Item', param)
+item.save
+MForwd::Buffer.new.push item.id
