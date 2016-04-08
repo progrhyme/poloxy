@@ -1,11 +1,5 @@
 class Poloxy::Deliver::Slack < Poloxy::Deliver::HttpPost
 
-  @@color_of_kind = {
-    'good'    => /^(green$|ok$|good$|recover)/i,
-    'warning' => /^(yellow$|warn)/i,
-    'danger'  => /^(red$|fatal$|crit|error$|danger$)/i,
-  }
-
   private
 
   # @param message [Poloxy::DataModel::Message]
@@ -19,11 +13,20 @@ class Poloxy::Deliver::Slack < Poloxy::Deliver::HttpPost
         }],
       }],
     }
-    @@color_of_kind.find { |col, regexp|
-      regexp.match message.kind
-    }.tap do |col, regexp|
+    level2color(message.level).tap do |col|
       param[:attachments][0][:color] = col
     end
     param.to_json
+  end
+
+  def level2color level
+    case level
+    when 1
+      'good'
+    when 3
+      'warning'
+    when 5
+      'danger'
+    end
   end
 end

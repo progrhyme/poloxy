@@ -9,26 +9,26 @@ class Poloxy::ItemMerge::Summary < Poloxy::ItemMerge::Base
     }
 
     stash.first[1].first.tap do |item|
-      %w[kind group type address].each do |key|
+      %w[level group type address].each do |key|
         params[key] = item.send(key)
       end
     end
 
-    kinds = stash.keys
-    if kinds.size == 1
+    levels = stash.keys
+    if levels.size == 1
       list = params['items'] = stash.first[1]
-      params['title'] = '%s / %s' % [kinds.first, name]
+      params['title'] = '%s / %s' % [levels.first, name]
       params['body']  = <<"EOMSG"
 #{list.length} messages
 ----
 #{list.first.message}
 EOMSG
     else
-      params['title'] = '%s+ / %s' % [kinds.last, name]
+      params['title'] = '%s+ / %s' % [levels.last, name]
       messages = []
-      stash.each_pair do |kind, list|
+      stash.each_pair do |level, list|
         messages << <<"EOMSG"
-#{kind} #{list.length} messages
+Level #{level}: #{list.length} messages
 
 #{list.first.message}
 EOMSG

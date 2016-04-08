@@ -21,9 +21,9 @@ class Poloxy::ItemMerge::Base
     def pre_merge_items list
       items = {}
       list.each do |i|
-        items[i.name]         ||= {}
-        items[i.name][i.kind] ||= []
-        items[i.name][i.kind]  << i
+        items[i.name]          ||= {}
+        items[i.name][i.level] ||= []
+        items[i.name][i.level] <<  i
       end
       items
     end
