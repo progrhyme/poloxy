@@ -1,3 +1,9 @@
+desc 'Open an irb session preloaded with the library'
+task :console do
+  sh 'irb -rubygems -I lib -r mforwd'
+end
+task :c => :console
+
 namespace :db do
   require_relative 'lib/mforwd'
   Sequel.extension :migration
