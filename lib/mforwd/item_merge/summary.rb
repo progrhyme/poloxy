@@ -9,7 +9,7 @@ class MForwd::ItemMerge::Summary < MForwd::ItemMerge::Base
     }
 
     stash.first[1].first.tap do |item|
-      %w[kind type address].each do |key|
+      %w[kind group type address].each do |key|
         params[key] = item.send(key)
       end
     end

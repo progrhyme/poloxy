@@ -3,6 +3,7 @@ Sequel.migration do
     create_table :graph_nodes do
       primary_key :id
       Integer :parent_id, null: false
+      String  :name,      size: 32, null: false
     end
 
     create_table :node_children do
@@ -17,6 +18,7 @@ Sequel.migration do
       String   :address,      size:  1024, null: false
       String   :type,         size:  32,   null: false
       String   :kind,         size:  32,   null: false
+      String   :group,        null:  false
       String   :title,        null:  false
       String   :body,         text:  true, null: false
       String   :misc,         text:  true
@@ -30,6 +32,7 @@ Sequel.migration do
       String   :address,     size:  1024, null: false
       String   :type,        size:  32,   null: false
       String   :kind,        size:  32,   null: false
+      String   :group,       null:  false
       String   :name,        null:  false
       String   :message,     text:  true, null: false
       String   :misc,        text:  true

@@ -6,6 +6,7 @@ require_relative '../lib/mforwd/buffer'
 param = {
   name:        'foo',
   kind:        :Yellow,
+  group:       'Default',
   type:        :HttpPost,
   address:     'https://api.example.com/',
   message:     "Something went wrong!\nPlease check!\n",
@@ -14,6 +15,7 @@ param = {
 OptionParser.new do |opt|
   opt.on('-n', '--name=NAME')       { |n| param[:name]    = n}
   opt.on('-k', '--kind=KIND')       { |k| param[:kind]    = k}
+  opt.on('-g', '--group=GROUP')     { |g| param[:group]   = g}
   opt.on('-t', '--type=TYPE')       { |t| param[:type]    = t}
   opt.on('-a', '--addr=ADDRESS')    { |a| param[:address] = a}
   opt.on('-m', '--message=MESSAGE') { |m| param[:message] = m}
