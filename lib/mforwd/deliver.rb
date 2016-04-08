@@ -16,7 +16,7 @@ class MForwd::Deliver
     def deliverer type
       type_s = type.extend(CamelSnake).to_snake
       @deliverer[type] ||= Proc.new {
-        require "mforwd/deliver/#{type_s}"
+        require_relative "deliver/#{type_s}"
         Object.const_get("MForwd::Deliver::#{type}").new logger: @logger
       }.call
     end
