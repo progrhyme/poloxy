@@ -10,7 +10,7 @@ class MForwd::Worker
     @datastore.connect
     @data_model  = MForwd::DataModel.new
     @deliver     = MForwd::Deliver.new logger: @logger
-    @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']
+    @item_merger = MForwd::ItemMerge.new config: @config.deliver['item']
     @interval    = 5
   end
 

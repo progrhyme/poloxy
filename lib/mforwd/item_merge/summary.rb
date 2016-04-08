@@ -1,4 +1,4 @@
-class MForwd::Item::Merge::Summary < MForwd::Item::Merge::Base
+class MForwd::ItemMerge::Summary < MForwd::ItemMerge::Base
 
   # @param name [String] MForwd::DataModel::Item#name
   # @param stash [Hash] MForwd::DataModel::Item#name

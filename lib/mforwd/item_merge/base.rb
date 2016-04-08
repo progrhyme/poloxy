@@ -1,4 +1,4 @@
-class MForwd::Item::Merge::Base
+class MForwd::ItemMerge::Base
   def initialize
     @data_model = MForwd::DataModel.new
   end
