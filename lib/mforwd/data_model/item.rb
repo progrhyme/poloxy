@@ -1,2 +1,2 @@
-class MForwd::DataModel::Item < Sequel::Model(:items)
+class MForwd::DataModel::Item < Sequel::Model
 end

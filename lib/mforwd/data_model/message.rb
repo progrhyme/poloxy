@@ -1,3 +1,3 @@
-class MForwd::DataModel::Message < Sequel::Model(:messages)
+class MForwd::DataModel::Message < Sequel::Model
   attr_accessor :items
 end
