@@ -6,7 +6,7 @@ class MForwd::Worker
     @config      = MForwd::Config.new
     @logger      = MForwd::Logging.logger config: @config.log
     @buffer      = MForwd::Buffer.new config: @config, role: :server
-    @datastore   = MForwd::DataStore.new config: @config.database
+    @datastore   = MForwd::DataStore.new config: @config.database, logger: @logger
     @datastore.connect
     @deliver     = MForwd::Deliver.new logger: @logger
     @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']

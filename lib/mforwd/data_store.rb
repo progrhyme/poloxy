@@ -1,6 +1,7 @@
 class MForwd::DataStore
-  def initialize config: nil
+  def initialize config: nil, logger: nil
     @config = config || MForwd::Config.new.database
+    @logger = logger
   end
 
   def connect
@@ -10,6 +11,7 @@ class MForwd::DataStore
     else
       Sequel.connect conf
     end
+    @conn.loggers << @logger if @logger
     @conn
   end
 end
