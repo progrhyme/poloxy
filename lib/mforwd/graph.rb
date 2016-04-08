@@ -11,14 +11,12 @@ class MForwd::Graph
         return { @root.id => @root }
       end
 
-      #children = @data_model.load_class('NodeChild').all
       tree = {}
       nodes.each do |n|
         tree[n.id] = n
         tree[n.parent_id].add_child n if n.parent_id > 0
         @root = n if n.name == 'Root'
       end
-      #children.each { |c| tree[c.node_id].add_child tree[c.child_id] }
       tree
     }.call
   end

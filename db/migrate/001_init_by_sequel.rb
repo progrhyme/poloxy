@@ -6,12 +6,6 @@ Sequel.migration do
       String  :name,      size: 32, null: false
     end
 
-    create_table :node_children do
-      Integer :node_id,  null: false
-      Integer :child_id, null: false
-      primary_key [:node_id, :child_id]
-    end
-
     create_table :messages do
       primary_key :id
       Integer  :node_id,      index: true, null: false
@@ -41,6 +35,6 @@ Sequel.migration do
   end
 
   down do
-    drop_table :graph_nodes, :node_children, :messages, :items
+    drop_table :graph_nodes, :messages, :items
   end
 end
