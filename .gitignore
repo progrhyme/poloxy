@@ -1,2 +1,5 @@
 *.swp
 /tmp/
+/.yardoc/
+/.yardocopts
+/doc/
