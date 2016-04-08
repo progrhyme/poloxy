@@ -37,6 +37,7 @@ EOMSG
       params['body'] = messages.join "====\n"
     end
 
+    params['created_at'] = Time.now
     @data_model.spawn 'Message', params
   end
 

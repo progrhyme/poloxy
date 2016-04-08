@@ -32,14 +32,21 @@ class MForwd::Worker
       sleep @config.deliver['min_interval']
 
       item_ids.concat(@buffer.pop_all)
-      list = @data_model.load_class('Item').where(id: item_ids)
+      item_dm = @data_model.load_class('Item')
+      list    = item_dm.where(id: item_ids)
       @logger.debug "Fetched from buffer:\n  #{list}"
       messages = @item_merger.merge_into_messages list
       @logger.debug "Messages to deliver:\n  #{messages}"
       messages.each do |msg|
-        msg.save
-        p msg.id
-        @deliver.deliver msg
+        begin
+          @deliver.deliver msg
+          msg.delivered_at = Time.now
+        rescue => e
+          @logger.error "Failed to deliver! Error: #{e}"
+        ensure
+          msg.save
+        end
+        item_dm.where(id: msg.items.map(&:id)).update(message_id: msg.id)
       end
       sleep @interval
     end
