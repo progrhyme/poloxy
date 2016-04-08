@@ -1,6 +1,11 @@
 class Poloxy::DataModel::GraphNode < Sequel::Model
   attr_accessor :children
 
+  def save
+    self.updated_at = Time.now
+    super
+  end
+
   def children
     @children ||= []
   end

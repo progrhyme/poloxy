@@ -5,6 +5,7 @@ class Poloxy::ItemMerge::Summary < Poloxy::ItemMerge::Base
   #  => Hash of Array of Poloxy::DataModel::Item
   def merge_items name, stash
     params = {
+      'item'  => name,
       'items' => [],
     }
 
