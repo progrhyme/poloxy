@@ -7,6 +7,8 @@ class MForwd::Worker
     @config      = MForwd::Config.new
     @logger      = logger config: @config.log
     @buffer      = MForwd::Buffer.new config: @config, role: :server
+    @datastore   = MForwd::DataStore.new config: @config.database
+    @datastore.connect
     @deliver     = MForwd::Deliver.new logger: @logger
     @item_merger = MForwd::Item::Merge.new config: @config.deliver['item']
     @interval    = 5
@@ -37,6 +39,8 @@ class MForwd::Worker
       messages = @item_merger.merge_into_messages list
       @logger.debug "Messages to deliver:\n  #{messages}"
       messages.each do |msg|
+        msg.save
+        p msg.id
         @deliver.deliver msg
       end
       sleep @interval

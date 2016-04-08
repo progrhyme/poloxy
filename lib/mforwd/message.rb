@@ -1,5 +1,11 @@
-class MForwd::Message
-  @@accessors = [:title, :body, :kind, :position, :type, :address, :delivered_at, :extra]
+class MForwd::Message < Sequel::Model(:messages)
+  attr_accessor :items
+
+=begin
+  @@accessors = [
+    :title,   :body,  :kind,       :position,     :type,
+    :address, :items, :created_at, :delivered_at, :extra,
+  ]
   @@accessors.each do |accr|
     attr accr
   end
@@ -9,5 +15,6 @@ class MForwd::Message
       instance_variable_set("@#{key}", val)
     end
   end
+=end
 
 end
