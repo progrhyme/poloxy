@@ -17,7 +17,7 @@ class Poloxy::Graph
         n.leaves = leaves.select {|l| l.node_id == n.id}
         tree[n.id] = n
         tree[n.parent_id].add_child n if n.parent_id > 0
-        @root = n if n.label == 'Root'
+        @root = n if n.label == 'root'
       end
       tree
     }.call
@@ -42,7 +42,7 @@ class Poloxy::Graph
     delimiter = @config['delimiter']
     labels = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
     if labels.empty?
-      child = _node.child_by_label! 'Default'
+      child = _node.child_by_label! 'default'
       @tree[child.id] ||= child
       return child
     end

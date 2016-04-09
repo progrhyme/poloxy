@@ -6,6 +6,7 @@ Sequel.migration do
       String   :label,      size: 32,    null:    false
       Integer  :level,      null: false, default: 1
       DateTime :updated_at, null: false
+      unique   [:parent_id, :label], name: 'idx_parent_id_and_label_on_graph_nodes'
     end
 
     create_table :node_leaves do

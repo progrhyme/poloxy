@@ -1,6 +1,15 @@
 class Poloxy::DataModel::GraphNode < Sequel::Model
   attr_accessor :children, :leaves
 
+  def label= str
+    if lbl = normalize_label(str)
+      super lbl
+    else
+      raise Poloxy::Error,
+        "Invalid label specified! #{str} . Allowed pattern is '([a-z\d_-]+)'"
+    end
+  end
+
   def save
     self.updated_at = Time.now
     super
@@ -14,15 +23,18 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     self.children << node
   end
 
-  def child_by_label label
-    children.find { |c| c.label == label }
+  def child_by_label str
+    if n_lbl = normalize_label(str)
+      children.find { |c| c.label == n_lbl }
+    end
   end
 
-  def child_by_label! label
-    child = child_by_label label
+  def child_by_label! str
+    child = child_by_label str
     return child if child
 
-    child = self.class.new label: label, parent_id: self.id
+    n_lbl = normalize_label str
+    child = self.class.new label: n_lbl, parent_id: self.id
     child.leaves = []
     child.save
 
@@ -65,5 +77,10 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
 
     def data_model
       @data_model ||= Poloxy::DataModel.new
+    end
+
+    def normalize_label str
+      n_lbl = str.downcase.scan(/[\w\-\.]+/).join
+      n_lbl if n_lbl.length > 0
     end
 end
