@@ -1,5 +1,5 @@
 class Poloxy::DataModel::GraphNode < Sequel::Model
-  attr_accessor :children
+  attr_accessor :children, :leaves
 
   def save
     self.updated_at = Time.now
@@ -19,6 +19,7 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     return child if child
 
     child = self.class.new name: name, parent_id: self.id
+    child.leaves = []
     child.save
 
     self.add_child child
@@ -32,7 +33,9 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     leaf_dm.create_or_update(
       { node_id: self.id, item:       item     },
       { level:   level,   updated_at: Time.now },
-    )
+    ).tap do |leaf|
+      self.leaves << leaf if leaf
+    end
     updated_level = 0
     if level > self.level
       self.level = updated_level = level

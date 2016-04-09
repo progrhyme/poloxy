@@ -11,8 +11,10 @@ class Poloxy::Graph
         return { @root.id => @root }
       end
 
+      leaves = @data_model.all 'NodeLeaf'
       tree = {}
       nodes.each do |n|
+        n.leaves = leaves.select {|l| l.node_id == n.id}
         tree[n.id] = n
         tree[n.parent_id].add_child n if n.parent_id > 0
         @root = n if n.name == 'Root'
