@@ -53,10 +53,12 @@ class Poloxy::Graph
       updater.call node.level
     elsif node.level < parent.level
       children = parent.children.select {|n| n.level > node.level}
-      if children.empty?
+      leaves   = parent.leaves.select   {|l| l.level > node.level}
+      list     = children.concat leaves
+      if list.empty?
         updater.call node.level
       else
-        max_level = children.map(&:level).max
+        max_level = list.map(&:level).max
         updater.call max_level if max_level < parent.level
       end
     end
