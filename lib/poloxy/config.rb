@@ -18,6 +18,9 @@ class Poloxy::Config
     graph: {
       'delimiter' => '/',
     },
+    web: {
+      'root' => File.expand_path('../../../webroot', __FILE__),
+    },
   }
 
   def initialize path: ENV['POLOXY_CONFIG'] || 'config/poloxy.toml'
