@@ -47,7 +47,8 @@ class Poloxy::Worker
           node = @graph.node msg.group
           msg.node_id = node.id
           msg.save
-          delta = node.update_level_by_item msg.level, msg.item
+          level = node.update_level_by_item msg.level, msg.item
+          @graph.update_node_level node if level > 0
         end
         @data_model.where(
           'Item', id: msg.items.map(&:id)

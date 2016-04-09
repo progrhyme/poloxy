@@ -34,4 +34,26 @@ class Poloxy::Graph
     end
     _node
   end
+
+  # @param node [Poloxy::DataModel::GraphNode]
+  def update_node_level node
+    return if node.parent_id == 0
+    parent  = @tree[node.parent_id]
+    updater = lambda do |level|
+      parent.level = level
+      parent.save
+      update_node_level parent
+    end
+    if node.level > parent.level
+      updater.call node.level
+    elsif node.level < parent.level
+      children = parent.children.select {|n| n.level > node.level}
+      if children.empty?
+        updater.call node.level
+      else
+        max_level = children.map(&:level).max
+        updater.call max_level if max_level < parent.level
+      end
+    end
+  end
 end
