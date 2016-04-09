@@ -6,7 +6,7 @@ class Poloxy::Graph
     @tree = lambda {
       nodes = @data_model.all 'GraphNode'
       if nodes.empty?
-        @root = @data_model.spawn('GraphNode', name: 'Root').save
+        @root = @data_model.spawn('GraphNode', label: 'Root').save
         @root.children = []
         return { @root.id => @root }
       end
@@ -17,7 +17,7 @@ class Poloxy::Graph
         n.leaves = leaves.select {|l| l.node_id == n.id}
         tree[n.id] = n
         tree[n.parent_id].add_child n if n.parent_id > 0
-        @root = n if n.name == 'Root'
+        @root = n if n.label == 'Root'
       end
       tree
     }.call
@@ -26,11 +26,11 @@ class Poloxy::Graph
   # @param group [String] /path/to/group
   def node group=""
     delimiter = @config['delimiter']
-    names = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
-    return @root if names.empty?
+    labels = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
+    return @root if labels.empty?
     _node = @root
-    names.each do |name|
-      _node = _node.child_by_name name
+    labels.each do |label|
+      _node = _node.child_by_label label
       return nil unless _node
     end
     _node
@@ -40,14 +40,14 @@ class Poloxy::Graph
   def node! group
     _node = @root
     delimiter = @config['delimiter']
-    names = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
-    if names.empty?
-      child = _node.child_by_name! 'Default'
+    labels = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
+    if labels.empty?
+      child = _node.child_by_label! 'Default'
       @tree[child.id] ||= child
       return child
     end
-    names.each do |name|
-      _node = _node.child_by_name! name
+    labels.each do |label|
+      _node = _node.child_by_label! label
       @tree[_node.id] ||= _node
     end
     _node

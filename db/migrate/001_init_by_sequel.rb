@@ -3,7 +3,7 @@ Sequel.migration do
     create_table :graph_nodes do
       primary_key :id
       Integer  :parent_id,  null: false, default: 0
-      String   :name,       size: 32,    null:    false
+      String   :label,      size: 32,    null:    false
       Integer  :level,      null: false, default: 1
       DateTime :updated_at, null: false
     end
