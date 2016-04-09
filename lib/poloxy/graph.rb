@@ -3,7 +3,7 @@ class Poloxy::Graph
     @config = config || Poloxy::Config.new.graph
     @logger = logger
     @data_model = Poloxy::DataModel.new
-    @tree = Proc.new {
+    @tree = lambda {
       nodes = @data_model.all 'GraphNode'
       if nodes.empty?
         @root = @data_model.spawn('GraphNode', name: 'Root').save
