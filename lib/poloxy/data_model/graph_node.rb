@@ -42,9 +42,9 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     child
   end
 
-  # @param level [Fixnum] messages.level
   # @param item [String] messages.item
-  def update_level_by_item level, item
+  # @param level [Fixnum] messages.level
+  def update_leaf item: nil, level: nil
     leaf_dm = data_model().load_class 'NodeLeaf'
     leaf_dm.create_or_update(
       { node_id: self.id, item:       item     },

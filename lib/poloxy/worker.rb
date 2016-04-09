@@ -47,7 +47,7 @@ class Poloxy::Worker
           node = @graph.node! msg.group
           msg.node_id = node.id
           msg.save
-          level = node.update_level_by_item msg.level, msg.item
+          level = node.update_leaf item: msg.item, level: msg.level
           @graph.update_node_level node if level > 0
         end
         @data_model.where(
