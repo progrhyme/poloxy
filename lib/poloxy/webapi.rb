@@ -31,7 +31,9 @@ class Poloxy::WebAPI < Sinatra::Application
   #end
 
   get '/board' do
-    erb :board
+    graph = Poloxy::Graph.new config: config.graph
+    node  = graph.node
+    erb :board, locals: node
   end
 
   private
