@@ -17,6 +17,10 @@ class Poloxy::DataModel
     load_class(klass).where *args
   end
 
+  def all klass
+    load_class(klass).all
+  end
+
   def load_class klass
     @classes[klass] ||= Proc.new {
       file = klass.extend(CamelSnake).to_snake

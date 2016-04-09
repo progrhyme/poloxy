@@ -4,7 +4,7 @@ class Poloxy::Graph
     @logger = logger
     @data_model = Poloxy::DataModel.new
     @tree = Proc.new {
-      nodes = @data_model.load_class('GraphNode').all
+      nodes = @data_model.all 'GraphNode'
       if nodes.empty?
         @root = @data_model.spawn('GraphNode', name: 'Root').save
         @root.children = []
