@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.push(File.expand_path('../../lib', __FILE__))
 require_relative '../lib/poloxy/worker'
 
 Poloxy::Worker.new.run
