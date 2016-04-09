@@ -5,9 +5,12 @@ require 'tilt/erb'
 require_relative '../poloxy'
 
 class Poloxy::WebAPI < Sinatra::Application
-  @@config = Poloxy::Config.new
-  set :root,  @@config.web['root']
-  set :views, @@config.web['views'] if @@config.web['views']
+  @@config = Poloxy::Config.new.tap do |c|
+    set :root,  c.web['root']
+    %w[views public_folder].each do |opt|
+      set opt.to_sym, c.web[opt] if c.web[opt]
+    end
+  end
 
   get '/' do
     content_type :json
