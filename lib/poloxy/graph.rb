@@ -24,7 +24,20 @@ class Poloxy::Graph
   end
 
   # @param group [String] /path/to/group
-  def node group
+  def node group=""
+    delimiter = @config['delimiter']
+    names = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
+    return @root if names.empty?
+    _node = @root
+    names.each do |name|
+      _node = _node.child_by_name name
+      return nil unless _node
+    end
+    _node
+  end
+
+  # @param group [String] /path/to/group
+  def node! group
     _node = @root
     delimiter = @config['delimiter']
     names = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)

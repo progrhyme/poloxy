@@ -44,7 +44,7 @@ class Poloxy::Worker
         rescue => e
           @logger.error "Failed to deliver! Error: #{e}"
         ensure
-          node = @graph.node msg.group
+          node = @graph.node! msg.group
           msg.node_id = node.id
           msg.save
           level = node.update_level_by_item msg.level, msg.item

@@ -14,8 +14,12 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     self.children << node
   end
 
+  def child_by_name name
+    children.find { |c| c.name == name }
+  end
+
   def child_by_name! name
-    child = children.find { |c| c.name == name }
+    child = child_by_name name
     return child if child
 
     child = self.class.new name: name, parent_id: self.id
