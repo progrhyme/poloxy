@@ -27,10 +27,13 @@ class Poloxy::Graph
     delimiter = @config['delimiter']
     names = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
     if names.empty?
-      return _node.child_by_name! 'Default'
+      child = _node.child_by_name! 'Default'
+      @tree[child.id] ||= child
+      return child
     end
     names.each do |name|
       _node = _node.child_by_name! name
+      @tree[_node.id] ||= _node
     end
     _node
   end
