@@ -33,8 +33,7 @@ class Poloxy::Worker
       sleep @config.deliver['min_interval']
 
       item_ids.concat(@buffer.pop_all)
-      item_dm = @data_model.load_class('Item')
-      list    = item_dm.where(id: item_ids)
+      list    = @data_model.where('Item', id: item_ids)
       @logger.debug "Fetched from buffer:\n  #{list}"
       messages = @item_merger.merge_into_messages list
       @logger.debug "Messages to deliver:\n  #{messages}"
@@ -49,7 +48,9 @@ class Poloxy::Worker
           msg.node_id = node.id
           msg.save
         end
-        item_dm.where(id: msg.items.map(&:id)).update(message_id: msg.id)
+        @data_model.where(
+          'Item', id: msg.items.map(&:id)
+        ).update(message_id: msg.id)
       end
       sleep @interval
     end

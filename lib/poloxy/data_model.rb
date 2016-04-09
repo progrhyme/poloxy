@@ -1,3 +1,4 @@
+# Factory and Delegator for DataModel Objects
 class Poloxy::DataModel
   def initialize
     @classes = {}
@@ -6,6 +7,14 @@ class Poloxy::DataModel
   # @param klass [String] model class
   def spawn klass, *args
     load_class(klass).new *args
+  end
+
+  def find klass, *args
+    load_class(klass)[*args]
+  end
+
+  def where klass, *args
+    load_class(klass).where *args
   end
 
   def load_class klass
