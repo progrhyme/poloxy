@@ -47,22 +47,7 @@ class Poloxy::Worker
           node = @graph.node msg.group
           msg.node_id = node.id
           msg.save
-          @data_model.load_class('NodeLeaf').create_or_update({
-            node_id: node.id, item: msg.item
-          }, {
-            level: msg.level, updated_at: Time.now
-          })
-          if msg.level > node.level
-            node.level = msg.level
-          elsif msg.level < node.level
-            leaves = @data_model.where(
-              'NodeLeaf',
-              'node_id = ? AND item <> ? AND level >= ?',
-              node.id, msg.item, node.level
-            )
-            node.level = msg.level if leaves.empty?
-          end
-          node.save
+          delta = node.update_level_by_item msg.level, msg.item
         end
         @data_model.where(
           'Item', id: msg.items.map(&:id)
