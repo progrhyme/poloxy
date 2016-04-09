@@ -4,6 +4,13 @@ task :console do
 end
 task :c => :console
 
+require 'rspec/core'
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |spec|
+  spec.pattern = FileList['spec/**/*_spec.rb']
+end
+task :default => :spec
+
 namespace :db do
   require_relative 'lib/poloxy'
   Sequel.extension :migration
