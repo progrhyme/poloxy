@@ -62,14 +62,13 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     if level > self.level
       self.level = updated_level = level
     elsif level < self.level
-      leaves = leaf_dm.where(
-        'node_id = ? AND item <> ? AND level > ?',
-        self.id, item, level
-      )
-      if leaves.empty?
+      children = self.children.select      {|n| n.level > level}
+      leaves   = self.leaves.values.select {|l| l.level > level}
+      list     = children.concat leaves
+      if list.empty?
         self.level = updated_level = level
       else
-        max_level = leaves.map(&:level).max
+        max_level = list.map(&:level).max
         if max_level < self.level
           self.level = updated_level = max_level
         end
