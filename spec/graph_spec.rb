@@ -23,4 +23,36 @@ describe Poloxy::Graph do
       expect(@root.label).to eq 'root'
     end
   end
+
+  describe "#node(group)" do
+    context "Without argument" do
+      it "returns @root" do
+        expect(@root.parent_id).to eq 0
+      end
+    end
+
+    it "Returns nil when no node exists with 'group'" do
+      expect(@graph.node 'no/such/group').to be nil
+    end
+  end
+
+  describe "#node!(group)" do
+    before :context do
+      @bar = @graph.node! 'foo/bar'
+    end
+
+    context "When no node exists in tree" do
+      it "creates and returns node associated to 'group'" do
+        expect(@bar).to be_an_instance_of Poloxy::DataModel::GraphNode
+        expect(@bar.label).to eq 'bar'
+      end
+
+      it "creates nodes between the path through the 'group'" do
+        foo = @graph.node 'foo'
+        expect(foo).to be_an_instance_of Poloxy::DataModel::GraphNode
+        expect(foo.label).to eq 'foo'
+        expect(@bar.parent_id).to eq foo.id
+      end
+    end
+  end
 end
