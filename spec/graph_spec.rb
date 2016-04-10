@@ -55,4 +55,77 @@ describe Poloxy::Graph do
       end
     end
   end
+
+  describe "#update_node_level" do
+    before :context do
+      @graph.node! 'a/b'
+      @graph.node! 'd/e'
+    end
+
+    context "When node.level grows" do
+      it "root.level also grows" do
+        a = @graph.node 'a'
+        a.level = 3
+        @graph.update_node_level a
+        expect(@root.level).to eq 3
+      end
+    end
+
+    context "When level of child gets higher" do
+      before :context do
+        @d = @graph.node 'd'
+        @e = @graph.node 'd/e'
+        @e.level = 2
+        @graph.update_node_level @e
+      end
+
+      it "level of parent also grows" do
+        expect(@d.level).to eq 2
+      end
+
+      context "When parent's level is higher" do
+        it "level of parent doesn't change" do
+          expect(@root.level).to eq 3
+        end
+      end
+    end
+
+    context "When level of child goes lower" do
+      before :context do
+        @d = @graph.node 'd'
+        @e = @graph.node 'd/e'
+        @e.level = 1
+        @graph.update_node_level @e
+      end
+      it "level of parent with no other child or no leaf also goes lower" do
+        expect(@d.level).to eq 1
+      end
+
+      it "level of parent with another child with higher level doesn't change" do
+        expect(@root.level).to eq 3
+      end
+
+      context "When parent's level goes down" do
+        before :context do
+          @a = @graph.node 'a'
+          @b = @graph.node 'a/b'
+          @c = @graph.node! 'a/c'
+          @c.level = 2
+          @b.level = 1
+          @graph.update_node_level @b
+        end
+
+        it "parent's level doesn't go below other children" do
+          expect(@a.level).to eq 2
+        end
+
+        it "parent's level doesn't go below its leaves" do
+          @a.update_leaf item: 'AAA', level: 2
+          @c.level = 1
+          @graph.update_node_level @c
+          expect(@a.level).to eq 2
+        end
+      end
+    end
+  end
 end
