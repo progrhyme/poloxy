@@ -14,7 +14,9 @@ class Poloxy::Graph
       leaves = @data_model.all 'NodeLeaf'
       tree = {}
       nodes.each do |n|
-        n.leaves = leaves.select {|l| l.node_id == n.id}
+        leaves.select {|l| l.node_id == n.id}.each do |l|
+          n.leaves[l.item] = l
+        end
         tree[n.id] = n
         tree[n.parent_id].add_child n if n.parent_id > 0
         @root = n if n.label == 'root'
@@ -65,8 +67,8 @@ class Poloxy::Graph
     if node.level > parent.level
       updater.call node.level
     elsif node.level < parent.level
-      children = parent.children.select {|n| n.level > node.level}
-      leaves   = parent.leaves.select   {|l| l.level > node.level}
+      children = parent.children.select      {|n| n.level > node.level}
+      leaves   = parent.leaves.values.select {|l| l.level > node.level}
       list     = children.concat leaves
       if list.empty?
         updater.call node.level

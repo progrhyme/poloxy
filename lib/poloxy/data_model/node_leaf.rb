@@ -3,7 +3,7 @@ class Poloxy::DataModel::NodeLeaf < Sequel::Model(:node_leaves)
     me = find cond
     if me
       me.update params
-      nil
+      me
     else
       props = cond.merge params
       self.dataset.insert props

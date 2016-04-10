@@ -41,7 +41,7 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
 
     n_lbl = normalize_label str
     child = self.class.new label: n_lbl, parent_id: self.id
-    child.leaves = []
+    child.leaves = {}
     child.save
 
     self.add_child child
@@ -56,7 +56,7 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
       { node_id: self.id, item:       item     },
       { level:   level,   updated_at: Time.now },
     ).tap do |leaf|
-      self.leaves << leaf if leaf
+      self.leaves[item] = leaf
     end
     updated_level = 0
     if level > self.level
