@@ -2,8 +2,8 @@ require_relative '../poloxy'
 
 class Poloxy::Worker
 
-  def initialize
-    @config      = Poloxy::Config.new
+  def initialize config: nil
+    @config      = config || Poloxy::Config.new
     @logger      = Poloxy::Logging.logger config: @config.log
     @buffer      = Poloxy::Buffer.new config: @config, role: :server
     @datastore   = Poloxy::DataStore.new config: @config.database, logger: @logger
