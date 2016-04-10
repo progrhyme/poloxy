@@ -1,5 +1,5 @@
 class Poloxy::DataModel::GraphNode < Sequel::Model
-  attr_accessor :children, :leaves
+  attr_accessor :children, :leaves, :group
 
   # Override to normalize given label string
   # @param str [String] any string; pre-normalized label
@@ -39,12 +39,14 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
   end
 
   # @param str [String] any string; pre-normalized label
-  def child_by_label! str
+  def child_by_label! str, delim='/'
     child = child_by_label str
     return child if child
 
     n_lbl = normalize_label str
+    return nil unless n_lbl
     child = self.class.new label: n_lbl, parent_id: self.id
+    child.group = [self.group, n_lbl].join(delim).gsub(/#{delim}+/, "#{delim}")
     child.save
 
     self.add_child child

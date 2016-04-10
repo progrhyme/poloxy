@@ -6,8 +6,9 @@ class Poloxy::Graph
     @tree = lambda {
       nodes = @data_model.all 'GraphNode'
       if nodes.empty?
-        @root = @data_model.spawn('GraphNode', label: 'Root').save
+        @root = @data_model.spawn('GraphNode', label: 'root').save
         @root.children = []
+        @root.group = '/'
         return { @root.id => @root }
       end
 
@@ -18,8 +19,14 @@ class Poloxy::Graph
           n.leaves[l.item] = l
         end
         tree[n.id] = n
-        tree[n.parent_id].add_child n if n.parent_id > 0
-        @root = n if n.label == 'root'
+        if n.parent_id > 0
+          parent = tree[n.parent_id]
+          parent.add_child n
+          dlm = @config['delimiter']
+          n.group = [parent.group, n.label].join(dlm).gsub(/#{dlm}+/, "#{dlm}")
+        else
+          @root = n
+        end
       end
       tree
     }.call
@@ -27,8 +34,7 @@ class Poloxy::Graph
 
   # @param group [String] /path/to/group
   def node group=""
-    delimiter = @config['delimiter']
-    labels = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
+    labels = group2labels group
     return @root if labels.empty?
     _node = @root
     labels.each do |label|
@@ -39,17 +45,19 @@ class Poloxy::Graph
   end
 
   # @param group [String] /path/to/group
-  def node! group
+  def node! group=""
     _node = @root
-    delimiter = @config['delimiter']
-    labels = group.sub(/^#{delimiter}+/, '').split(/#{delimiter}/)
+    labels = group2labels group
     if labels.empty?
-      child = _node.child_by_label! 'default'
+      child = _node.child_by_label! 'default', @config['delimiter']
       @tree[child.id] ||= child
       return child
     end
     labels.each do |label|
-      _node = _node.child_by_label! label
+      _node = _node.child_by_label! label, @config['delimiter']
+      unless _node
+        raise Poloxy::Error, "Invalid group! #{group}"
+      end
       @tree[_node.id] ||= _node
     end
     _node
@@ -78,4 +86,11 @@ class Poloxy::Graph
       end
     end
   end
+
+  private
+
+    def group2labels group
+      dlm = @config['delimiter']
+      group.gsub(/\s+/, '').sub(/^#{dlm}*(.+)#{dlm}*$/, '\1').split(/#{dlm}+/)
+    end
 end
