@@ -21,6 +21,10 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     @children ||= []
   end
 
+  def leaves
+    @leaves ||= {}
+  end
+
   # Add to \@children
   # @param node [Poloxy::DataModel::GraphNode]
   def add_child node
@@ -41,7 +45,6 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
 
     n_lbl = normalize_label str
     child = self.class.new label: n_lbl, parent_id: self.id
-    child.leaves = {}
     child.save
 
     self.add_child child
