@@ -50,6 +50,24 @@ describe 'Poloxy::DataModel::GraphNode' do
           expect(node.level).to eq 3
         end
       end
+      context "When leaf with higher level goes lower" do
+        it "node.level is capped by another leaf.level" do
+          node.update_leaf item: 'Bar', level: 1
+          expect(node.level).to eq 2
+        end
+      end
+    end
+
+    context "When it has other leaves and children" do
+      child = graph.node! 'default/sub'
+      child.update_leaf item: 'foo', level: 2
+
+      context "When leaf with higher level goes lower" do
+        node.update_leaf item: 'Foo', level: 1
+        it "node.level is capped by max level of leaves and children" do
+          expect(node.level).to eq 2
+        end
+      end
     end
   end
 
