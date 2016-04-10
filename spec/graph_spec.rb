@@ -25,20 +25,55 @@ describe Poloxy::Graph do
   end
 
   describe "#node(group)" do
-    context "Without argument" do
-      it "returns @root" do
-        expect(@root.parent_id).to eq 0
+    before :context do
+      @node = @graph.node! 'default'
+    end
+
+    {
+      ''         => '/',
+      'default'  => '/default',
+      '/default' => '/default',
+      'default/' => '/default',
+    }.each_pair do |str, group|
+      it "given '#{str}' - Node#group => '#{group}'" do
+        expect(@graph.node(str).group).to eq group
       end
     end
 
     it "Returns nil when no node exists with 'group'" do
-      expect(@graph.node 'no/such/group').to be nil
+      %w[no/such/group root /root].each do |str|
+        expect(@graph.node str).to be nil
+      end
     end
   end
 
   describe "#node!(group)" do
     before :context do
       @bar = @graph.node! 'foo/bar'
+    end
+
+    {
+      'foo'          => '/foo',
+      'foo/bar'      => '/foo/bar',
+      '/foo/bar'     => '/foo/bar',
+      '/foo/bar/'    => '/foo/bar',
+      ' /f oo/bar/ ' => '/foo/bar',
+      ''             => '/default',
+      '/'            => '/default',
+      '//'           => '/default',
+      'root'         => '/root',
+      '/root'        => '/root',
+    }.each_pair do |str, group|
+      it "given '#{str}' - Node#group => '#{group}'" do
+        expect(@graph.node!(str).group).to eq group
+      end
+    end
+
+    %w[+ &* q//+/ /q/}{/].each do |group|
+      it "#{group} is invalid group" do
+        expect(@graph.node group).to be nil
+        expect { @graph.node! group }.to raise_error Poloxy::Error
+      end
     end
 
     context "When no node exists in tree" do
