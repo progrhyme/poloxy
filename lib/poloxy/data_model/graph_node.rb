@@ -1,6 +1,8 @@
 class Poloxy::DataModel::GraphNode < Sequel::Model
   attr_accessor :children, :leaves
 
+  # Override to normalize given label string
+  # @param str [String] any string; pre-normalized label
   def label= str
     if lbl = normalize_label(str)
       super lbl
@@ -19,16 +21,20 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     @children ||= []
   end
 
+  # Add to \@children
+  # @param node [Poloxy::DataModel::GraphNode]
   def add_child node
     self.children << node
   end
 
+  # @param str [String] any string; pre-normalized label
   def child_by_label str
     if n_lbl = normalize_label(str)
       children.find { |c| c.label == n_lbl }
     end
   end
 
+  # @param str [String] any string; pre-normalized label
   def child_by_label! str
     child = child_by_label str
     return child if child
@@ -79,6 +85,7 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
       @data_model ||= Poloxy::DataModel.new
     end
 
+    # @param str [String] any string; pre-normalized label
     def normalize_label str
       n_lbl = str.downcase.scan(/[\w\-\.]+/).join
       n_lbl if n_lbl.length > 0

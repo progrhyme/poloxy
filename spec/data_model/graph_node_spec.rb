@@ -3,6 +3,55 @@ require 'spec_helper'
 describe 'Poloxy::DataModel::GraphNode' do
   dm    = Poloxy::DataModel.new
   klass = dm.load_class 'GraphNode'
+  graph = Poloxy::Graph.new
+  root  = graph.node
+
+  describe '#child_by_label!(label)' do
+    child  = root.child_by_label! 'Default'
+    child2 = root.child_by_label! 'Default'
+    context "When it doesn't have child with the label" do
+      it "child is a #{klass}" do
+        expect(child).to be_an_instance_of klass
+      end
+      it "child has the label" do
+        expect(child.label).to eq 'default'
+      end
+      it "child.parent_id is parent.id" do
+        expect(child.parent_id).to eq root.id
+      end
+    end
+    context 'When it has child with the label' do
+      it "returns the same node" do
+        expect(child2).to be child
+      end
+    end
+  end
+
+  describe "#update_leaf(item, level)" do
+    node = graph.node 'default'
+    node.update_leaf item: 'Foo', level: 2
+
+    context "When it has no leaf" do
+      it "node.level is updated by given level" do
+        expect(node.level).to eq 2
+      end
+    end
+
+    context "When it has another leaf" do
+      context "When given level is lower" do
+        it "node.level is not updated" do
+          node.update_leaf item: 'Bar', level: 1
+          expect(node.level).to eq 2
+        end
+      end
+      context "When given level is higher" do
+        it "node.level is updated" do
+          node.update_leaf item: 'Bar', level: 3
+          expect(node.level).to eq 3
+        end
+      end
+    end
+  end
 
   describe '#normalize_label' do
     {
