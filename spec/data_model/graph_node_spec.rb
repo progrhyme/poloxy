@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Poloxy::DataModel::GraphNode' do
   dm    = Poloxy::DataModel.new
   klass = dm.load_class 'GraphNode'
-  graph = Poloxy::Graph.new
+  graph = Poloxy::Graph.new config: TestPoloxy.config.graph
   root  = graph.node
 
   describe '#child_by_label!(label)' do

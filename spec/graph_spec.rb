@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Poloxy::Graph do
   describe 'Retval of ".new" (class method)' do
-    graph = Poloxy::Graph.new
+    graph = Poloxy::Graph.new config: TestPoloxy.config.graph
     it 'is an instance' do
       expect(graph).to be_an_instance_of Poloxy::Graph
     end

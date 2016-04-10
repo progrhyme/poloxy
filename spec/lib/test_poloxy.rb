@@ -21,6 +21,10 @@ end
 class TestPoloxy
   @@config = mock_config
 
+  def self.config
+    @@config
+  end
+
   def self.init_db
     Sequel.extension :migration
     db = Poloxy::DataStore.new.connect
