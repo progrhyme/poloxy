@@ -20,14 +20,21 @@ end
 
 class TestPoloxy
   @@config = mock_config
+  @@db     = nil
 
-  def self.config
-    @@config
-  end
+  class << self
+    def config
+      @@config
+    end
 
-  def self.init_db
-    Sequel.extension :migration
-    db = Poloxy::DataStore.new.connect
-    Sequel::Migrator.run db, 'db/migrate'
+    def init_db
+      Sequel.extension :migration
+      @@db = Poloxy::DataStore.new.connect
+      Sequel::Migrator.run @@db, 'db/migrate'
+    end
+
+    def db
+      @@db
+    end
   end
 end

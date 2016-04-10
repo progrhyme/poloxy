@@ -9,6 +9,12 @@ describe klass do
     @root  = @graph.node
   end
 
+  after :context do
+    [:graph_nodes, :node_leaves].each do |t|
+      TestPoloxy.db[t].delete
+    end
+  end
+
   describe '#child_by_label!(label)' do
     before :context do
       @child  = @root.child_by_label! 'Default'
