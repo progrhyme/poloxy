@@ -1,5 +1,6 @@
 class Poloxy::ItemMerge::Base
-  def initialize
+  def initialize config: nil
+    @config     = config || Poloxy::Config.new
     @data_model = Poloxy::DataModel.new
   end
 
@@ -21,9 +22,15 @@ class Poloxy::ItemMerge::Base
     def pre_merge_items list
       items = {}
       list.each do |i|
-        items[i.name]          ||= {}
-        items[i.name][i.level] ||= []
-        items[i.name][i.level] <<  i
+        groups = i.group.split(@config.graph['delimiter'])
+        bucket = items
+        groups.each do |grp|
+          bucket = bucket[grp] ||= {}
+        end
+        bucket[:items]                  ||= {}
+        bucket[:items][i.name]          ||= {}
+        bucket[:items][i.name][i.level] ||= []
+        bucket[:items][i.name][i.level] <<  i
       end
       items
     end
