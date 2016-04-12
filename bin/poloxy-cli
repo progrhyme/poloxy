@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require_relative '../lib/poloxy'
-require_relative '../lib/poloxy/buffer'
 
 param = {
   name:        'foo',
@@ -26,6 +25,5 @@ Poloxy::DataStore.new.connect
 
 p param
 
-item = Poloxy::DataModel.new.spawn('Item', param)
-item.save
+item = Poloxy::Item.new.create param
 Poloxy::Buffer.new.push item.id
