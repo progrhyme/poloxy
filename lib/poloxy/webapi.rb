@@ -7,7 +7,9 @@ require_relative '../poloxy'
 class Poloxy::WebAPI < Sinatra::Application
   require_relative 'webapi/context'
   require_relative 'webapi/functions'
+  require_relative 'webapi/view'
   include Functions
+  include View
 
   @@config = Poloxy::Config.new.tap do |c|
     set :root,  c.web['root']
@@ -32,8 +34,10 @@ class Poloxy::WebAPI < Sinatra::Application
 
   get '/board' do
     graph = Poloxy::Graph.new config: config.graph
-    node  = graph.node
-    erb :board, locals: node
+    @node = graph.node
+    @param = view_alert_params level: @node.level, config: config.web
+    @param['style'].merge! view_styles(config: config.web)
+    erb :board
   end
 
   private
