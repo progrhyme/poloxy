@@ -9,6 +9,7 @@ class Poloxy::Item
   def create args
     params = args.dup
     params[:group] = str2group_path params[:group] || 'default'
+    params[:level] = Poloxy::MIN_LEVEL if params[:level].to_i < Poloxy::MIN_LEVEL
     item = @data_model.spawn 'Item', params
     item.save
     item

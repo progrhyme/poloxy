@@ -1,5 +1,5 @@
 module Poloxy::WebAPI::View
-  def view_alert_params level: 1, config: nil
+  def view_alert_params level: Poloxy::MIN_LEVEL, config: nil
     params = {
       'style' => {
         'alert' => param_by_level(config['style']['alert'], level),
@@ -15,7 +15,7 @@ module Poloxy::WebAPI::View
 
   private
 
-    def param_by_level stash, level=1
+    def param_by_level stash, level=Poloxy::MIN_LEVEL
       before = nil
       stash.each do |lv, val|
         return val    if lv == level
