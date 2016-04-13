@@ -6,17 +6,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Board</title>
 
-    <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <!--<link href="css/ionicons.min.css" rel="stylesheet">-->
+    <link href="css/AdminLTE.min.css" rel="stylesheet">
+    <!--<link href="css/AdminLTE/skin-black.min.css" rel="stylesheet">-->
   </head>
+  <!--<body class="skin-black sidebar-mini">-->
   <body>
-    <h1>Hello, world!</h1>
+    <h1>Poloxy Dashboard</h1>
 
-    <h2><%= name %></h2>
-    <p><%= level %></p>
+    <h2>Path: <%= label %></h2>
+    <p>Current Status: Level <%= level %></p>
+    <div class="alert alert-success">
+      <h1>
+        <i class="icon fa fa-check" aria-hidden="true"></i>CLEAR
+      </h1>
+      <p>No alert in last xx hours.</p>
+    </div>
+
+    <div class="alert alert-info">
+      <h1>
+        <i class="icon fa fa-info" aria-hidden="true"></i>INFO
+      </h1>
+      <p>Info alert happend xx minutes before.</p>
+    </div>
+
+    <div class="alert alert-warning">
+      <h1>
+        <i class="icon fa fa-warning" aria-hidden="true"></i>WARNING
+      </h1>
+      <p>Warning alert happend xx minutes before.</p>
+    </div>
+
+    <div class="alert alert-danger">
+      <h1>
+        <i class="icon fa fa-ban" aria-hidden="true"></i>DANGER
+      </h1>
+      <p>Critical alert happend xx minutes before.</p>
+    </div>
 
     <!-- Bootstrap -->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <!--<script src="js/AdminLTE-app.min.js"></script>-->
   </body>
 </html>
