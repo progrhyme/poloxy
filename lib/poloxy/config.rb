@@ -20,6 +20,36 @@ class Poloxy::Config
     },
     web: {
       'root' => File.expand_path('../../../webroot', __FILE__),
+      'style' => {
+        'alert' => {
+          1 => 'success',
+          2 => 'info',
+          4 => 'warning',
+          6 => 'danger',
+        },
+        'box' => 'jumbotron',
+        'icon' => {
+          1 => 'fa-check-circle-o',
+          2 => 'fa-info-circle',
+          3 => 'fa-exclamation-circle',
+          4 => 'fa-exclamation-triangle',
+          5 => 'fa-flash',
+          6 => 'fa-fire',
+          7 => 'fa-ban',
+          8 => 'fa-close',
+          9 => 'fa-ambulance',
+        },
+      },
+      'text' => {
+        1 => 'CLEAR',
+        2 => 'INFO',
+        3 => 'NOTICE',
+        4 => 'CAUTION',
+        5 => 'WARNING',
+        6 => 'ERROR',
+        7 => 'FATAL',
+        8 => 'EMERGENCY',
+      },
     },
   }
 
