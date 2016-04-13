@@ -1,28 +1,9 @@
-<h2>Current Status: Level <%= level %></h2>
-<div class="alert alert-success jumbotron">
+<h3>Alert Level = <%= @node.level %></h3>
+<div class="alert alert-<%= @param['style']['alert'] %> <%= @param['style']['box'] || '' %>">
   <h1>
-    <i class="icon fa fa-check" aria-hidden="true"></i>CLEAR
+    <i class="icon fa <%= @param['style']['icon'] %>" aria-hidden="true"></i>
+    <%= @param['text'] %>
+    <span style="font-size: 18px;">Level <%= @node.level %></span>
   </h1>
   <p>No alert in last xx hours.</p>
-</div>
-
-<div class="alert alert-info jumbotron">
-  <h1>
-    <i class="icon fa fa-info" aria-hidden="true"></i>INFO
-  </h1>
-  <p>Info alert happend xx minutes before.</p>
-</div>
-
-<div class="alert alert-warning jumbotron">
-  <h1>
-    <i class="icon fa fa-warning" aria-hidden="true"></i>WARNING
-  </h1>
-  <p>Warning alert happend xx minutes before.</p>
-</div>
-
-<div class="alert alert-danger jumbotron">
-  <h1>
-    <i class="icon fa fa-ban" aria-hidden="true"></i>DANGER
-  </h1>
-  <p>Critical alert happend xx minutes before.</p>
 </div>
