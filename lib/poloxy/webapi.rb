@@ -35,8 +35,8 @@ class Poloxy::WebAPI < Sinatra::Application
   get '/board' do
     graph = Poloxy::Graph.new config: config.graph
     @node = graph.node
-    @param = view_alert_params level: @node.level, config: config.web
-    @param['style'].merge! view_styles(config: config.web)
+    @param = view_alert_params(level: @node.level)
+    @param['style'].merge! view_styles()
     erb :board
   end
 

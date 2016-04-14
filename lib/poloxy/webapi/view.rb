@@ -1,27 +1,18 @@
 module Poloxy::WebAPI::View
-  def view_alert_params level: Poloxy::MIN_LEVEL, config: nil
+  include Poloxy::ViewHelper
+
+  def view_alert_params level: Poloxy::MIN_LEVEL, config: config()
+    c_style = config.web['style']
     params = {
       'style' => {
-        'alert' => param_by_level(config['style']['alert'], level),
-        'icon'  => param_by_level(config['style']['icon'],  level),
+        'alert' => param_by_level(c_style['alert'], level),
+        'icon'  => param_by_level(c_style['icon'],  level),
       },
-      'text' => param_by_level(config['text'], level),
+      'title' => title_by_level(level, config: config)
     }
   end
 
-  def view_styles config: nil
-    { 'box' => config['style']['box'] }
+  def view_styles config: config()
+    { 'box' => config.web['style']['box'] }
   end
-
-  private
-
-    def param_by_level stash, level=Poloxy::MIN_LEVEL
-      before = nil
-      stash.each do |lv, val|
-        return val    if lv == level
-        return before if lv >  level
-        before = val
-      end
-      return before
-    end
 end

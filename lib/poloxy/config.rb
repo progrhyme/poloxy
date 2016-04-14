@@ -18,6 +18,28 @@ class Poloxy::Config
     graph: {
       'delimiter' => '/',
     },
+    view: {
+      'title' => {
+        1 => 'CLEAR',
+        2 => 'INFO',
+        3 => 'NOTICE',
+        4 => 'CAUTION',
+        5 => 'WARNING',
+        6 => 'ERROR',
+        7 => 'FATAL',
+        8 => 'EMERGENCY',
+      },
+      'abbrev' => {
+        1 => 'OK',
+        2 => 'INFO',
+        3 => 'NOTICE',
+        4 => 'CAUTION',
+        5 => 'WARN',
+        6 => 'ERROR',
+        7 => 'FATAL',
+        8 => 'EMERG',
+      },
+    },
     web: {
       'root' => File.expand_path('../../../webroot', __FILE__),
       'style' => {
@@ -39,16 +61,6 @@ class Poloxy::Config
           8 => 'fa-close',
           9 => 'fa-ambulance',
         },
-      },
-      'text' => {
-        1 => 'CLEAR',
-        2 => 'INFO',
-        3 => 'NOTICE',
-        4 => 'CAUTION',
-        5 => 'WARNING',
-        6 => 'ERROR',
-        7 => 'FATAL',
-        8 => 'EMERGENCY',
       },
     },
   }
