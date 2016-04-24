@@ -1,4 +1,4 @@
-class Poloxy::ItemMerge::MessageContainer
+class Poloxy::MessageContainer
   attr :messages, :level, :total_num, :item_num
   def initialize config=nil, args={}
     @messages  = args[:messages] || []

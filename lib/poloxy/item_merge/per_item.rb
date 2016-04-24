@@ -17,7 +17,7 @@ class Poloxy::ItemMerge::PerItem < Poloxy::ItemMerge::Base
 
   # @param tree [Hash] nested Hash of {Poloxy::DataModel::Item}
   def merge_tree tree
-    mcontainer = Poloxy::ItemMerge::MessageContainer.new @config
+    mcontainer = Poloxy::MessageContainer.new @config
     tree.each_pair do |key, stash|
       next if key == :items
       mcontainer.merge( merge_tree(stash) )
@@ -30,7 +30,7 @@ class Poloxy::ItemMerge::PerItem < Poloxy::ItemMerge::Base
 
   # @param items [Hash{String => Hash}]
   def items_to_messages items
-    mcontainer = Poloxy::ItemMerge::MessageContainer.new @config
+    mcontainer = Poloxy::MessageContainer.new @config
     items.each_pair do |name, stash|
       mcontainer.append items2msg(name, stash)
     end
