@@ -12,7 +12,7 @@ class Poloxy::Config
     deliver: {
       'min_interval' => 60,
       'item' => {
-        'merger' => 'Summary',
+        'merger' => 'PerItem',
       },
     },
     graph: {

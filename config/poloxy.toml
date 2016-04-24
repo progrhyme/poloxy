@@ -15,7 +15,7 @@ redis_url = 'redis://localhost:6379'
 min_interval = 60
 
 [deliver.item]
-merger = "Summary"
+merger = "PerItem"
 
 [database.connect]
 url = 'sqlite://tmp/poloxy.sqlite.db'

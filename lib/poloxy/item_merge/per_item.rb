@@ -1,4 +1,4 @@
-class Poloxy::ItemMerge::Summary < Poloxy::ItemMerge::Base
+class Poloxy::ItemMerge::PerItem < Poloxy::ItemMerge::Base
   include Poloxy::ViewHelper
 
   private
