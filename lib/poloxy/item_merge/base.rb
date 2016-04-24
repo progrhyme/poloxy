@@ -10,13 +10,15 @@ class Poloxy::ItemMerge::Base
 
     messages = []
     items = pre_merge_items list
-    items.each_pair do |name, stash|
-      messages << merge_items(name, stash)
-    end
-    messages
+    mcontainer = merge_items(items)
+    mcontainer.messages
   end
 
   private
+
+    def config
+      @config
+    end
 
     # @param list [Array<Poloxy::DataModel::Item>]
     def pre_merge_items list

@@ -1,6 +1,7 @@
 Poloxy = Module.new
 
 require 'camel_snake'
+require 'erb'
 require 'json'
 require 'net/http'
 require 'optparse'
