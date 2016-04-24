@@ -5,13 +5,13 @@ class Poloxy::ItemMerge::Base
   end
 
   # @param list [Array<Poloxy::DataModel::Item>]
+  # @return [Array<Poloxy::DataModel::Message>]
   def merge_into_messages list
     return [] if list.empty?
 
     messages = []
     items = pre_merge_items list
-    mcontainer = merge_items(items)
-    mcontainer.messages
+    merge_items(items)
   end
 
   private
@@ -25,7 +25,9 @@ class Poloxy::ItemMerge::Base
       items = {}
       list.each do |i|
         groups = i.group.split(@config.graph['delimiter'])
-        bucket = items
+        items[i.type]            ||= {}
+        items[i.type][i.address] ||= {}
+        bucket = items[i.type][i.address]
         groups.each do |grp|
           bucket = bucket[grp] ||= {}
         end
@@ -37,10 +39,7 @@ class Poloxy::ItemMerge::Base
       items
     end
 
-    # @param name [String] Poloxy::DataModel::Item#name
-    # @param stash [Hash] Poloxy::DataModel::Item#name
-    #  => Hash of Array of Poloxy::DataModel::Item
-    def merge_items name, stash
+    def merge_items items
       raise Poloxy::Error, 'Please override in subclass!'
     end
 end
