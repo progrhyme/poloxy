@@ -11,6 +11,21 @@ module Poloxy::ViewHelper
     return paramlv_by_level(config.view['abbrev'], level)
   end
 
+  def seconds_to_time_view sec
+    if sec < 60
+      '%d sec' %[sec]
+    elsif sec < 60 * 60
+      min = sec / 60
+      '%d min' %[min]
+    elsif sec < 60 * 60 * 24
+      hour = sec / (60 * 60)
+      '%d hours' %[hour]
+    else
+      day = sec / (60 * 60 * 24)
+      '%d days' %[day]
+    end
+  end
+
   private
 
     def param_by_level stash, level=Poloxy::MIN_LEVEL

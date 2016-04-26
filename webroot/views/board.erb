@@ -1,9 +1,30 @@
 <h3>Alert Level = <%= @node.level %></h3>
-<div class="alert alert-<%= @param['style']['alert'] %> <%= @param['style']['box'] || '' %>">
+<div class="callout callout-<%= @param['style']['alert'] %> <%= @param['style']['box'] || '' %>">
   <h1>
     <i class="icon fa <%= @param['style']['icon'] %>" aria-hidden="true"></i>
     <%= @param['title'] %>
     <span style="font-size: 18px;">Level <%= @node.level %></span>
   </h1>
-  <p>No alert in last xx hours.</p>
+  <%- if @node.level > 1 -%>
+    <p>Last alert happened at <%= @last_alerted %>.
+  <%- else -%>
+    <p>No alert in last <%= @no_alert_span %>.
+  <%- end -%>
+  <i class="fa fa-envelope-o"></i> <a href="#">Notifications</a>
+  <i class="fa fa-feed"></i> <a href="#">Alerts</a>
+  </p>
+</div>
+<div class="row">
+<%- @children.each do |c| -%>
+  <div class="col-md-4">
+    <div class="callout callout-<%= c['style']['alert'] %>">
+      Path: <%= c['group'] %><br />
+      <i class="icon fa <%= c['style']['icon'] %>" aria-hidden="true"></i>
+      <%= c['title'] %>
+      Lv <%= c['level'] %>
+      <i class="fa fa-envelope-o"></i> <a href="#">notifies</a>
+      <i class="fa fa-feed"></i> <a href="#">alerts</a>
+    </div>
+  </div>
+<%- end -%>
 </div>
