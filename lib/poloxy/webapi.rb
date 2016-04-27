@@ -33,19 +33,25 @@ class Poloxy::WebAPI < Sinatra::Application
     #stash.to_json
   #end
 
-  get '/board' do
+  get '/board/?*' do
     graph = Poloxy::Graph.new config: config.graph
-    @node = graph.node
+    group = '/%s' % [ params['splat'].join('/') ]
+    @group_breadcrumb = group_to_breadcrumb group
+    @node = graph.node group
+    unless @node
+      return erb :not_found
+    end
     @last_alerted  = @node.updated_at.to_s
     @no_alert_span = seconds_to_time_view(Time.now - @node.updated_at)
     @param = view_alert_params(level: @node.level)
-    @param['style'].merge! view_styles()
+    @param[:style].merge! view_styles()
     @children = []
     @node.children.each do |c|
       param = view_alert_params(level: c.level)
-      %w(level group).each do |key|
+      [ :level, :group ].each do |key|
         param[key] = c.send(key)
       end
+      param[:relative_group] = param[:group].sub(%r|#{group}|, '')
       @children << param
     end
     erb :board
