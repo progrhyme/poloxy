@@ -22,7 +22,7 @@
   <tbody>
     <tr>
       <th>#</th>
-      <th width="25%">Item</th>
+      <th width="25%">Title</th>
       <th width="15%">Group</th>
       <th>Level</th>
       <th>Type</th>
@@ -31,9 +31,9 @@
     </tr>
     <%- @messages.each do |m| -%>
     <tr>
-      <td><%= m.id %></td>
-      <td><%= m.item %></td>
-      <td><%= m.group %></td>
+      <td><a href="/message/<%= m.id %>"><%= m.id %></a></td>
+      <td><%= m.title %></td>
+      <td><a href="/forwards/<%= m.group %>"><%= m.group %></a></td>
       <td><%= m.level %></td>
       <td><%= m.type %></td>
       <td><%= m.address %></td>

@@ -32,10 +32,10 @@
     </tr>
     <%- @items.each do |i| -%>
     <tr>
-      <td><%= i.id %></td>
-      <td><%= i.message_id %></td>
+      <td><a href="/item/<%= i.id %>"><%= i.id %></a></td>
+      <td><a href="/message/<%= i.message_id %>"><%= i.message_id %></a></td>
       <td><%= i.name %></td>
-      <td><%= i.group %></td>
+      <td><a href="/inwards/<%= i.group %>"><%= i.group %></a></td>
       <td><%= i.level %></td>
       <td><%= i.type %></td>
       <td><%= i.address %></td>

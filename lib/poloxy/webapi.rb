@@ -85,6 +85,20 @@ class Poloxy::WebAPI < Sinatra::Application
     erb :inwards
   end
 
+  get '/message/:id' do
+    @action = '#forwards'
+    @message = Poloxy::DataModel.new.find 'Message', params[:id]
+    @group_breadcrumb = group_to_breadcrumb @message.group, base: '/forwards/'
+    erb :message
+  end
+
+  get '/item/:id' do
+    @action = '#inwards'
+    @item = Poloxy::DataModel.new.find 'Item', params[:id]
+    @group_breadcrumb = group_to_breadcrumb @item.group, base: '/inwards/'
+    erb :item
+  end
+
   private
 
     def config
