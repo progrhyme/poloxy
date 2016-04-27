@@ -6,6 +6,7 @@ module Poloxy::WebAPI::View
     params = {
       'style' => {
         'alert' => param_by_level(c_style['alert'], level),
+        'color' => param_by_level(c_style['color'], level),
         'icon'  => param_by_level(c_style['icon'],  level),
       },
       'title' => title_by_level(level, config: config)

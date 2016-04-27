@@ -49,6 +49,12 @@ class Poloxy::Config
           4 => 'warning',
           6 => 'danger',
         },
+        'color' => {
+          1 => 'green',
+          2 => 'aqua',
+          4 => 'yellow',
+          6 => 'red',
+        },
         'box' => 'jumbotron',
         'icon' => {
           1 => 'fa-check-circle-o',
