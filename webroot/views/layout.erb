@@ -58,9 +58,9 @@
       <ul class="sidebar-menu">
         <li class="header">MENU</li>
         <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-        <li><a href="#"><i class="fa fa-envelope-o"></i> <span>Outgoing Notifications</span></a></li>
-        <li><a href="#"><i class="fa fa-feed"></i> <span>Incoming Alerts</span></a></li>
+        <li <% if @action == '#board' %>class="active"<% end %>><a href="/board"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+        <li <% if @action == '#forwards' %>class="active"<% end %>><a href="/forwards"><i class="fa fa-envelope-o"></i> <span>Outgoing Notifications</span></a></li>
+        <li <% if @action == '#inwards' %>class="active"<% end %>><a href="/inwards"><i class="fa fa-feed"></i> <span>Incoming Alerts</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->
     </section>

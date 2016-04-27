@@ -1,14 +1,13 @@
 module Poloxy::WebAPI::View
   include Poloxy::ViewHelper
 
-  def group_to_breadcrumb group, config: config()
-    base_path = '/board/'
-    list = [ { name: '/', path: base_path } ]
+  def group_to_breadcrumb group, base: '', config: config()
+    list = [ { name: '/', path: base } ]
     _group = group.sub %r|^/|, ''
     _group.split(config.graph['delimiter']).each do |label|
-      path = "#{base_path}#{label}"
+      path = "#{base}#{label}"
       list << { name: label, path: path }
-      base_path = "#{path}/"
+      base = "#{path}/"
     end
     list
   end

@@ -1,0 +1,53 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+<h1>Incoming Alerts
+<%- @group_breadcrumb.each do |bc| -%>
+  <span class="icon">
+  <i class="icon fa fa-angle-double-right" aria-hidden="true"></i>
+  </span>
+  <a href="<%= bc[:path] %>"><%= bc[:name] %></a>
+<%- end -%>
+</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title">Items</h3>
+  </div>
+<div class="box-body">
+<table class="table table-bordered">
+  <tbody>
+    <tr>
+      <th>#</th>
+      <th>MID</th>
+      <th width="25%">Name</th>
+      <th width="15%">Group</th>
+      <th>Level</th>
+      <th>Type</th>
+      <th width="20%">Address</th>
+      <th>Date</th>
+    </tr>
+    <%- @items.each do |i| -%>
+    <tr>
+      <td><%= i.id %></td>
+      <td><%= i.message_id %></td>
+      <td><%= i.name %></td>
+      <td><%= i.group %></td>
+      <td><%= i.level %></td>
+      <td><%= i.type %></td>
+      <td><%= i.address %></td>
+      <td><%= i.received_at %></td>
+    </tr>
+    <%- end -%>
+  </tbody>
+</table>
+</div>
+<!-- /.box-body -->
+</div>
+<!-- /.box -->
+
+</section>
+<!-- /.content -->

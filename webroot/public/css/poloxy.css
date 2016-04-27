@@ -2,6 +2,12 @@ a.icon {
   color: #fff
 }
 
+a.btn {
+  color: #3c8dbc;
+  margin-left:  5px;
+  margin-right: 5px;
+}
+
 h1 > span.icon {
   font-size:   18px;
   font-weight: normal;

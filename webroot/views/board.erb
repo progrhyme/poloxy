@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-<h1>
+<h1>Dashboard
 <%- @group_breadcrumb.each do |bc| -%>
   <span class="icon">
   <i class="icon fa fa-angle-double-right" aria-hidden="true"></i>
@@ -34,8 +34,8 @@
       </span>
     </p>
     <div class="row" align="center">
-      <button class="btn btn-default btn-lg ibx-btn"><i class="fa fa-envelope-o"></i> <a href="#">Notifications</a></button>
-      <button class="btn btn-default btn-lg ibx-btn"><i class="fa fa-feed"></i> <a href="#">Alerts</a></button>
+      <a href="/forwards/<%= @node.group %>" class="btn btn-default btn-lg ibx-btn"><i class="fa fa-envelope-o"></i> Notifications</a>
+      <a href="/inwards/<%= @node.group %>" class="btn btn-default btn-lg ibx-btn"><i class="fa fa-feed"></i> Alerts</a>
     </div>
   </div>
 </div>
@@ -58,8 +58,8 @@
         Lv <%= c[:level] %>
         </p>
         <div class="row" align="center">
-          <button class="btn btn-default btn-sm ibx-btn-sm"><i class="fa fa-envelope-o"></i> <a href="#">notifics</a></button>
-          <button class="btn btn-default btn-sm ibx-btn-sm"><i class="fa fa-feed"></i> <a href="#">alerts</a></button>
+          <a href="/forwards<%= c[:group] %>" class="btn btn-default btn-sm ibx-btn-sm"><i class="fa fa-envelope-o"></i> notifics</a>
+          <a href="/inwards<%= c[:group] %>" class="btn btn-default btn-sm ibx-btn-sm"><i class="fa fa-feed"></i> alerts</a>
         </div>
       </div>
     </div>
