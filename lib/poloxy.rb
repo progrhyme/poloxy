@@ -1,4 +1,5 @@
 Poloxy = Module.new
+Poloxy::ViewModel = Module.new
 
 require 'camel_snake'
 require 'erb'
@@ -30,3 +31,5 @@ require_relative 'poloxy/item_merge/base'
 require_relative 'poloxy/logging'
 require_relative 'poloxy/message_container'
 require_relative 'poloxy/view_helper'
+require_relative 'poloxy/view_model/item'
+require_relative 'poloxy/view_model/message'

@@ -64,9 +64,14 @@ class Poloxy::WebAPI < Sinatra::Application
     @group_breadcrumb = group_to_breadcrumb group, base: '/forwards/'
     if group != '/'
       c_grp = group.sub(%r|^/|, '')
-      @messages = message_dm.filter(Sequel.ilike(:group, "#{c_grp}%")).reverse_order(:id).all
+      messages = message_dm.filter(Sequel.ilike(:group, "#{c_grp}%")).reverse_order(:id).all
     else
-      @messages = message_dm.where.reverse_order(:id).all
+      messages = message_dm.where.reverse_order(:id).all
+    end
+    @messages = messages.map do |m|
+      vm = Poloxy::ViewModel::Message.from_data m
+      vm.level_text = title_with_level m.level
+      vm
     end
     erb :forwards
   end
@@ -78,25 +83,38 @@ class Poloxy::WebAPI < Sinatra::Application
     @group_breadcrumb = group_to_breadcrumb group, base: '/inwards/'
     if group != '/'
       c_grp = group.sub(%r|^/|, '')
-      @items = item_dm.filter(Sequel.ilike(:group, "#{c_grp}%")).reverse_order(:id).all
+      items = item_dm.filter(Sequel.ilike(:group, "#{c_grp}%")).reverse_order(:id).all
     else
-      @items = item_dm.where.reverse_order(:id).all
+      items = item_dm.where.reverse_order(:id).all
+    end
+    @items = items.map do |i|
+      vm = Poloxy::ViewModel::Item.from_data i
+      vm.level_text = title_with_level i.level
+      vm
     end
     erb :inwards
   end
 
   get '/message/:id' do
     @action = '#forwards'
-    @message = Poloxy::DataModel.new.find 'Message', params[:id]
+    message = Poloxy::DataModel.new.find 'Message', params[:id]
+    @message = Poloxy::ViewModel::Message.from_data message
+    @message.level_text = title_with_level @message.level
     item_dm = Poloxy::DataModel.new.load_class 'Item'
-    @items = item_dm.where(message_id: params[:id]).reverse_order(:level).all
+    @items = item_dm.where(message_id: params[:id]).reverse_order(:level).all.map do |i|
+      vm = Poloxy::ViewModel::Item.from_data i
+      vm.level_text = title_with_level i.level
+      vm
+    end
     @group_breadcrumb = group_to_breadcrumb @message.group, base: '/forwards/'
     erb :message
   end
 
   get '/item/:id' do
     @action = '#inwards'
-    @item = Poloxy::DataModel.new.find 'Item', params[:id]
+    item = Poloxy::DataModel.new.find 'Item', params[:id]
+    @item = Poloxy::ViewModel::Item.from_data item
+    @item.level_text = title_with_level @item.level
     @group_breadcrumb = group_to_breadcrumb @item.group, base: '/inwards/'
     erb :item
   end

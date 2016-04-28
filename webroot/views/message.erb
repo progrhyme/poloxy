@@ -33,7 +33,7 @@
   <%- %w(title group level type address body misc delivered_at).each do |col| -%>
   <tr>
     <th><%= col.extend(CamelSnake).to_pascal %></th>
-    <td><%= @message.send(col) %></td>
+    <td><%= @message.prop_for_web(col) %></td>
   </tr>
   <%- end -%>
   </tbody>
@@ -60,8 +60,8 @@
     <tr>
       <td><a href="/item/<%= i.id %>"><%= i.id %></a></td>
       <td><%= i.name %></td>
-      <td><%= i.level %></td>
-      <td><%= i.message %></td>
+      <td><%= i.level_text %></td>
+      <td><%= i.message_html %></td>
       <td><%= i.received_at %></td>
     </tr>
     <%- end -%>

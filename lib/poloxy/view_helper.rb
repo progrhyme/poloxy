@@ -7,8 +7,21 @@ module Poloxy::ViewHelper
     param_by_level(config.view['abbrev'], level)
   end
 
+  def title_and_level level, config: config()
+    return paramlv_by_level(config.view['title'], level)
+  end
+
   def abbrev_and_level level, config: config()
     return paramlv_by_level(config.view['abbrev'], level)
+  end
+
+  def title_with_level level, config: config()
+    title, _level = title_and_level(level, config: config)
+    if level == _level
+      title
+    else
+      '%s (Level %d)' % [ title, _level ]
+    end
   end
 
   def seconds_to_time_view sec

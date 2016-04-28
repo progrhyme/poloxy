@@ -27,7 +27,7 @@
   <%- %w(message_id name group level type address message misc received_at).each do |col| -%>
   <tr>
     <th><%= col.extend(CamelSnake).to_pascal %></th>
-    <td><%= @item.send(col) %></td>
+    <td><%= @item.prop_for_web(col) %></td>
   </tr>
   <%- end -%>
   </tbody>
