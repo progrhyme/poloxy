@@ -88,6 +88,8 @@ class Poloxy::WebAPI < Sinatra::Application
   get '/message/:id' do
     @action = '#forwards'
     @message = Poloxy::DataModel.new.find 'Message', params[:id]
+    item_dm = Poloxy::DataModel.new.load_class 'Item'
+    @items = item_dm.where(message_id: params[:id]).reverse_order(:level).all
     @group_breadcrumb = group_to_breadcrumb @message.group, base: '/forwards/'
     erb :message
   end
