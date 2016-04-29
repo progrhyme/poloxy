@@ -22,12 +22,24 @@ class Poloxy::ViewModel::Message
     new stash
   end
 
+  def id_link
+    '<a href="/message/%d">%d</a>' % [@id, @id]
+  end
+
+  def group_link
+    '<a href="/forwards/%s">%s</a>' % [@group, @group]
+  end
+
   def body_html
     @body.gsub(/\n/, '<br />')
   end
 
   def prop_for_web key
     case key
+    when 'id'
+      id_link
+    when 'group'
+      group_link
     when 'body'
       body_html
     when 'level'

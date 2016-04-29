@@ -22,12 +22,30 @@ class Poloxy::ViewModel::Item
     new stash
   end
 
+  def id_link
+    '<a href="/item/%d">%d</a>' % [@id, @id]
+  end
+
+  def message_id_link
+    '<a href="/message/%d">%d</a>' % [@message_id, @message_id]
+  end
+
+  def group_link
+    '<a href="/inwards/%s">%s</a>' % [@group, @group]
+  end
+
   def message_html
     message.gsub(/\n/, '<br />')
   end
 
   def prop_for_web key
     case key
+    when 'id'
+      id_link
+    when 'message_id'
+      message_id_link
+    when 'group'
+      group_link
     when 'message'
       message_html
     when 'level'

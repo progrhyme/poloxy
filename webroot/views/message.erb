@@ -59,7 +59,7 @@
     </tr>
     <%- @items.each do |i| -%>
     <tr class="<%= i.style[:alert] %>">
-      <td><a href="/item/<%= i.id %>"><%= i.id %></a></td>
+      <td><%= i.id_link %></td>
       <td><%= i.name %></td>
       <td><%= i.level_text %></td>
       <td><%= i.message_html %></td>
