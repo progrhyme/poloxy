@@ -93,14 +93,15 @@ describe Poloxy::Graph do
 
   describe "#update_node(node)" do
     before :context do
-      @graph.node! 'a/b'
-      @graph.node! 'd/e'
+      @graph.node!('a/b').expire_at = Time.now + 3600 # should not expire
+      @graph.node!('d/e').expire_at = Time.now + 3600
     end
 
     context "When node.level grows" do
       it "root.level also grows" do
         a = @graph.node 'a'
         a.level = 3
+        a.expire_at = Time.now + 3600
         @graph.update_node a
         expect(@root.level).to eq 3
       end
@@ -146,6 +147,7 @@ describe Poloxy::Graph do
           @b = @graph.node 'a/b'
           @c = @graph.node! 'a/c'
           @c.level = 2
+          @c.expire_at = Time.now + 3600
           @b.level = 1
           @graph.update_node @b
         end
@@ -158,7 +160,7 @@ describe Poloxy::Graph do
           msg = Poloxy::DataModel.new.spawn 'Message', {
             item:      'AAA',
             level:     2,
-            expire_at: Time.now,
+            expire_at: Time.now + 3600, # should not expire
           }
           @a.update_leaf msg
           @c.level = 1

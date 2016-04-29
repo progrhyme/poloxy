@@ -38,6 +38,14 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     @leaves ||= {}
   end
 
+  def valid_children
+    children.select { |c| ! c.expired? }
+  end
+
+  def valid_leaves
+    leaves.select { |name, leaf| ! leaf.expired? }
+  end
+
   # Add to \@children
   # @param node [Poloxy::DataModel::GraphNode]
   def add_child node
@@ -81,8 +89,8 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     if level > self.level
       self.level = level
     elsif level < self.level
-      children = self.children.select      {|n| n.level > level}
-      leaves   = self.leaves.values.select {|l| l.level > level}
+      children = self.valid_children.select      {|n| n.level > level}
+      leaves   = self.valid_leaves.values.select {|l| l.level > level}
       list     = children.concat leaves
       if list.empty?
         self.level = level

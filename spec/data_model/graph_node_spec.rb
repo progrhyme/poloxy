@@ -42,7 +42,7 @@ describe klass do
     before :context do
       @msg = lambda do |name, lv|
         @dm.spawn 'Message', {
-          item: name, level: lv, expire_at: Time.now,
+          item: name, level: lv, expire_at: Time.now + 3600, # should not expire
         }
       end
       @node = @graph.node 'default'

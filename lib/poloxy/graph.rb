@@ -76,8 +76,8 @@ class Poloxy::Graph
     if node.level > parent.level
       updater.call node.level
     elsif node.level < parent.level
-      children = parent.children.select      {|n| n.level > node.level}
-      leaves   = parent.leaves.values.select {|l| l.level > node.level}
+      children = parent.valid_children.select      {|n| n.level > node.level}
+      leaves   = parent.valid_leaves.values.select {|l| l.level > node.level}
       list     = children.concat leaves
       if list.empty?
         updater.call node.level
