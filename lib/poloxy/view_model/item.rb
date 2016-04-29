@@ -1,7 +1,7 @@
 class Poloxy::ViewModel::Item
   [
     :id, :message_id, :address, :type, :level, :group, :name,
-    :message, :misc, :received_at,
+    :message, :misc, :expire_at, :received_at,
   ].each do |accr|
     attr accr
   end

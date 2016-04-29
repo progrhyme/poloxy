@@ -27,7 +27,8 @@
       <th>Level</th>
       <th>Type</th>
       <th width="20%">Address</th>
-      <th>Date</th>
+      <th>DeliveredAt</th>
+      <th>ExpireAt</th>
     </tr>
     <%- @messages.each do |m| -%>
     <tr>
@@ -38,6 +39,7 @@
       <td><%= m.type %></td>
       <td><%= m.address %></td>
       <td><%= m.delivered_at %></td>
+      <td><%= m.expire_at %></td>
     </tr>
     <%- end -%>
   </tbody>
