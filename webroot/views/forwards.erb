@@ -31,7 +31,7 @@
       <th>ExpireAt</th>
     </tr>
     <%- @messages.each do |m| -%>
-    <tr>
+    <tr <% if ! m.expired? %>class="<%= m.style[:alert] %>"<% end %>>
       <td><a href="/message/<%= m.id %>"><%= m.id %></a></td>
       <td><%= m.title %></td>
       <td><a href="/forwards/<%= m.group %>"><%= m.group %></a></td>

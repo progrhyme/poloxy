@@ -25,7 +25,7 @@
 <table class="table table-bordered">
   <tbody>
   <%- %w(message_id name group level type address message misc received_at expire_at).each do |col| -%>
-  <tr>
+  <tr <% if col == 'level' %>class="<%= @item.style[:alert] %>"<% end %>>
     <th><%= col.extend(CamelSnake).to_pascal %></th>
     <td><%= @item.prop_for_web(col) %></td>
   </tr>
