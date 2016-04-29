@@ -27,4 +27,18 @@ module Poloxy::WebAPI::View
   def view_styles config: config()
     { :box => config.web['style']['box'] }
   end
+
+  def message_to_view message
+    vm = Poloxy::ViewModel::Message.from_data message
+    vm.level_text = title_with_level message.level
+    vm.style      = view_alert_params(level: message.level)[:style]
+    vm
+  end
+
+  def item_to_view item
+    vm = Poloxy::ViewModel::Item.from_data item
+    vm.level_text = title_with_level item.level
+    vm.style      = view_alert_params(level: item.level)[:style]
+    vm
+  end
 end
