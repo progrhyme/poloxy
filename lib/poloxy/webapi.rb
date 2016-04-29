@@ -27,10 +27,15 @@ class Poloxy::WebAPI < Sinatra::Application
     call env.merge("PATH_INFO" => '/board')
   end
 
-  #post '/v1.0/message' do
-    #content_type :json
-    #stash.to_json
-  #end
+  post '/v1/item' do
+    request.body.rewind
+    data = JSON.parse request.body.read
+    item = Poloxy::Item.new(config: @@config).create data
+
+    content_type :json
+    status 201
+    { id: item.id, received_at: item.received_at }.to_json
+  end
 
   get '/board/?*' do
     @action = '#board'
