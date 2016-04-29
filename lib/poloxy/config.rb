@@ -3,12 +3,6 @@ class Poloxy::Config
     log: {
       'level' => 'INFO',
     },
-    api: {
-      'redis_url' => 'redis://localhost:6379',
-    },
-    worker: {
-      'redis_url' => 'redis://localhost:6379',
-    },
     deliver: {
       'min_interval' => 60,
       'item' => {
