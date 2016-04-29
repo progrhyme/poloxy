@@ -1,4 +1,5 @@
 Poloxy = Module.new
+Poloxy::Function  = Module.new
 Poloxy::ViewModel = Module.new
 
 require 'camel_snake'
@@ -19,8 +20,8 @@ require_relative 'poloxy/deliver'
 require_relative 'poloxy/deliver/base'
 require_relative 'poloxy/deliver/http_post'
 require_relative 'poloxy/error'
+require_relative 'poloxy/function/group'
 require_relative 'poloxy/graph'
-require_relative 'poloxy/group_function'
 require_relative 'poloxy/item'
 require_relative 'poloxy/item_merge'
 require_relative 'poloxy/item_merge/base'

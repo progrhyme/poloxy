@@ -1,4 +1,4 @@
-module Poloxy::GroupFunction
+module Poloxy::Function::Group
   def str2group_path str
     dlm = @config.graph['delimiter']
     group = str.split(/#{dlm}+/).map { |s|

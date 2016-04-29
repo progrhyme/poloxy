@@ -1,5 +1,5 @@
 class Poloxy::Item
-  include Poloxy::GroupFunction
+  include Poloxy::Function::Group
 
   def initialize config: nil
     @config = config || Poloxy::Config.new
