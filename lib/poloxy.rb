@@ -13,6 +13,7 @@ require 'toml'
 require 'uri'
 
 require_relative 'poloxy/constants'
+require_relative 'poloxy/version'
 require_relative 'poloxy/config'
 require_relative 'poloxy/data_model'
 require_relative 'poloxy/data_store'
