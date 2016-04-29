@@ -12,6 +12,17 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     end
   end
 
+  # @return [Fixnum]
+  #  level if not expired,
+  #  {Poloxy::MIN_LEVEL} when expired
+  def current_level now: Time.now
+    if self.expire_at >= now
+      self.level
+    else
+      Poloxy::MIN_LEVEL
+    end
+  end
+
   def save
     self.updated_at   = Time.now
     self.expire_at  ||= Time.now

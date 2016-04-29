@@ -43,11 +43,11 @@ class Poloxy::WebAPI < Sinatra::Application
     end
     @last_alerted  = @node.updated_at.to_s
     @no_alert_span = seconds_to_time_view(Time.now - @node.updated_at)
-    @param = view_alert_params(level: @node.level)
+    @param = view_alert_params(level: @node.current_level)
     @param[:style].merge! view_styles()
     @children = []
     @node.children.each do |c|
-      stash = view_alert_params(level: c.level)
+      stash = view_alert_params(level: c.current_level)
       [ :level, :group ].each do |key|
         stash[key] = c.send(key)
       end
