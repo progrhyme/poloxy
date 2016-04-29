@@ -13,3 +13,6 @@ merger = "PerItem"
 
 [database.connect]
 url = 'sqlite://tmp/poloxy.sqlite.db'
+
+[message]
+default_expire = 7200

@@ -38,10 +38,15 @@ describe klass do
     end
   end
 
-  describe "#update_leaf(item, level)" do
+  describe "#update_leaf(message)" do
     before :context do
+      @msg = lambda do |name, lv|
+        @dm.spawn 'Message', {
+          item: name, level: lv, expire_at: Time.now,
+        }
+      end
       @node = @graph.node 'default'
-      @node.update_leaf item: 'Foo', level: 2
+      @node.update_leaf @msg.call('Foo', 2)
     end
 
     context "When it has no leaf" do
@@ -53,19 +58,20 @@ describe klass do
     context "When it has another leaf" do
       context "When given level is lower" do
         it "node.level is not updated" do
-          @node.update_leaf item: 'Bar', level: 1
+          @node.update_leaf @msg.call('Bar', 1)
           expect(@node.level).to eq 2
         end
       end
       context "When given level is higher" do
         it "node.level is updated" do
-          @node.update_leaf item: 'Bar', level: 3
+          @node.update_leaf @msg.call('Bar', 3)
           expect(@node.level).to eq 3
         end
       end
       context "When leaf with higher level goes lower" do
         it "node.level is capped by another leaf.level" do
-          @node.update_leaf item: 'Bar', level: 1
+          @node.update_leaf @msg.call('Bar', 3)
+          @node.update_leaf @msg.call('Bar', 1)
           expect(@node.level).to eq 2
         end
       end
@@ -74,12 +80,12 @@ describe klass do
     context "When it has other leaves and children" do
       before :context do
         @child = @graph.node! 'default/sub'
-        @child.update_leaf item: 'foo', level: 2
+        @child.update_leaf @msg.call('Foo', 2)
       end
 
       context "When leaf with higher level goes lower" do
         it "node.level is capped by max level of leaves and children" do
-          @node.update_leaf item: 'Foo', level: 1
+          @node.update_leaf @msg.call('Foo', 1)
           expect(@node.level).to eq 2
         end
       end

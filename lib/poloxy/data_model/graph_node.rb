@@ -13,7 +13,8 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
   end
 
   def save
-    self.updated_at = Time.now
+    self.updated_at   = Time.now
+    self.expire_at  ||= Time.now
     super
   end
 
@@ -53,34 +54,35 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
     child
   end
 
-  # @param item [String] messages.item
-  # @param level [Fixnum] messages.level
-  def update_leaf item: nil, level: nil
+  # @param message [Poloxy::DataModel::Message]
+  def update_leaf message
+    item    = message.item
+    level   = message.level
+    expire  = message.expire_at
     leaf_dm = data_model().load_class 'NodeLeaf'
     leaf_dm.create_or_update(
-      { node_id: self.id, item:       item     },
-      { level:   level,   updated_at: Time.now },
+      { node_id: self.id, item: item },
+      { level: level, updated_at: Time.now, expire_at: expire },
     ).tap do |leaf|
       self.leaves[item] = leaf
     end
-    updated_level = 0
     if level > self.level
-      self.level = updated_level = level
+      self.level = level
     elsif level < self.level
       children = self.children.select      {|n| n.level > level}
       leaves   = self.leaves.values.select {|l| l.level > level}
       list     = children.concat leaves
       if list.empty?
-        self.level = updated_level = level
+        self.level = level
       else
         max_level = list.map(&:level).max
         if max_level < self.level
-          self.level = updated_level = max_level
+          self.level = max_level
         end
       end
     end
+    self.expire_at = [ self.expire_at, expire ].max
     save
-    updated_level
   end
 
   private

@@ -5,6 +5,7 @@ Sequel.migration do
       Integer  :parent_id,  null: false, default: 0
       String   :label,      size: 32,    null:    false
       Integer  :level,      null: false, default: 1
+      DateTime :expire_at,  null: false
       DateTime :updated_at, null: false
       unique   [:parent_id, :label], name: 'idx_parent_id_and_label_on_graph_nodes'
     end
@@ -13,6 +14,7 @@ Sequel.migration do
       Integer  :node_id,    null: false, default: 0
       String   :item,       null: false
       Integer  :level,      null: false, default: 1
+      DateTime :expire_at,  null: false
       DateTime :updated_at, null: false
       primary_key [:node_id, :item]
     end
@@ -28,7 +30,8 @@ Sequel.migration do
       String   :title,      null:  false
       String   :body,       text:  true,  null:    false
       String   :misc,       text:  true
-      DateTime :created_at, index: true,  null:    false
+      DateTime :expire_at,  null:  false
+      DateTime :created_at, index: true, null: false
       DateTime :delivered_at
     end
 
@@ -42,7 +45,8 @@ Sequel.migration do
       String   :name,        null:  false
       String   :message,     text:  true,  null:    false
       String   :misc,        text:  true
-      DateTime :received_at, index: true,  null:    false
+      DateTime :expire_at,   null:  false
+      DateTime :received_at, index: true, null: false
     end
   end
 

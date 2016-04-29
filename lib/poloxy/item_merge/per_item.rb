@@ -47,7 +47,7 @@ class Poloxy::ItemMerge::PerItem < Poloxy::ItemMerge::Base
     }
 
     items.first[1].first.tap do |item|
-      %w[group type address].each do |key|
+      %w[group type address expire_at].each do |key|
         params[key] = item.send(key)
       end
     end

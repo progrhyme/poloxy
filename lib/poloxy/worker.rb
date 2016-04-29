@@ -21,7 +21,7 @@ class Poloxy::Worker
     item_dm = @data_model.load_class 'Item'
     while @running
       item_on_top = item_dm.where.reverse_order(:id).limit(1).first
-      if item_on_top.message_id != 0
+      if ! item_on_top || item_on_top.message_id != 0
         @waiting += 1
         @logger.debug "#{@waiting} No undelivererd items."
         sleep @interval
@@ -46,8 +46,8 @@ class Poloxy::Worker
           node = @graph.node! msg.group
           msg.node_id = node.id
           msg.save
-          level = node.update_leaf item: msg.item, level: msg.level
-          @graph.update_node_level node if level > 0
+          node.update_leaf msg
+          @graph.update_node node
         end
         @data_model.where(
           'Item', id: msg.items.map(&:id)
