@@ -1,4 +1,5 @@
 class Poloxy::DataModel::GraphNode < Sequel::Model
+  include Poloxy::Function::Expirable
   attr_accessor :children, :leaves, :group
 
   # Override to normalize given label string
@@ -16,10 +17,10 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
   #  level if not expired,
   #  {Poloxy::MIN_LEVEL} when expired
   def current_level now: Time.now
-    if self.expire_at >= now
-      self.level
-    else
+    if self.expired?
       Poloxy::MIN_LEVEL
+    else
+      self.level
     end
   end
 
