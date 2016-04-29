@@ -12,6 +12,9 @@ class Poloxy::Config
     graph: {
       'delimiter' => '/',
     },
+    message: {
+      'default_expire' => 7200,
+    },
     view: {
       'title' => {
         1 => 'CLEAR',

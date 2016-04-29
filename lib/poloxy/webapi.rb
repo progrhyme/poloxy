@@ -43,11 +43,11 @@ class Poloxy::WebAPI < Sinatra::Application
     end
     @last_alerted  = @node.updated_at.to_s
     @no_alert_span = seconds_to_time_view(Time.now - @node.updated_at)
-    @param = view_alert_params(level: @node.level)
+    @param = view_alert_params(level: @node.current_level)
     @param[:style].merge! view_styles()
     @children = []
     @node.children.each do |c|
-      stash = view_alert_params(level: c.level)
+      stash = view_alert_params(level: c.current_level)
       [ :level, :group ].each do |key|
         stash[key] = c.send(key)
       end
@@ -71,6 +71,7 @@ class Poloxy::WebAPI < Sinatra::Application
     @messages = messages.map do |m|
       vm = Poloxy::ViewModel::Message.from_data m
       vm.level_text = title_with_level m.level
+      vm.style      = view_alert_params(level: m.level)[:style]
       vm
     end
     erb :forwards
@@ -90,6 +91,7 @@ class Poloxy::WebAPI < Sinatra::Application
     @items = items.map do |i|
       vm = Poloxy::ViewModel::Item.from_data i
       vm.level_text = title_with_level i.level
+      vm.style      = view_alert_params(level: i.level)[:style]
       vm
     end
     erb :inwards
@@ -100,10 +102,12 @@ class Poloxy::WebAPI < Sinatra::Application
     message = Poloxy::DataModel.new.find 'Message', params[:id]
     @message = Poloxy::ViewModel::Message.from_data message
     @message.level_text = title_with_level @message.level
+    @message.style      = view_alert_params(level: @message.level)[:style]
     item_dm = Poloxy::DataModel.new.load_class 'Item'
     @items = item_dm.where(message_id: params[:id]).reverse_order(:level).all.map do |i|
       vm = Poloxy::ViewModel::Item.from_data i
       vm.level_text = title_with_level i.level
+      vm.style      = view_alert_params(level: i.level)[:style]
       vm
     end
     @group_breadcrumb = group_to_breadcrumb @message.group, base: '/forwards/'
@@ -115,6 +119,7 @@ class Poloxy::WebAPI < Sinatra::Application
     item = Poloxy::DataModel.new.find 'Item', params[:id]
     @item = Poloxy::ViewModel::Item.from_data item
     @item.level_text = title_with_level @item.level
+    @item.style      = view_alert_params(level: @item.level)[:style]
     @group_breadcrumb = group_to_breadcrumb @item.group, base: '/inwards/'
     erb :item
   end

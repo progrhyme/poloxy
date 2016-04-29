@@ -1,4 +1,6 @@
 class Poloxy::DataModel::NodeLeaf < Sequel::Model(:node_leaves)
+  include Poloxy::Function::Expirable
+
   def self.create_or_update cond, params
     me = find cond
     if me

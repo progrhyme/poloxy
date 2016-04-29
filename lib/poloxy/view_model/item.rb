@@ -1,11 +1,12 @@
 class Poloxy::ViewModel::Item
+  include Poloxy::Function::Expirable
   [
     :id, :message_id, :address, :type, :level, :group, :name,
-    :message, :misc, :received_at,
+    :message, :misc, :expire_at, :received_at,
   ].each do |accr|
     attr accr
   end
-  attr_accessor :level_text
+  attr_accessor :level_text, :style
 
   def initialize params
     params.each_pair do |key, val|

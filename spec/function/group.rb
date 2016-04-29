@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 class Tester
-  include Poloxy::GroupFunction
+  include Poloxy::Function::Group
   def initialize
     @config = TestPoloxy.config
   end
 end
 
-describe Poloxy::GroupFunction do
+describe Poloxy::Function::Group do
   before :context do
     @t = Tester.new
   end

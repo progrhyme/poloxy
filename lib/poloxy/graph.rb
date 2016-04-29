@@ -64,13 +64,14 @@ class Poloxy::Graph
   end
 
   # @param node [Poloxy::DataModel::GraphNode]
-  def update_node_level node
+  def update_node node
     return if node.parent_id == 0
     parent  = @tree[node.parent_id]
     updater = lambda do |level|
       parent.level = level
+      parent.expire_at = [ parent.expire_at, node.expire_at ].max
       parent.save
-      update_node_level parent
+      update_node parent
     end
     if node.level > parent.level
       updater.call node.level
@@ -82,8 +83,14 @@ class Poloxy::Graph
         updater.call node.level
       else
         max_level = list.map(&:level).max
-        updater.call max_level if max_level < parent.level
+        if max_level < parent.level
+          updater.call max_level
+        else
+          update_ancestors parent, expire: node.expire_at
+        end
       end
+    else
+      update_ancestors parent, expire: node.expire_at
     end
   end
 
@@ -92,5 +99,14 @@ class Poloxy::Graph
     def group2labels group
       dlm = @config['delimiter']
       group.gsub(/\s+/, '').sub(/^#{dlm}*(.+)#{dlm}*$/, '\1').split(/#{dlm}+/)
+    end
+
+    # Update timestamps towards root node
+    def update_ancestors node, expire: Time.now
+      node.expire_at = [ node.expire_at, expire ].max
+      node.save
+      if node.parent_id != 0
+        update_ancestors @tree[node.parent_id], expire: node.expire_at
+      end
     end
 end

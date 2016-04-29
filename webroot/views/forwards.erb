@@ -27,10 +27,11 @@
       <th>Level</th>
       <th>Type</th>
       <th width="20%">Address</th>
-      <th>Date</th>
+      <th>DeliveredAt</th>
+      <th>ExpireAt</th>
     </tr>
     <%- @messages.each do |m| -%>
-    <tr>
+    <tr <% if ! m.expired? %>class="<%= m.style[:alert] %>"<% end %>>
       <td><a href="/message/<%= m.id %>"><%= m.id %></a></td>
       <td><%= m.title %></td>
       <td><a href="/forwards/<%= m.group %>"><%= m.group %></a></td>
@@ -38,6 +39,7 @@
       <td><%= m.type %></td>
       <td><%= m.address %></td>
       <td><%= m.delivered_at %></td>
+      <td><%= m.expire_at %></td>
     </tr>
     <%- end -%>
   </tbody>

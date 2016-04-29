@@ -91,7 +91,7 @@ describe Poloxy::Graph do
     end
   end
 
-  describe "#update_node_level" do
+  describe "#update_node(node)" do
     before :context do
       @graph.node! 'a/b'
       @graph.node! 'd/e'
@@ -101,7 +101,7 @@ describe Poloxy::Graph do
       it "root.level also grows" do
         a = @graph.node 'a'
         a.level = 3
-        @graph.update_node_level a
+        @graph.update_node a
         expect(@root.level).to eq 3
       end
     end
@@ -111,7 +111,7 @@ describe Poloxy::Graph do
         @d = @graph.node 'd'
         @e = @graph.node 'd/e'
         @e.level = 2
-        @graph.update_node_level @e
+        @graph.update_node @e
       end
 
       it "level of parent also grows" do
@@ -130,7 +130,7 @@ describe Poloxy::Graph do
         @d = @graph.node 'd'
         @e = @graph.node 'd/e'
         @e.level = 1
-        @graph.update_node_level @e
+        @graph.update_node @e
       end
       it "level of parent with no other child or no leaf also goes lower" do
         expect(@d.level).to eq 1
@@ -147,7 +147,7 @@ describe Poloxy::Graph do
           @c = @graph.node! 'a/c'
           @c.level = 2
           @b.level = 1
-          @graph.update_node_level @b
+          @graph.update_node @b
         end
 
         it "parent's level doesn't go below other children" do
@@ -155,9 +155,14 @@ describe Poloxy::Graph do
         end
 
         it "parent's level doesn't go below its leaves" do
-          @a.update_leaf item: 'AAA', level: 2
+          msg = Poloxy::DataModel.new.spawn 'Message', {
+            item:      'AAA',
+            level:     2,
+            expire_at: Time.now,
+          }
+          @a.update_leaf msg
           @c.level = 1
-          @graph.update_node_level @c
+          @graph.update_node @c
           expect(@a.level).to eq 2
         end
       end

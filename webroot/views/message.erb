@@ -30,8 +30,8 @@
 <div class="box-body">
 <table class="table table-bordered">
   <tbody>
-  <%- %w(title group level type address body misc delivered_at).each do |col| -%>
-  <tr>
+  <%- %w(title group level type address body misc delivered_at expire_at).each do |col| -%>
+  <tr <% if col == 'level' %>class="<%= @message.style[:alert] %>"<% end %>>
     <th><%= col.extend(CamelSnake).to_pascal %></th>
     <td><%= @message.prop_for_web(col) %></td>
   </tr>
@@ -55,14 +55,16 @@
       <th>Level</th>
       <th>Message</th>
       <th>ReceivedAt</th>
+      <th>ExpireAt</th>
     </tr>
     <%- @items.each do |i| -%>
-    <tr>
+    <tr class="<%= i.style[:alert] %>">
       <td><a href="/item/<%= i.id %>"><%= i.id %></a></td>
       <td><%= i.name %></td>
       <td><%= i.level_text %></td>
       <td><%= i.message_html %></td>
       <td><%= i.received_at %></td>
+      <td><%= i.expire_at %></td>
     </tr>
     <%- end -%>
   </tbody>

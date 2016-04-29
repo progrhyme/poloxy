@@ -13,7 +13,6 @@
 <!-- Main content -->
 <section class="content">
 
-<!--<h3>Alert Level = <%= @node.level %></h3>-->
 <div class="info-box bg-<%= @param[:style][:color] %> ibx-main">
   <a href="/board<%= @node.group %>" class="icon">
   <span class="info-box-icon ibx-main">
@@ -23,10 +22,10 @@
   <div class="info-box-content ibx-main">
     <p>
       <span class="ibx-main-title"><%= @param[:title] %></span>
-      <span class="ibx-main-text">Level <%= @node.level %></span>
+      <span class="ibx-main-text">Level <%= @node.current_level %></span>
       <br />
       <span class="ibx-main-text">
-      <%- if @node.level > 1 -%>
+      <%- if @node.current_level > 1 -%>
         Last alert happened at <b><%= @last_alerted %></b>.
       <%- else -%>
         No alert in last <b><%= @no_alert_span %></b>.
