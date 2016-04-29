@@ -6,7 +6,7 @@ param = {
   'name'    => 'foo',
   'level'   => 3,
   'group'   => 'Default',
-  'type'    => :HttpPost,
+  'type'    => :Print,
   'address' => 'https://api.example.com/',
   'message' => "Something went wrong!\nPlease check!\n",
 }
