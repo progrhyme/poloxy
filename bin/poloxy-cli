@@ -26,4 +26,3 @@ Poloxy::DataStore.new.connect
 p param
 
 item = Poloxy::Item.new.create param
-Poloxy::Buffer.new.push item.id

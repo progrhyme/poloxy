@@ -5,7 +5,6 @@ class Poloxy::Worker
   def initialize config: nil
     @config      = config || Poloxy::Config.new
     @logger      = Poloxy::Logging.logger config: @config.log
-    @buffer      = Poloxy::Buffer.new config: @config, role: :server
     @datastore   = Poloxy::DataStore.new config: @config.database, logger: @logger
     @datastore.connect
     @data_model  = Poloxy::DataModel.new
@@ -19,11 +18,12 @@ class Poloxy::Worker
     Signal.trap :INT, sighandler(:shutdown)
     @running = true
     @waiting = 0
+    item_dm = @data_model.load_class 'Item'
     while @running
-      item_ids = @buffer.pop_all
-      if item_ids.empty?
+      item_on_top = item_dm.where.reverse_order(:id).limit(1).first
+      if item_on_top.message_id != 0
         @waiting += 1
-        @logger.debug "#{@waiting} No queue in buffer."
+        @logger.debug "#{@waiting} No undelivererd items."
         sleep @interval
         next
       end
@@ -32,10 +32,9 @@ class Poloxy::Worker
       @waiting = 0
       sleep @config.deliver['min_interval']
 
-      item_ids.concat(@buffer.pop_all)
-      list    = @data_model.where('Item', id: item_ids)
-      @logger.debug "Fetched from buffer:\n  #{list}"
-      messages = @item_merger.merge_into_messages list
+      items = item_dm.where(message_id: 0)
+      @logger.debug "Fetched from buffer:\n  #{items}"
+      messages = @item_merger.merge_into_messages items
       @logger.debug "Messages to deliver:\n  #{messages}"
       messages.each do |msg|
         begin
