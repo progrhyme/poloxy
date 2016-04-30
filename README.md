@@ -75,13 +75,19 @@ Here are configuration items:
 | log.rotate | String | \- | `shift_age` param for `Logger#new` |
 | log.file | String | \- | Path to log output file |
 | deliver.min_interval | Integer | 60 | Seconds of minimum interval to deliver summarized alerts to recipients |
-| deliver.item.merger | String | `PerItem` | Method to summarize alerts |
+| deliver.item.merger | String | `PerItem` | Method to summarize alerts. See following section. |
 | database.connect | Hash | \- | Params to connect database. These params are passed to `Sequel#connect`. |
 | message.default_expire | Integer | `7200` | Seconds to expire alerts. Expired alerts are taken as "CLEAR". |
 
-NOTE:
+#### Available Parameters
 
-- `PerItem` is the only method to summarize alerts for now.
+Some config items have alternatives which are specific to **poloxy**.  
+They are described in the table below:
+
+| Item | Option | Description |
+|:-----|:------:|:------------|
+| deliver.item.merger | `PerItem` | Summarize alert items by (_group_ and _name_) combinations |
+| | `PerGroup` | Summarize by _groups_ |
 
 ### Database Schema
 
