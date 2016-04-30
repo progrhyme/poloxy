@@ -16,4 +16,10 @@ class Poloxy::Item
     item.save
     item
   end
+
+  private
+
+    def config
+      @config
+    end
 end

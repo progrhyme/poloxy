@@ -5,6 +5,10 @@ class Tester
   def initialize
     @config = TestPoloxy.config
   end
+  private
+    def config
+      @config
+    end
 end
 
 describe Poloxy::Function::Group do
