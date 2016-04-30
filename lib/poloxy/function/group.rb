@@ -11,4 +11,25 @@ module Poloxy::Function::Group
     single = str.downcase.scan(/[\w\-\.]+/).join
     single if single.length > 0
   end
+
+  def merge_groups groups
+    dlm = config().graph['delimiter']
+    common_labels = []
+    labels_list = groups.map { |g| g.split dlm }
+    loop do
+      uniqs = labels_list.map(&:shift).uniq
+      if uniqs.length > 1
+        break
+      elsif uniqs.first
+        common_labels << uniqs.first
+      else
+        break
+      end
+    end
+    if common_labels.empty?
+      Poloxy::MERGED_GROUP
+    else
+      common_labels.join(dlm)
+    end
+  end
 end

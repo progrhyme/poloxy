@@ -47,4 +47,34 @@ describe Poloxy::Function::Group do
       end
     end
   end
+
+  describe '#merge_groups' do
+    context 'With 2 groups' do
+      {
+        %w[default     default]     => 'default',
+        %w[default/foo default]     => 'default',
+        %w[default/foo default/bar] => 'default',
+        %w[default/foo default/foo] => 'default/foo',
+        %w[default     foo]         => Poloxy::MERGED_GROUP,
+      }.each_pair do |groups, ret_g|
+        it "merge #{groups} => '#{ret_g}'" do
+          expect(@t.merge_groups groups).to eq ret_g
+        end
+      end
+    end
+
+    context 'With 3 groups' do
+      {
+        %w[default     default     default]     => 'default',
+        %w[default/foo default     default]     => 'default',
+        %w[default/foo default/bar default/baz] => 'default',
+        %w[default/foo default/foo default/foo] => 'default/foo',
+        %w[default     default     foo]         => Poloxy::MERGED_GROUP,
+      }.each_pair do |groups, ret_g|
+        it "merge #{groups} => '#{ret_g}'" do
+          expect(@t.merge_groups groups).to eq ret_g
+        end
+      end
+    end
+  end
 end
