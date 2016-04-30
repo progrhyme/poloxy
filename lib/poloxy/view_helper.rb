@@ -20,7 +20,16 @@ module Poloxy::ViewHelper
     if level == _level
       title
     else
-      '%s (Level %d)' % [ title, _level ]
+      '%s (Level %d)' % [ title, level ]
+    end
+  end
+
+  def abbrev_with_level level, config: config()
+    abbrev, _level = abbrev_and_level(level, config: config)
+    if level == _level
+      abbrev
+    else
+      "%s(Lv%d)" % [ abbrev, level ]
     end
   end
 
