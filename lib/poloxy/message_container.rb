@@ -1,5 +1,6 @@
 class Poloxy::MessageContainer
   include Poloxy::Function::Group
+  include Poloxy::ViewHelper
 
   attr :messages, :group, :level, :expire_at, :total_num, :item_num, :group_items
 
@@ -49,6 +50,58 @@ class Poloxy::MessageContainer
       gi[:num]   += 1
       gi[:level]  = [ gi[:level], msg.level ].max
     end
+  end
+
+  # @note Diffrence of addresses and types of messages are ignored.
+  def unify
+    return if @messages.length == 1
+
+    params = {
+      'group'       => @group,
+      'item'        => Poloxy::MERGED_ITEM,
+      'items'       => [],
+      'level'       => @level,
+      'expire_at'   => @expire_at,
+    }
+    @messages.first.tap do |m|
+      %w[type address].each do |key|
+        params[key] = m.send(key)
+      end
+    end
+
+    @messages.each do |m|
+      params['items'].concat m.items
+    end
+
+    params['title'] = '%s (%s) %d Alerts via POLOXY' % [
+      abbrev_with_level(params['level']), params['group'], @item_num ]
+
+    params['body'] = ERB.new(<<EOB, nil, '-').result(binding)
+There are <%= @item_num %> items of <%= @messages.length %> kinds of <%= @group_items.size %> groups.
+
+<%- @group_items.each_pair do |group, stash| -%>
+[<%= group %>]
+  <%- stash.each_pair do |item, data| -%>
+- <%= item %> : <%= data[:num] %> items, worst = <%= abbrev_with_level(data[:level]) %>
+  <%- end -%>
+<%- end -%>
+EOB
+
+    params['created_at'] = Time.now
+    message = @data_model.spawn 'Message', params
+
+    # TODO:
+    #  Update with lost messages
+
+    @messages  = [ message ]
+    @group     = message.group
+    @level     = message.level
+    @total_num = 1
+    @group_items = {
+      @group => {
+        message.item => { num: @item_num, level: @level },
+      },
+    }
   end
 
   private
