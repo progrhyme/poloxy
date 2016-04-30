@@ -52,11 +52,14 @@ class Poloxy::Worker
         rescue => e
           @logger.error "Failed to deliver! Error: #{e}"
         ensure
-          node = @graph.node! msg.group
-          msg.node_id = node.id
+          if msg.item != Poloxy::MERGED_ITEM
+            node = @graph.node! msg.group
+            msg.node_id = node.id
+            node.update_leaf msg
+            @graph.update_node node
+          end
+          msg.node_id ||= 0
           msg.save
-          node.update_leaf msg
-          @graph.update_node node
         end
         @data_model.where(
           'Item', id: msg.items.map(&:id)
