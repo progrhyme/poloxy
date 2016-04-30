@@ -2,11 +2,14 @@ class Poloxy::MessageContainer
   include Poloxy::Function::Group
   include Poloxy::ViewHelper
 
-  attr :messages, :group, :level, :expire_at, :total_num, :kind_num, :item_num, :group_items
+  attr \
+    :messages, :undelivered, :group, :level, :expire_at,
+    :total_num, :kind_num, :item_num, :group_items
 
   def initialize config=nil, args={}
     @config      = config
     @messages    = args[:messages]  || []
+    @undelivered = []
     @group       = args[:group]     || nil
     @level       = args[:level]     || Poloxy::MIN_LEVEL
     @expire_at   = args[:expire_at] || Time.now
@@ -19,6 +22,7 @@ class Poloxy::MessageContainer
 
   def merge other
     @messages.concat other.messages
+    @undelivered.concat other.undelivered
     @group = @group ? merge_groups([ @group, other.group ]) : other.group
     %w[level expire_at].each do |key|
       instance_variable_set "@#{key}", [ self.send(key), other.send(key) ].max
@@ -94,9 +98,7 @@ EOB
     params['created_at'] = Time.now
     message = @data_model.spawn 'Message', params
 
-    # TODO:
-    #  Update with lost messages
-
+    @undelivered.concat @messages
     @messages  = [ message ]
     @group     = message.group
     @level     = message.level

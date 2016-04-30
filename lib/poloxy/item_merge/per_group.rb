@@ -2,18 +2,6 @@ class Poloxy::ItemMerge::PerGroup < Poloxy::ItemMerge::Base
 
   private
 
-  # @param data [Hash] nested Hash of {Poloxy::DataModel::Item}
-  def merge_items data
-    messages = []
-    data.each_pair do |type, _data|
-      _data.each_pair do |addr, tree|
-        mcontainer = merge_tree(tree)
-        messages.concat(mcontainer.messages)
-      end
-    end
-    messages
-  end
-
   # @param tree [Hash] nested Hash of {Poloxy::DataModel::Item}
   def merge_tree tree
     mcontainer = Poloxy::MessageContainer.new @config

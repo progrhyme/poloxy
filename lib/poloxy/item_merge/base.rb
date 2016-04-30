@@ -7,7 +7,7 @@ class Poloxy::ItemMerge::Base
   end
 
   # @param list [Array<Poloxy::DataModel::Item>]
-  # @return [Array<Poloxy::DataModel::Message>]
+  # @return [<Poloxy::MessageContainer>]
   def merge_into_messages list
     return [] if list.empty?
 
@@ -41,8 +41,16 @@ class Poloxy::ItemMerge::Base
     items
   end
 
-  def merge_items items
-    raise Poloxy::Error, 'Please override in subclass!'
+  # @param data [Hash] nested Hash of {Poloxy::DataModel::Item}
+  # @return [<Poloxy::MessageContainer>]
+  def merge_items data
+    mcontainer = Poloxy::MessageContainer.new @config
+    data.each_pair do |type, _data|
+      _data.each_pair do |addr, tree|
+        mcontainer.merge merge_tree(tree)
+      end
+    end
+    mcontainer
   end
 
   # @param name [String] {Poloxy::DataModel::Item#name}
