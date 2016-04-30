@@ -34,9 +34,18 @@ class Poloxy::Worker
 
       items = item_dm.where(message_id: 0)
       @logger.debug "Fetched from buffer:\n  #{items}"
-      messages = @item_merger.merge_into_messages items
-      @logger.debug "Messages to deliver:\n  #{messages}"
-      messages.each do |msg|
+
+      mcontainer = @item_merger.merge_into_messages items
+
+      @logger.debug "Messages undelivered:\n  #{mcontainer.undelivered}"
+      mcontainer.undelivered.each do |msg|
+        node = @graph.node! msg.group
+        node.update_leaf msg
+        @graph.update_node node
+      end
+
+      @logger.debug "Messages to deliver:\n  #{mcontainer.messages}"
+      mcontainer.messages.each do |msg|
         begin
           @deliver.deliver msg
           msg.delivered_at = Time.now
@@ -53,8 +62,10 @@ class Poloxy::Worker
           'Item', id: msg.items.map(&:id)
         ).update(message_id: msg.id)
       end
+
       sleep @interval
     end
+
     Signal.trap :INT, :DEFAULT
   end
 
