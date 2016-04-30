@@ -138,6 +138,7 @@ Example of cURL request:
 ```
 curl -X POST http://poloxy.yourdomain.com/v1/item -d '{
     "name": "CPU",
+    "group": "generic/system-resource",
     "type": "Slack",
     "level": "3",
     "address": "https://hooks.slack.com/services/XXXXXXXXXX",
