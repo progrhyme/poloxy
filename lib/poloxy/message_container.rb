@@ -2,7 +2,7 @@ class Poloxy::MessageContainer
   include Poloxy::Function::Group
   include Poloxy::ViewHelper
 
-  attr :messages, :group, :level, :expire_at, :total_num, :item_num, :group_items
+  attr :messages, :group, :level, :expire_at, :total_num, :kind_num, :item_num, :group_items
 
   def initialize config=nil, args={}
     @config      = config
@@ -11,6 +11,7 @@ class Poloxy::MessageContainer
     @level       = args[:level]     || Poloxy::MIN_LEVEL
     @expire_at   = args[:expire_at] || Time.now
     @total_num   = args[:count]     || 0
+    @kind_num    = args[:count]     || 0
     @item_num    = args[:item_num]  || 0
     @group_items = {}
     @data_model  = Poloxy::DataModel.new
@@ -23,6 +24,7 @@ class Poloxy::MessageContainer
       instance_variable_set "@#{key}", [ self.send(key), other.send(key) ].max
     end
     @total_num += other.total_num
+    @kind_num  += other.kind_num
     @item_num  += other.item_num
     other.group_items.each_pair do |group, stash|
       @group_items[group] ||= {}
@@ -36,6 +38,7 @@ class Poloxy::MessageContainer
     end
   end
 
+  # @note Suppose msg.group or msg.item is different from @messages contents
   def append msg
     @messages << msg
     @group = @group ? merge_groups([ @group, msg.group ]) : msg.group
@@ -43,6 +46,7 @@ class Poloxy::MessageContainer
       instance_variable_set "@#{key}", [ self.send(key), msg.send(key) ].max
     end
     @total_num += 1
+    @kind_num  += 1
     @item_num  += msg.items.length
     @group_items[msg.group] ||= {}
     @group_items[msg.group][msg.item] ||= { num: 0, level: Poloxy::MIN_LEVEL }
@@ -77,7 +81,7 @@ class Poloxy::MessageContainer
       abbrev_with_level(params['level']), params['group'], @item_num ]
 
     params['body'] = ERB.new(<<EOB, nil, '-').result(binding)
-There are <%= @item_num %> items of <%= @messages.length %> kinds of <%= @group_items.size %> groups.
+There are <%= @item_num %> items of <%= @kind_num %> kinds of <%= @group_items.size %> groups.
 
 <%- @group_items.each_pair do |group, stash| -%>
 [<%= group %>]
