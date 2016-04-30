@@ -13,7 +13,33 @@ h1 > span.icon {
   font-weight: normal;
 }
 
-/* info-box */
+/* ---------- nav ---------- */
+li.nav-menu-item {
+  height:           50px;
+  line-height:      50px;
+  padding:          0 15px;
+  color:            #444;
+  background-color: #fff;
+}
+
+/* override skin-black.css */
+.skin-black .main-header > .navbar .nav > li > a {
+  color: #3c8dbc;
+  border-style: none;
+}
+.skin-black .main-header > .navbar .navbar-custom-menu .navbar-nav > li > a,
+.skin-black .main-header > .navbar .navbar-right > li > a {
+  border-style: none;
+}
+
+li.nav-menu-item > a {
+  display: inline;
+  line-height: 50px;
+  padding:     0px;
+}
+/* ---------- /nav ---------- */
+
+/* ---------- info-box ----------*/
 button.ibx-btn {
   margin-left:  10px;
   margin-right: 10px;
@@ -64,3 +90,4 @@ span.ibx-child-title {
   font-size:   16px;
   font-weight: bold;
 }
+/* ---------- /info-box ----------*/
