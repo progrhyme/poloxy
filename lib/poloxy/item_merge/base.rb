@@ -58,8 +58,8 @@ class Poloxy::ItemMerge::Base
   #  key: {Poloxy::DataModel::Item#level}
   def items2msg name, items
     params = {
-      'item'        => name,
-      'items'       => [],
+      'item'  => name,
+      'items' => [],
     }
 
     items.first[1].first.tap do |item|

@@ -65,11 +65,11 @@ class Poloxy::MessageContainer
     return if @messages.length == 1
 
     params = {
-      'group'       => @group,
-      'item'        => Poloxy::MERGED_ITEM,
-      'items'       => [],
-      'level'       => @level,
-      'expire_at'   => @expire_at,
+      'group'     => @group,
+      'item'      => Poloxy::MERGED_ITEM,
+      'items'     => [],
+      'level'     => @level,
+      'expire_at' => @expire_at,
     }
     @messages.first.tap do |m|
       %w[type address].each do |key|
