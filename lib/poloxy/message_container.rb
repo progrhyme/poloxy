@@ -55,7 +55,7 @@ class Poloxy::MessageContainer
     @group_items[msg.group] ||= {}
     @group_items[msg.group][msg.item] ||= { num: 0, level: Poloxy::MIN_LEVEL }
     @group_items[msg.group][msg.item].tap do |gi|
-      gi[:num]   += 1
+      gi[:num]   += msg.items.length
       gi[:level]  = [ gi[:level], msg.level ].max
     end
   end
