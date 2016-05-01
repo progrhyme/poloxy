@@ -1,5 +1,7 @@
 # Factorial Delegator for Item Merger Class
 class Poloxy::ItemMerge
+  attr :merger
+
   def initialize config: nil
     @config  = config || Poloxy::Config.new
     merger   = config.deliver['item']['merger']
