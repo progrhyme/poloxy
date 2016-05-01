@@ -97,7 +97,7 @@ And migration task is defined in `Rakefile`.
 Run:
 
 ```
-bundle exec rake db:migrate
+rake db:migrate
 ```
 
 Then you will get prepared with `poloxy` database.
@@ -105,7 +105,9 @@ Then you will get prepared with `poloxy` database.
 NOTE:
 
 - You should prepare `database.connect` parameter in configuration file beforehand.
-- Run `bundle exec rake db:reset` to destroy `poloxy` database.
+- Run `rake db:reset` to destroy `poloxy` database.
+- Your database adapter such as [mysql2](https://rubygems.org/gems/mysql2) is not included in Gemfile.
+So `bundle exec db:*` will fail unless you use SQLite3.
 
 ## Usage
 
