@@ -103,11 +103,6 @@ EOB
     @group     = message.group
     @level     = message.level
     @total_num = 1
-    @group_items = {
-      @group => {
-        message.item => { num: @item_num, level: @level },
-      },
-    }
   end
 
   private
