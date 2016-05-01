@@ -86,8 +86,11 @@ They are described in the table below:
 
 | Item | Option | Description |
 |:-----|:------:|:------------|
-| deliver.item.merger | `PerItem` | Summarize alert items by (_group_ and _name_) combinations |
-| | `PerGroup` | Summarize by _groups_ |
+| deliver.item.merger | `PerItem` | Summarize alert items by unique (_address_, _type_, _group_, _name_) params of them |
+| | `PerGroup` | Summarize by unique (_address_, _type_, _group_) of alerts |
+| | `PerAddress` | Summarize by unique (_address_, _type_) of alerts |
+
+As for parameters of alert items, see [API description](#http-api-to-send-alerts) in latter section.
 
 ### Database Schema
 

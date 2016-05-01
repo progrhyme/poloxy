@@ -55,7 +55,7 @@ class Poloxy::MessageContainer
     @group_items[msg.group] ||= {}
     @group_items[msg.group][msg.item] ||= { num: 0, level: Poloxy::MIN_LEVEL }
     @group_items[msg.group][msg.item].tap do |gi|
-      gi[:num]   += 1
+      gi[:num]   += msg.items.length
       gi[:level]  = [ gi[:level], msg.level ].max
     end
   end
@@ -65,11 +65,11 @@ class Poloxy::MessageContainer
     return if @messages.length == 1
 
     params = {
-      'group'       => @group,
-      'item'        => Poloxy::MERGED_ITEM,
-      'items'       => [],
-      'level'       => @level,
-      'expire_at'   => @expire_at,
+      'group'     => @group,
+      'item'      => Poloxy::MERGED_ITEM,
+      'items'     => [],
+      'level'     => @level,
+      'expire_at' => @expire_at,
     }
     @messages.first.tap do |m|
       %w[type address].each do |key|
@@ -103,11 +103,6 @@ EOB
     @group     = message.group
     @level     = message.level
     @total_num = 1
-    @group_items = {
-      @group => {
-        message.item => { num: @item_num, level: @level },
-      },
-    }
   end
 
   private
