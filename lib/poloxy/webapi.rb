@@ -57,9 +57,8 @@ class Poloxy::WebAPI < Sinatra::Application
     @children = []
     @node.children.each do |c|
       stash = view_alert_params(level: c.current_level)
-      [ :level, :group ].each do |key|
-        stash[key] = c.send(key)
-      end
+      stash[:level] = c.current_level
+      stash[:group] = c.group
       stash[:relative_group] = stash[:group].sub(%r|#{group}|, '')
       @children << stash
     end
