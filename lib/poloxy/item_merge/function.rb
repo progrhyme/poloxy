@@ -77,6 +77,7 @@ module Poloxy::ItemMerge::Function
 
     if levels.size == 1
       list = params['items'] = items.first[1]
+      params['misc']      = list[0].misc
       params['expire_at'] = list.map(&:expire_at).max
       params['body']  = <<EOB
 # #{list.length} items.
@@ -93,6 +94,7 @@ EOB
         nums[label] =  list.length
         total       += list.length
         params['items'].concat(list)
+        params['misc']    ||= list[0].misc
         params['expire_at'] = list.map(&:expire_at).push( params['expire_at'] ).max
       end
       params['body'] = ERB.new(<<EOB, nil, '-').result(binding)

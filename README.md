@@ -12,6 +12,10 @@ Server-side proxy software for delivering system alerts.
   * [Install](#install)
   * [Configure](#configure)
   * [Usage](#usage)
+    * [Start Server](#start-server)
+    * [HTTP API to send alerts](#http-api-to-send-alerts)
+      * [Available Delivery Types](#available-delivery-types)
+      * [Examples of cURL Requests](#examples-of-curl-requests)
 * [Additional Resources of "poloxy"](#additional-resources-of-poloxy)
 * [Authors](#authors)
 * [License](#license)
@@ -77,6 +81,8 @@ Here are configuration items:
 | deliver.min_interval | Integer | 60 | Seconds of minimum interval to deliver summarized alerts to recipients |
 | deliver.item.merger | String | `PerItem` | Method to summarize alerts. See following section. |
 | database.connect | Hash | \- | Params to connect database. These params are passed to `Sequel#connect`. |
+| smtp.host | String | `localhost` | SMTP server address used for `Mail` delivery-type |
+| smtp.port | Integer | 25 | SMTP server port used for `Mail` delivery-type |
 | message.default_expire | Integer | `7200` | Seconds to expire alerts. Expired alerts are taken as "CLEAR". |
 
 #### Available Parameters
@@ -138,13 +144,35 @@ Parameters:
 | type | String | \- | Method to deliver message to recipients |
 | address | String | \- | Recipient address |
 | message | String | \- | Message body of alert |
+| misc | JSON | \- | Additional parameters for message |
 
-NOTE:
+#### Available Delivery Types
 
-- `Slack` is the only available **_type_** as method to deliver alerts for now.
-  - Maybe you can use raw `HttpPost` **_type_**, but I'm afraid it would tire you.
+##### `Slack`
 
-Example of cURL request:
+Extends `HttpPost` to convert `message.body` to JSON format which is suitable for
+[Slack Incoming WebHooks API](https://api.slack.com/incoming-webhooks).
+
+##### `Mail`
+
+Sends e-mail through configured SMTP server.  
+This type treats `message.address` as _mail-to_.
+
+You can add some additional parameters as `misc` contents:
+
+| key | example | description |
+|:----|:-------:|:------------|
+| `mail.from` | `"foo@example.com"` | From of mail |
+| `mail.cc` | `"foo@example.com,bar@example.com"` | Cc of mail |
+| `mail.bcc` | `"foo@example.com,bar@example.com"` | Bcc of mail |
+
+##### `HttpPost`
+
+Raw HTTP POST method which posts `message.body` as request body.
+
+#### Examples of cURL Requests
+
+Slack:
 
 ```
 curl -X POST http://poloxy.yourdomain.com/v1/item -d '{
@@ -155,6 +183,28 @@ curl -X POST http://poloxy.yourdomain.com/v1/item -d '{
     "address": "https://hooks.slack.com/services/XXXXXXXXXX",
     "message": "CPU is WARNING 50%"
 }'
+```
+
+Mail:
+
+```
+cat <<EOD | curl -X POST http://poloxy.yourdomain.com/v1/item -d @-
+{
+    "name": "Error Rate",
+    "group": "web/rails-app",
+    "type": "Mail",
+    "level": "5",
+    "address": "developers@yourdomain.com,admin@yourdomain.com",
+    "message": "Error Rate is Over 5%",
+    "misc": "{
+        \"mail\": {
+            \"from\": \"alert@yourdomain.com\",
+            \"cc\": \"support@yourdomain.com\",
+            \"bcc\": \"poloxy-ops@yourdomain.com\"
+        }
+    }"
+}
+EOD
 ```
 
 # Additional Resources of "poloxy"

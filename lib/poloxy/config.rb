@@ -1,21 +1,24 @@
 class Poloxy::Config
   @@default = {
-    log: {
+    'log' => {
       'level' => 'INFO',
     },
-    deliver: {
+    'deliver' => {
       'min_interval' => 60,
       'item' => {
         'merger' => 'PerItem',
       },
+      'mail' => {
+        'default_from' => 'poloxy',
+      },
     },
-    graph: {
+    'graph' => {
       'delimiter' => '/',
     },
-    message: {
+    'message' => {
       'default_expire' => 7200,
     },
-    view: {
+    'view' => {
       'title' => {
         1 => 'CLEAR',
         2 => 'INFO',
@@ -37,7 +40,7 @@ class Poloxy::Config
         8 => 'EMERG',
       },
     },
-    web: {
+    'web' => {
       'root' => File.expand_path('../../../webroot', __FILE__),
       'style' => {
         'alert' => {
@@ -70,13 +73,12 @@ class Poloxy::Config
 
   def initialize path: ENV['POLOXY_CONFIG'] || 'config/poloxy.toml'
     @mine = File.readable?(path) ? TOML.load_file(path) : {}
+    @mine.deep_merge(@@default)
   end
 
   def method_missing method
     if @mine.has_key? method.to_s
       @mine[method.to_s]
-    elsif @@default.has_key? method.to_sym
-      @@default[method.to_sym]
     end
   end
 end

@@ -28,10 +28,10 @@ class Poloxy::Deliver::HttpPost < Poloxy::Deliver::Base
     res = http.request post
     case res
     when Net::HTTPSuccess
-      @logger.info "OK. #{res.code}" if @logger
+      write_log "OK. #{res.code}"
     else
-      @logger.error "Error! #{res.code}, #{res.message}, #{res.body}" if @logger
+      write_log "Error! #{res.code}, #{res.message}, #{res.body}", :error
     end
-    @logger.debug "Sent #{message}" if @logger
+    write_log "Sent #{message}", :debug
   end
 end

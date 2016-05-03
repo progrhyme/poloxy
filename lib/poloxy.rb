@@ -3,11 +3,14 @@ Poloxy::Function  = Module.new
 Poloxy::ViewModel = Module.new
 
 require 'camel_snake'
+require 'deep_merge'
 require 'erb'
 require 'json'
+require 'mail'
 require 'net/http'
 require 'optparse'
 require 'sequel'
+require 'socket'
 require 'stdlogger'
 require 'toml'
 require 'uri'

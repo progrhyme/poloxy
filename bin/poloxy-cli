@@ -17,6 +17,7 @@ OptionParser.new do |opt|
   opt.on('-t', '--type=TYPE')       { |t| param['type']    = t}
   opt.on('-a', '--addr=ADDRESS')    { |a| param['address'] = a}
   opt.on('-m', '--message=MESSAGE') { |m| param['message'] = m}
+  opt.on('--misc=MISC')             { |m| param['misc']    = m}
   opt.parse! ARGV
 end
 
