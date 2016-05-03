@@ -1,6 +1,7 @@
 # Factorial Delegator for Deliver Class
 class Poloxy::Deliver
-  def initialize logger: nil
+  def initialize config: nil, logger: nil
+    @config    = config
     @logger    = logger
     @deliverer = {}
   end
@@ -17,7 +18,7 @@ class Poloxy::Deliver
       type_s = type.extend(CamelSnake).to_snake
       @deliverer[type] ||= Proc.new {
         require_relative "deliver/#{type_s}"
-        Object.const_get("Poloxy::Deliver::#{type}").new logger: @logger
+        Object.const_get("Poloxy::Deliver::#{type}").new config: @config, logger: @logger
       }.call
     end
 end

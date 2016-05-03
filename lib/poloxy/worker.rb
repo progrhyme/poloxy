@@ -9,7 +9,7 @@ class Poloxy::Worker
     @datastore.connect
     @data_model  = Poloxy::DataModel.new
     @graph       = Poloxy::Graph.new config: @config.graph, logger: @logger
-    @deliver     = Poloxy::Deliver.new logger: @logger
+    @deliver     = Poloxy::Deliver.new config: @config, logger: @logger
     @item_merger = Poloxy::ItemMerge.new config: @config
     @interval    = 5
   end

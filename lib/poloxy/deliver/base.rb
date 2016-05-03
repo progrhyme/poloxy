@@ -1,5 +1,7 @@
 class Poloxy::Deliver::Base
-  def initialize logger: nil
+
+  def initialize config: nil, logger: nil
+    @config = config
     @logger = logger
   end
 
