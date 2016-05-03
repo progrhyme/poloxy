@@ -172,8 +172,8 @@ describe Poloxy::MessageContainer do
         [
           /There are 2 items of 2 kinds of 1 groups\./,
           /\[#{@msgs[0].group}\]/,
-          /- #{@msgs[0].item} : 1 items, worst = /,
-          /- #{@msgs[0].item}\.dup : 1 items, worst = /,
+          /- #{@msgs[0].item} : 1 items, last = /,
+          /- #{@msgs[0].item}\.dup : 1 items, last = /,
         ].each do |ptn|
           expect(@um.body).to match ptn
         end
@@ -216,8 +216,8 @@ describe Poloxy::MessageContainer do
           /There are 3 items of 2 kinds of 2 groups\./,
           /\[#{@msgs[0].group}\]/,
           /\[#{@msgs[1].group}\]/,
-          /- #{@msgs[0].item} : 1 items, worst = /,
-          /- #{@msgs[1].item} : 2 items, worst = /,
+          /- #{@msgs[0].item} : 1 items, last = /,
+          /- #{@msgs[1].item} : 2 items, last = /,
         ].each do |ptn|
           expect(@um.body).to match ptn
         end
@@ -258,9 +258,9 @@ describe Poloxy::MessageContainer do
             /\[#{@msgs[0].group}\]/,
             /\[#{@msgs[1].group}\]/,
             /\[#{@msgs[2].group}\]/,
-            /- #{@msgs[0].item} : 1 items, worst = /,
-            /- #{@msgs[1].item} : 2 items, worst = /,
-            /- #{@msgs[2].item} : 3 items, worst = /,
+            /- #{@msgs[0].item} : 1 items, last = /,
+            /- #{@msgs[1].item} : 2 items, last = /,
+            /- #{@msgs[2].item} : 3 items, last = /,
           ].each do |ptn|
             expect(@um.body).to match ptn
           end

@@ -57,11 +57,19 @@ class Poloxy::WebAPI < Sinatra::Application
     @children = []
     @node.children.each do |c|
       stash = view_alert_params(level: c.current_level)
-      [ :level, :group ].each do |key|
-        stash[key] = c.send(key)
-      end
+      stash[:level] = c.current_level
+      stash[:group] = c.group
       stash[:relative_group] = stash[:group].sub(%r|#{group}|, '')
       @children << stash
+    end
+
+    @leaves = []
+    @node.valid_leaves.each_pair do |name, leaf|
+      stash = view_alert_params(level: leaf.current_level)
+      stash[:level]      = title_with_level leaf.current_level
+      stash[:item]       = name
+      stash[:updated_at] = leaf.updated_at
+      @leaves << stash
     end
 
     erb :board
@@ -112,7 +120,7 @@ class Poloxy::WebAPI < Sinatra::Application
     @message = message_to_view message
 
     item_dm = Poloxy::DataModel.new.load_class 'Item'
-    @items = item_dm.where(message_id: params[:id]).reverse_order(:level).all.map do |i|
+    @items = item_dm.where(message_id: params[:id]).reverse_order(:id).all.map do |i|
       item_to_view i
     end
 

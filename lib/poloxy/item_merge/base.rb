@@ -33,10 +33,9 @@ class Poloxy::ItemMerge::Base
       groups.each do |grp|
         bucket = bucket[grp] ||= {}
       end
-      bucket[:items]                  ||= {}
-      bucket[:items][i.name]          ||= {}
-      bucket[:items][i.name][i.level] ||= []
-      bucket[:items][i.name][i.level] <<  i
+      bucket[:items]         ||= {}
+      bucket[:items][i.name] ||= []
+      bucket[:items][i.name]  << i
     end
     items
   end

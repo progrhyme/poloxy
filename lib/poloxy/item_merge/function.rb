@@ -44,67 +44,54 @@ module Poloxy::ItemMerge::Function
     mcontainer
   end
 
-  # @param items [Hash{String => Hash}]
+  # @param items [Hash{String => Array}]
   def items_to_messages items, unify: false, config: config()
     mcontainer = Poloxy::MessageContainer.new config
-    items.each_pair do |name, stash|
-      mcontainer.append items2msg(name, stash)
+    items.each_pair do |name, list|
+      mcontainer.append items2msg(name, list)
     end
     mcontainer.unify if unify
     mcontainer
   end
 
   # @param name [String] {Poloxy::DataModel::Item#name}
-  # @param items [Hash{String => Array<Poloxy::DataModel::Item>}]
-  #  key: {Poloxy::DataModel::Item#level}
+  # @param items [Array<Poloxy::DataModel::Item>}]
   def items2msg name, items
     params = {
       'item'  => name,
-      'items' => [],
+      'items' => items,
     }
 
-    items.first[1].first.tap do |item|
-      %w[group type address].each do |key|
+    items.last.tap do |item|
+      %w[group type address level expire_at misc].each do |key|
         params[key] = item.send(key)
       end
     end
 
-    levels   = items.keys
-    worst_lv = levels.max
-    worst_label = abbrev_with_level worst_lv
-    params['level'] = worst_lv
-    params['title'] = '%s / %s' % [worst_label, name]
+    lv_label = abbrev_with_level params['level']
+    params['title'] = '%s / %s' % [lv_label, name]
 
-    if levels.size == 1
-      list = params['items'] = items.first[1]
-      params['misc']      = list[0].misc
-      params['expire_at'] = list.map(&:expire_at).max
-      params['body']  = <<EOB
-# #{list.length} items.
+    nums = {}
+    items.each do |i|
+      label = abbrev_with_level i.level
+      nums[label] = nums[label] ? nums[label] + 1 : 1
+    end
+
+    if nums.size == 1
+      params['body'] = <<EOB
+# #{items.length} items.
 # Latest message:
-#{list.last.message}
+#{items.last.message}
 EOB
     else
-      nums  = {}
-      total = 0
-      params['expire_at'] = Time.now
-      levels.sort.reverse.each do |lv|
-        label       =  abbrev_with_level lv
-        list        =  items[lv]
-        nums[label] =  list.length
-        total       += list.length
-        params['items'].concat(list)
-        params['misc']    ||= list[0].misc
-        params['expire_at'] = list.map(&:expire_at).push( params['expire_at'] ).max
-      end
       params['body'] = ERB.new(<<EOB, nil, '-').result(binding)
-# There are <%= total %> items of <%= nums.size %> levels:
-<% nums.each do |label, num| -%>
+# There are <%= items.length %> items of <%= nums.size %> levels:
+<% nums.each_pair do |label, num| -%>
 #   <%= "%-7s" % [label] %> => <%= num %>
 <% end -%>
 # ----
-# Latest message at `<%= worst_label %>`:
-<%= items[worst_lv].last.message %>
+# Latest message at `<%= lv_label %>`:
+<%= items.last.message %>
 EOB
     end
 
