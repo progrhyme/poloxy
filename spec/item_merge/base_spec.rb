@@ -42,36 +42,25 @@ describe Poloxy::ItemMerge::Base do
           'dummy' => {
             'a' => {
               :items => {
-                'foo' => {
-                  1 => [ list[0], list[1] ],
-                  2 => [ list[2] ],
-                },
-                'foo2' => {
-                  1 => [ list[3] ],
-                },
+                'foo' => list[0..2],
+                'foo2' => [ list[3] ],
               },
               'b' => {
                 :items => {
-                  'bar' => {
-                    1 => [ list[4] ],
-                  },
+                  'bar' => [ list[4] ],
                 },
               },
             },
             'b' => {
               :items => {
-                'baz' => {
-                  1 => [ list[5] ],
-                },
+                'baz' => [ list[5] ],
               },
             },
           },
           'dummy2' => {
             'b' => {
               :items => {
-                'baz' => {
-                  1 => [ list[6], list[7] ],
-                },
+                'baz' => list[6..7],
               },
             },
           },
@@ -80,16 +69,11 @@ describe Poloxy::ItemMerge::Base do
           'example.com' => {
             'b' => {
               :items => {
-                'baz' => {
-                  1 => [ list[8] ],
-                  2 => [ list[9] ],
-                },
+                'baz' => list[8..9],
               },
               'c' => {
                 :items => {
-                  'cuz' => {
-                    1 => [ list[10] ],
-                  },
+                  'cuz' => [ list[10] ],
                 },
               },
             },
@@ -98,9 +82,7 @@ describe Poloxy::ItemMerge::Base do
             'b' => {
               'c' => {
                 :items => {
-                  'cuz' => {
-                    1 => [ list[11] ],
-                  },
+                  'cuz' => [ list[11] ],
                 },
               },
             },

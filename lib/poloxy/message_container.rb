@@ -56,7 +56,7 @@ class Poloxy::MessageContainer
     @group_items[msg.group][msg.item] ||= { num: 0, level: Poloxy::MIN_LEVEL }
     @group_items[msg.group][msg.item].tap do |gi|
       gi[:num]   += msg.items.length
-      gi[:level]  = [ gi[:level], msg.level ].max
+      gi[:level]  = msg.level
     end
   end
 
@@ -90,7 +90,7 @@ There are <%= @item_num %> items of <%= @kind_num %> kinds of <%= @group_items.s
 <%- @group_items.each_pair do |group, stash| -%>
 [<%= group %>]
   <%- stash.each_pair do |item, data| -%>
-- <%= item %> : <%= data[:num] %> items, worst = <%= abbrev_with_level(data[:level]) %>
+- <%= item %> : <%= data[:num] %> items, last = <%= abbrev_with_level(data[:level]) %>
   <%- end -%>
 <%- end -%>
 EOB

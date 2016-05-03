@@ -112,7 +112,7 @@ class Poloxy::WebAPI < Sinatra::Application
     @message = message_to_view message
 
     item_dm = Poloxy::DataModel.new.load_class 'Item'
-    @items = item_dm.where(message_id: params[:id]).reverse_order(:level).all.map do |i|
+    @items = item_dm.where(message_id: params[:id]).reverse_order(:id).all.map do |i|
       item_to_view i
     end
 
