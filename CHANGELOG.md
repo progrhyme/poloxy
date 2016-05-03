@@ -1,3 +1,15 @@
+## 0.2.0 (2016/5/3)
+
+Feature:
+
+- Implement `Mail` delivery-type to deliver alerts via SMTP
+  - Set `messages.misc` parameter by received `items.misc`
+
+Change:
+
+- Use ruby v2.3.1 as `.ruby-version` and re-bundle with v1.12.1
+- Deeply merge config params of file with default params using `deep_merge` gem
+
 ## 0.1.2 (2016/5/2)
 
 Feature:
