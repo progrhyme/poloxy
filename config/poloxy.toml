@@ -11,9 +11,6 @@ min_interval = 60
 [deliver.item]
 merger = "PerItem"
 
-[deliver.mail]
-default_from = 'poloxy'
-
 [smtp]
 host = 'localhost'
 port = 25

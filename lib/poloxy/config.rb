@@ -8,6 +8,9 @@ class Poloxy::Config
       'item' => {
         'merger' => 'PerItem',
       },
+      'mail' => {
+        'default_from' => 'poloxy',
+      },
     },
     'graph' => {
       'delimiter' => '/',
