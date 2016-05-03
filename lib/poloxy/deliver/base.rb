@@ -9,4 +9,11 @@ class Poloxy::Deliver::Base
   def deliver message
     raise Poloxy::Error, 'Please override in subclass!'
   end
+
+  private
+
+    def write_log msg=nil, level=:info
+      return unless @logger
+      @logger.send(level, msg)
+    end
 end
