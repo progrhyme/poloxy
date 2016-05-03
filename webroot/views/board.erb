@@ -69,7 +69,10 @@
 
 <!-- Leaves -->
 <%- if @leaves.length > 0 -%>
-<div class="box">
+<div class="box box-<%= @leaves_param[:style][:alert] %>">
+  <div class="box-header with-border">
+    <h3 class="box-title">Alerts at <%= @node.group %></h3>
+  </div>
 <div class="box-body">
 <table class="table table-bordered">
   <tbody>

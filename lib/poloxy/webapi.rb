@@ -64,13 +64,16 @@ class Poloxy::WebAPI < Sinatra::Application
     end
 
     @leaves = []
+    leaves_level = Poloxy::MIN_LEVEL
     @node.valid_leaves.each_pair do |name, leaf|
       stash = view_alert_params(level: leaf.current_level)
       stash[:level]      = title_with_level leaf.current_level
       stash[:item]       = name
       stash[:updated_at] = leaf.updated_at
       @leaves << stash
+      leaves_level = [ leaves_level, leaf.current_level ].max
     end
+    @leaves_param = view_alert_params(level: leaves_level)
 
     erb :board
   end
