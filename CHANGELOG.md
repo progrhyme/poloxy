@@ -1,3 +1,16 @@
+## 0.2.1 (2016/5/3)
+
+Fix:
+
+- `messages.level` should be level of last item, but was max level of buffered
+  items. (#7)
+
+Improve:
+
+- WebUI:
+  - Add non-expired alerts info of `:group` on `/board/:group` page
+  - Add group column for items table in `/message/:id` page
+
 ## 0.2.0 (2016/5/3)
 
 Feature:
