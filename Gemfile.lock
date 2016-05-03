@@ -3,6 +3,7 @@ GEM
   specs:
     camel_snake (0.9.1)
     citrus (3.0.2)
+    deep_merge (1.0.1)
     diff-lcs (1.2.5)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
@@ -42,6 +43,7 @@ PLATFORMS
 
 DEPENDENCIES
   camel_snake (~> 0.9)
+  deep_merge (~> 1.0)
   mail (~> 2.6)
   rake (~> 11.1)
   rspec (~> 3.4)
