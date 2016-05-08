@@ -124,10 +124,10 @@ So `bundle exec db:*` will fail unless you use SQLite3.
 
 ```
 # Start Web/API
-bundle exec bin/poloxy-webapi
+bin/poloxy-webapi
 
 # Start Worker
-bundle exec bin/poloxy-worker
+bin/poloxy-worker
 ```
 
 ### HTTP API to send alerts
