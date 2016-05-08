@@ -1,3 +1,9 @@
+## 0.3.0 (2016/5/8)
+
+Feature:
+
+- Implement alerts snoozing
+
 ## 0.2.1 (2016/5/3)
 
 Fix:
