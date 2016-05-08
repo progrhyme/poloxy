@@ -90,8 +90,9 @@ Here are configuration items:
 | message.default_expire | Period | `2 hour` | Seconds to expire alerts. Expired alerts are taken as "CLEAR". |
 | message.default_snooze | Period | `30 min` | Seconds to snooze alerts. See following section. |
 
-As for type _Period_, natural time expressions are parsed by
-[chronic_duration](https://github.com/hpoydar/chronic_duration).
+As for type _Period_, natural time expressions are supported powered by
+[chronic_duration](https://github.com/hpoydar/chronic_duration).  
+Numeric expressions like `60` are taken as seconds.
 
 #### Alerts Snoozing
 

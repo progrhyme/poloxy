@@ -82,7 +82,10 @@ class Poloxy::Config
       %w(message default_expire),
       %w(message default_snooze),
     ].each do |keys|
-      @mine[keys[0]][keys[1]] = ChronicDuration.parse @mine[keys[0]][keys[1]]
+      val = @mine[keys[0]][keys[1]]
+      if val.class != Fixnum
+        @mine[keys[0]][keys[1]] = ChronicDuration.parse val
+      end
     end
   end
 
