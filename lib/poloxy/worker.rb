@@ -37,6 +37,14 @@ class Poloxy::Worker
 
       mcontainer = @item_merger.merge_into_messages items
 
+      @logger.debug "Messages snoozed:\n  #{mcontainer.snoozed}"
+      mcontainer.snoozed.each do |msg|
+        @graph.update_by_message msg, :no_snooze_update
+        @data_model.where(
+          'Item', id: msg.items.map(&:id)
+        ).update(message_id: Poloxy::SNOOZED_MESSAGE_ID)
+      end
+
       @logger.debug "Messages undelivered:\n  #{mcontainer.undelivered}"
       mcontainer.undelivered.each do |msg|
         @graph.update_by_message msg
