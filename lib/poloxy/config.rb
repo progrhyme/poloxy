@@ -41,6 +41,9 @@ class Poloxy::Config
         8 => 'EMERG',
       },
     },
+    'data' => {
+      'default_keep_period' => "2 days",
+    },
     'web' => {
       'root' => File.expand_path('../../../webroot', __FILE__),
       'style' => {
@@ -81,6 +84,7 @@ class Poloxy::Config
       %w(deliver min_interval),
       %w(message default_expire),
       %w(message default_snooze),
+      %w(data default_keep_period),
     ].each do |keys|
       val = @mine[keys[0]][keys[1]]
       if val.class != Fixnum
