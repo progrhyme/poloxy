@@ -64,6 +64,13 @@ class Poloxy::Graph
     _node
   end
 
+  # Find NodeLeaf in Graph for given Item
+  # @param item [Poloxy::DataModel::Item]
+  def leaf_by_item item
+    return nil unless self.node(item.group)
+    self.node(item.group).leaves[item.name]
+  end
+
   # @param node [Poloxy::DataModel::GraphNode]
   def update_node node
     return if node.parent_id == 0
