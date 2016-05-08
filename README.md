@@ -11,6 +11,10 @@ Server-side proxy software for delivering system alerts.
   * [Requirements](#requirements)
   * [Install](#install)
   * [Configure](#configure)
+    * [Configuration File](#configuration-file)
+      * [Alerts Snoozing](#alerts-snoozing)
+      * [Available Parameters](#available-parameters)
+    * [Database Schema](#database-schema)
   * [Usage](#usage)
     * [Start Server](#start-server)
     * [HTTP API to send alerts](#http-api-to-send-alerts)
@@ -84,6 +88,12 @@ Here are configuration items:
 | smtp.host | String | `localhost` | SMTP server address used for `Mail` delivery-type |
 | smtp.port | Integer | 25 | SMTP server port used for `Mail` delivery-type |
 | message.default_expire | Integer | `7200` | Seconds to expire alerts. Expired alerts are taken as "CLEAR". |
+| message.default_snooze | Integer | `1800` | Seconds to snooze alerts. See following section. |
+
+#### Alerts Snoozing
+
+When an alert occurs, subsequent alerts with the same (_group_, _name_, _level_)
+are snoozed for configured `message.default_snooze` seconds.
 
 #### Available Parameters
 
