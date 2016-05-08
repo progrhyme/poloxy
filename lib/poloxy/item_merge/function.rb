@@ -62,6 +62,8 @@ module Poloxy::ItemMerge::Function
       'items' => items,
     }
 
+    leaf = @graph.leaf_by_item(items.last)
+
     items.last.tap do |item|
       %w[group type address level expire_at misc].each do |key|
         params[key] = item.send(key)
@@ -77,7 +79,11 @@ module Poloxy::ItemMerge::Function
       nums[label] = nums[label] ? nums[label] + 1 : 1
     end
 
+    now = Time.now
     if nums.size == 1
+      if leaf && leaf.level == params['level'] && leaf.snooze_to > now
+        params['is_snoozed'] = true
+      end
       params['body'] = <<EOB
 # #{items.length} items.
 # Latest message:
@@ -95,7 +101,7 @@ EOB
 EOB
     end
 
-    params['created_at'] = Time.now
+    params['created_at'] = now
     @data_model.spawn 'Message', params
   end
 end
