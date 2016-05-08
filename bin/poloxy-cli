@@ -24,5 +24,8 @@ end
 Poloxy::DataStore.new.connect
 
 p param
+if param['misc']
+  param['misc'] = JSON.parse param['misc']
+end
 
 item = Poloxy::Item.new.create param
