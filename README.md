@@ -82,13 +82,17 @@ Here are configuration items:
 | log.level | String | `INFO` | Log level for std-lib `Logger` class |
 | log.rotate | String | \- | `shift_age` param for `Logger#new` |
 | log.file | String | \- | Path to log output file |
-| deliver.min_interval | Integer | 60 | Seconds of minimum interval to deliver summarized alerts to recipients |
+| deliver.min_interval | Period | `1 min` | Seconds of minimum interval to deliver summarized alerts to recipients |
 | deliver.item.merger | String | `PerItem` | Method to summarize alerts. See following section. |
 | database.connect | Hash | \- | Params to connect database. These params are passed to `Sequel#connect`. |
 | smtp.host | String | `localhost` | SMTP server address used for `Mail` delivery-type |
 | smtp.port | Integer | 25 | SMTP server port used for `Mail` delivery-type |
-| message.default_expire | Integer | `7200` | Seconds to expire alerts. Expired alerts are taken as "CLEAR". |
-| message.default_snooze | Integer | `1800` | Seconds to snooze alerts. See following section. |
+| message.default_expire | Period | `2 hour` | Seconds to expire alerts. Expired alerts are taken as "CLEAR". |
+| message.default_snooze | Period | `30 min` | Seconds to snooze alerts. See following section. |
+
+As for type _Period_, natural time expressions are supported powered by
+[chronic_duration](https://github.com/hpoydar/chronic_duration).  
+Numeric expressions like `60` are taken as seconds.
 
 #### Alerts Snoozing
 
