@@ -3,13 +3,14 @@ class Poloxy::MessageContainer
   include Poloxy::ViewHelper
 
   attr \
-    :messages, :undelivered, :group, :level, :expire_at,
-    :total_num, :kind_num, :item_num, :group_items
+    :messages, :undelivered, :snoozed, :group, :level,
+    :expire_at, :total_num, :kind_num, :item_num, :group_items
 
   def initialize config=nil, args={}
     @config      = config
     @messages    = args[:messages]  || []
     @undelivered = []
+    @snoozed     = []
     @group       = args[:group]     || nil
     @level       = args[:level]     || Poloxy::MIN_LEVEL
     @expire_at   = args[:expire_at] || Time.now
@@ -23,6 +24,7 @@ class Poloxy::MessageContainer
   def merge other
     @messages.concat other.messages
     @undelivered.concat other.undelivered
+    @snoozed.concat other.snoozed
     @group = @group ? merge_groups([ @group, other.group ]) : other.group
     %w[level expire_at].each do |key|
       instance_variable_set "@#{key}", [ self.send(key), other.send(key) ].max
@@ -44,6 +46,10 @@ class Poloxy::MessageContainer
 
   # @note Suppose msg.group or msg.item is different from @messages contents
   def append msg
+    if msg.snoozed?
+      @snoozed << msg
+      return
+    end
     @messages << msg
     @group = @group ? merge_groups([ @group, msg.group ]) : msg.group
     %w[level expire_at].each do |key|
@@ -62,7 +68,7 @@ class Poloxy::MessageContainer
 
   # @note Diffrence of addresses and types of messages are ignored.
   def unify
-    return if @messages.length == 1
+    return if @messages.length <= 1
 
     params = {
       'group'     => @group,
