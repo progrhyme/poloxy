@@ -98,7 +98,7 @@ class Poloxy::Graph
   # @param message [Poloxy::DataModel::Message]
   def update_by_message message
     node = self.node! message.group
-    node.update_leaf message
+    node.update_leaf message, snooze: @config.message['default_snooze']
     self.update_node node
   end
 
