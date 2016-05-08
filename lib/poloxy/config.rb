@@ -4,7 +4,7 @@ class Poloxy::Config
       'level' => 'INFO',
     },
     'deliver' => {
-      'min_interval' => 60,
+      'min_interval' => "1 min",
       'item' => {
         'merger' => 'PerItem',
       },
@@ -16,8 +16,8 @@ class Poloxy::Config
       'delimiter' => '/',
     },
     'message' => {
-      'default_expire' => 7200,
-      'default_snooze' => 1800,
+      'default_expire' => "2 hours",
+      'default_snooze' => "30 min",
     },
     'view' => {
       'title' => {
@@ -75,6 +75,15 @@ class Poloxy::Config
   def initialize path: ENV['POLOXY_CONFIG'] || 'config/poloxy.toml'
     @mine = File.readable?(path) ? TOML.load_file(path) : {}
     @mine.deep_merge(@@default)
+
+    # Parse time expression into numeric seconds
+    [
+      %w(deliver min_interval),
+      %w(message default_expire),
+      %w(message default_snooze),
+    ].each do |keys|
+      @mine[keys[0]][keys[1]] = ChronicDuration.parse @mine[keys[0]][keys[1]]
+    end
   end
 
   def method_missing method

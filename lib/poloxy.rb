@@ -3,6 +3,7 @@ Poloxy::Function  = Module.new
 Poloxy::ViewModel = Module.new
 
 require 'camel_snake'
+require 'chronic_duration'
 require 'deep_merge'
 require 'erb'
 require 'json'

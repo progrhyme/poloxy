@@ -6,7 +6,7 @@ rotate = "daily" # from Ruby Logger shift_age
 # file = /path/to/logfile
 
 [deliver]
-min_interval = 60
+min_interval = "1 min"
 
 [deliver.item]
 merger = "PerItem"
@@ -19,5 +19,5 @@ port = 25
 url = 'sqlite://tmp/poloxy.sqlite.db'
 
 [message]
-default_expire = 7200
-default_snooze = 1800
+default_expire = "2 hours"
+default_snooze = "30 min"
