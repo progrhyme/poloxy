@@ -10,7 +10,7 @@ class Poloxy::Worker
     @data_model  = Poloxy::DataModel.new
     @graph       = Poloxy::Graph.new config: @config, logger: @logger
     @deliver     = Poloxy::Deliver.new config: @config, logger: @logger
-    @item_merger = Poloxy::ItemMerge.new config: @config
+    @item_merger = Poloxy::ItemMerge.new config: @config, logger: @logger, graph: @graph
     @interval    = 5
   end
 

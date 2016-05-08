@@ -12,8 +12,9 @@ describe 'Poloxy::ItemMerge::PerItem' do
     @config = TestPoloxy.config
     @config.deliver = { 'item' => { 'merger' => 'PerItem' } }
 
-    @im   = Poloxy::ItemMerge.new config: @config
-    @item = Poloxy::Item.new config: @config
+    @graph = Poloxy::Graph.new config: TestPoloxy.config
+    @im    = Poloxy::ItemMerge.new config: @config, graph: @graph
+    @item  = Poloxy::Item.new config: @config
   end
 
   it "#{klass_full} is loaded" do

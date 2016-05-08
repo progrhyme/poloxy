@@ -1,8 +1,11 @@
 class Poloxy::ItemMerge::Base
+  include Poloxy::Function::Loggable
   include Poloxy::ViewHelper
 
-  def initialize config: nil
+  def initialize config: nil, logger: nil, graph: nil
     @config     = config || Poloxy::Config.new
+    @logger     = logger
+    @graph      = graph
     @data_model = Poloxy::DataModel.new
   end
 
@@ -20,6 +23,10 @@ class Poloxy::ItemMerge::Base
 
   def config
     @config
+  end
+
+  def logger
+    @logger
   end
 
   # @param list [Array<Poloxy::DataModel::Item>]
