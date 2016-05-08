@@ -80,12 +80,20 @@
     <th>Item</th>
     <th>Level</th>
     <th>UpdatedAt</th>
+    <th>SnoozeTo</th>
   </tr>
   <%- @leaves.each do |l| -%>
   <tr class="<%= l[:style][:alert] %>">
     <td><%= l[:item] %></td>
     <td><%= l[:level] %></td>
     <td><%= l[:updated_at] %></td>
+    <td>
+      <%- if l[:snooze_to] > Time.now -%>
+        <%= l[:snooze_to] %>
+      <%- else -%>
+        (not snoozed)
+      <%- end -%>
+    </td>
   </tr>
   <%- end -%>
   </tbody>

@@ -70,6 +70,7 @@ class Poloxy::WebAPI < Sinatra::Application
       stash[:level]      = title_with_level leaf.current_level
       stash[:item]       = name
       stash[:updated_at] = leaf.updated_at
+      stash[:snooze_to]  = leaf.snooze_to
       @leaves << stash
       leaves_level = [ leaves_level, leaf.current_level ].max
     end
