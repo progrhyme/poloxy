@@ -75,17 +75,23 @@ class Poloxy::DataModel::GraphNode < Sequel::Model
   end
 
   # @param message [Poloxy::DataModel::Message]
-  def update_leaf message
-    item    = message.item
-    level   = message.level
-    expire  = message.expire_at
+  def update_leaf message, snooze: 0, no_snooze_update: false
+    item   = message.item
+    level  = message.level
+    expire = message.expire_at
+    now    = Time.now
+
     leaf_dm = data_model().load_class 'NodeLeaf'
+    leaf_params = { level: level, updated_at: now, expire_at: expire }
+    unless no_snooze_update
+      leaf_params[:snooze_to] = now + snooze
+    end
     leaf_dm.create_or_update(
-      { node_id: self.id, item: item },
-      { level: level, updated_at: Time.now, expire_at: expire },
+      { node_id: self.id, item: item }, leaf_params
     ).tap do |leaf|
       self.leaves[item] = leaf
     end
+
     if level > self.level
       self.level = level
     elsif level < self.level

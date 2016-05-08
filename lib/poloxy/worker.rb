@@ -8,9 +8,9 @@ class Poloxy::Worker
     @datastore   = Poloxy::DataStore.new config: @config.database, logger: @logger
     @datastore.connect
     @data_model  = Poloxy::DataModel.new
-    @graph       = Poloxy::Graph.new config: @config.graph, logger: @logger
+    @graph       = Poloxy::Graph.new config: @config, logger: @logger
     @deliver     = Poloxy::Deliver.new config: @config, logger: @logger
-    @item_merger = Poloxy::ItemMerge.new config: @config
+    @item_merger = Poloxy::ItemMerge.new config: @config, logger: @logger, graph: @graph
     @interval    = 5
   end
 
@@ -37,11 +37,17 @@ class Poloxy::Worker
 
       mcontainer = @item_merger.merge_into_messages items
 
+      @logger.debug "Messages snoozed:\n  #{mcontainer.snoozed}"
+      mcontainer.snoozed.each do |msg|
+        @graph.update_by_message msg, :no_snooze_update
+        @data_model.where(
+          'Item', id: msg.items.map(&:id)
+        ).update(message_id: Poloxy::SNOOZED_MESSAGE_ID)
+      end
+
       @logger.debug "Messages undelivered:\n  #{mcontainer.undelivered}"
       mcontainer.undelivered.each do |msg|
-        node = @graph.node! msg.group
-        node.update_leaf msg
-        @graph.update_node node
+        @graph.update_by_message msg
       end
 
       @logger.debug "Messages to deliver:\n  #{mcontainer.messages}"
@@ -53,10 +59,8 @@ class Poloxy::Worker
           @logger.error "Failed to deliver! Error: #{e}"
         ensure
           if msg.item != Poloxy::MERGED_ITEM
-            node = @graph.node! msg.group
-            msg.node_id = node.id
-            node.update_leaf msg
-            @graph.update_node node
+            @graph.update_by_message msg
+            msg.node_id = @graph.node!(msg.group).id
           end
           msg.node_id ||= 0
           msg.save

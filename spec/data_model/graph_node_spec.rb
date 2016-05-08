@@ -5,7 +5,7 @@ describe klass do
   before :context do
     @dm    = Poloxy::DataModel.new
     @klass = @dm.load_class 'GraphNode'
-    @graph = Poloxy::Graph.new config: TestPoloxy.config.graph
+    @graph = Poloxy::Graph.new config: TestPoloxy.config
     @root  = @graph.node
   end
 
@@ -45,13 +45,30 @@ describe klass do
           item: name, level: lv, expire_at: Time.now + 3600, # should not expire
         }
       end
-      @node = @graph.node 'default'
-      @node.update_leaf @msg.call('Foo', 2)
+      @node   = @graph.node 'default'
+      @now    = Time.now
+      @snooze = 1500
+      @node.update_leaf @msg.call('Foo', 2), snooze: @snooze
     end
 
     context "When it has no leaf" do
       it "node.level is updated by given level" do
         expect(@node.level).to eq 2
+      end
+
+      it "leaf.snooze_to is properly set" do
+        expect( @node.leaves['Foo'].snooze_to ).to be_within(60).of(@now + @snooze)
+      end
+
+      context "When same leaf is updated with arg :no_snooze_update" do
+        before :context do
+          @node.update_leaf(@msg.call('Foo', 2), {
+            snooze: @snooze / 2, no_snooze_update: true })
+        end
+
+        it "leaf.snooze_to not changed" do
+          expect( @node.leaves['Foo'].snooze_to ).to be_within(60).of(@now + @snooze)
+        end
       end
     end
 

@@ -1,4 +1,5 @@
 class Poloxy::Deliver::Base
+  include Poloxy::Function::Loggable
 
   def initialize config: nil, logger: nil
     @config = config
@@ -12,8 +13,7 @@ class Poloxy::Deliver::Base
 
   private
 
-    def write_log msg=nil, level=:info
-      return unless @logger
-      @logger.send(level, msg)
+    def logger
+      @logger
     end
 end

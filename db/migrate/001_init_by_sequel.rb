@@ -15,6 +15,7 @@ Sequel.migration do
       String   :item,       null: false
       Integer  :level,      null: false, default: 1
       DateTime :expire_at,  null: false
+      DateTime :snooze_to,  null: false
       DateTime :updated_at, null: false
       primary_key [:node_id, :item]
     end

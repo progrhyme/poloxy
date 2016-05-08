@@ -65,14 +65,41 @@ describe Poloxy::MessageContainer do
         })
       end
     end
+
+    context 'When given message is snoozed' do
+      before :context do
+        @mc2 = Poloxy::MessageContainer.new TestPoloxy.config
+        @m.is_snoozed = true
+        @mc2.append @m
+      end
+
+      it 'message is appended to @snoozed' do
+        expect(@mc2.snoozed).to eq [@m]
+      end
+
+      it 'params of messages are not merged' do
+        %w[total_num kind_num item_num].each do |key|
+          expect( @mc2.send(key) ).to eq 0
+        end
+        expect(@mc2.messages).to eq []
+      end
+    end
   end
 
   describe '#merge(other)' do
     before :context do
+      @snoozed = []
       @mcs = (1..3).map do |i|
         mc  = Poloxy::MessageContainer.new(TestPoloxy.config)
         itm = @itm.call("item#{i}", "group#{i}", i + 1)
         mc.append( @msg.call([ itm ]) )
+
+        itm_snoozed = @itm.call("snooze#{i}", "snoozed#{i}", i + 1)
+        snoozed = @msg.call([ itm_snoozed ])
+        snoozed.is_snoozed = true
+        mc.append snoozed
+        @snoozed << snoozed
+
         mc
       end
       @mcs[0].merge @mcs[1]
@@ -92,6 +119,7 @@ describe Poloxy::MessageContainer do
             'item2' => { num: 1, level: 3 },
           },
         })
+        expect(@mcs[0].snoozed).to eq @snoozed[0..1]
       end
     end
 
@@ -115,6 +143,7 @@ describe Poloxy::MessageContainer do
             'item3' => { num: 1, level: 4 },
           },
         })
+        expect(@mcs[0].snoozed).to eq @snoozed
       end
     end
   end

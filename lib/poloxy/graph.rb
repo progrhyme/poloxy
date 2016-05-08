@@ -1,6 +1,7 @@
 class Poloxy::Graph
   def initialize config: nil, logger: nil
-    @config = config || Poloxy::Config.new.graph
+    @config = config || Poloxy::Config.new
+    @delimiter = @config.graph['delimiter']
     @logger = logger
     @data_model = Poloxy::DataModel.new
     @tree = lambda {
@@ -22,8 +23,8 @@ class Poloxy::Graph
         if n.parent_id > 0
           parent = tree[n.parent_id]
           parent.add_child n
-          dlm = @config['delimiter']
-          n.group = [parent.group, n.label].join(dlm).gsub(/#{dlm}+/, "#{dlm}")
+          n.group = [ parent.group, n.label ].join(@delimiter) \
+            .gsub(/#{@delimiter}+/, "#{@delimiter}")
         else
           @root = n
         end
@@ -49,18 +50,25 @@ class Poloxy::Graph
     _node = @root
     labels = group2labels group
     if labels.empty?
-      child = _node.child_by_label! 'default', @config['delimiter']
+      child = _node.child_by_label! Poloxy::DEFAULT_GROUP, @delimiter
       @tree[child.id] ||= child
       return child
     end
     labels.each do |label|
-      _node = _node.child_by_label! label, @config['delimiter']
+      _node = _node.child_by_label! label, @delimiter
       unless _node
         raise Poloxy::Error, "Invalid group! #{group}"
       end
       @tree[_node.id] ||= _node
     end
     _node
+  end
+
+  # Find NodeLeaf in Graph for given Item
+  # @param item [Poloxy::DataModel::Item]
+  def leaf_by_item item
+    return nil unless self.node(item.group)
+    self.node(item.group).leaves[item.name]
   end
 
   # @param node [Poloxy::DataModel::GraphNode]
@@ -94,11 +102,22 @@ class Poloxy::Graph
     end
   end
 
+  # @param message [Poloxy::DataModel::Message]
+  def update_by_message message, flag=nil
+    node = self.node! message.group
+    if flag == :no_snooze_update
+      node.update_leaf message, no_snooze_update: true
+    else
+      node.update_leaf message, snooze: @config.message['default_snooze']
+    end
+    self.update_node node
+  end
+
   private
 
     def group2labels group
-      dlm = @config['delimiter']
-      group.gsub(/\s+/, '').sub(/^#{dlm}*(.+)#{dlm}*$/, '\1').split(/#{dlm}+/)
+      group.gsub(/\s+/, '').sub(/^#{@delimiter}*(.+)#{@delimiter}*$/, '\1') \
+        .split(/#{@delimiter}+/)
     end
 
     # Update timestamps towards root node

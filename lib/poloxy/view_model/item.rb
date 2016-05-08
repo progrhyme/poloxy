@@ -27,7 +27,19 @@ class Poloxy::ViewModel::Item
   end
 
   def message_id_link
-    '<a href="/message/%d">%d</a>' % [@message_id, @message_id]
+    if @message_id == Poloxy::SNOOZED_MESSAGE_ID
+      '-'
+    else
+      '<a href="/message/%d">%d</a>' % [@message_id, @message_id]
+    end
+  end
+
+  def name_text
+    if @message_id == Poloxy::SNOOZED_MESSAGE_ID
+      "#{@name} (SNOOZED)"
+    else
+      @name
+    end
   end
 
   def group_link
@@ -44,6 +56,8 @@ class Poloxy::ViewModel::Item
       id_link
     when 'message_id'
       message_id_link
+    when 'name'
+      name_text
     when 'group'
       group_link
     when 'message'

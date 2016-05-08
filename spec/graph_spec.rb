@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Poloxy::Graph do
   before :context do
-    @graph = Poloxy::Graph.new config: TestPoloxy.config.graph
+    @graph = Poloxy::Graph.new config: TestPoloxy.config
     @root  = @graph.node
   end
 
@@ -58,9 +58,9 @@ describe Poloxy::Graph do
       '/foo/bar'     => '/foo/bar',
       '/foo/bar/'    => '/foo/bar',
       ' /f oo/bar/ ' => '/foo/bar',
-      ''             => '/default',
-      '/'            => '/default',
-      '//'           => '/default',
+      ''             => "/#{Poloxy::DEFAULT_GROUP}",
+      '/'            => "/#{Poloxy::DEFAULT_GROUP}",
+      '//'           => "/#{Poloxy::DEFAULT_GROUP}",
       'root'         => '/root',
       '/root'        => '/root',
     }.each_pair do |str, group|

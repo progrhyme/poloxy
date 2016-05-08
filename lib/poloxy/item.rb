@@ -8,7 +8,7 @@ class Poloxy::Item
 
   def create args, now: Time.now
     params = args.dup
-    params['group'] = str2group_path params['group'] || 'default'
+    params['group'] = str2group_path params['group'] || Poloxy::DEFAULT_GROUP
     params['level'] = Poloxy::MIN_LEVEL if params['level'].to_i < Poloxy::MIN_LEVEL
     params['received_at'] = now
     params['expire_at'] = now + @config.message['default_expire']
