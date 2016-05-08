@@ -17,6 +17,7 @@ class Poloxy::Config
     },
     'message' => {
       'default_expire' => 7200,
+      'default_snooze' => 1800,
     },
     'view' => {
       'title' => {

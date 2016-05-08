@@ -20,3 +20,4 @@ url = 'sqlite://tmp/poloxy.sqlite.db'
 
 [message]
 default_expire = 7200
+default_snooze = 1800
