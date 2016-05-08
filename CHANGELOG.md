@@ -1,3 +1,10 @@
+## 0.3.1 (2016/5/8)
+
+Change:
+
+- API:
+  - `POST /v1/item`: change the format of `misc` from _String_ to _JSON_
+
 ## 0.3.0 (2016/5/8)
 
 Feature:
