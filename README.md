@@ -198,23 +198,21 @@ curl -X POST http://poloxy.yourdomain.com/v1/item -d '{
 Mail:
 
 ```
-cat <<EOD | curl -X POST http://poloxy.yourdomain.com/v1/item -d @-
-{
+curl -X POST http://poloxy.yourdomain.com/v1/item -d '{
     "name": "Error Rate",
     "group": "web/rails-app",
     "type": "Mail",
     "level": "5",
     "address": "developers@yourdomain.com,admin@yourdomain.com",
     "message": "Error Rate is Over 5%",
-    "misc": "{
-        \"mail\": {
-            \"from\": \"alert@yourdomain.com\",
-            \"cc\": \"support@yourdomain.com\",
-            \"bcc\": \"poloxy-ops@yourdomain.com\"
+    "misc": {
+        "mail": {
+            "from": "alert@yourdomain.com",
+            "cc": "support@yourdomain.com",
+            "bcc": "poloxy-ops@yourdomain.com"
         }
-    }"
-}
-EOD
+    }
+}'
 ```
 
 # Additional Resources of "poloxy"
