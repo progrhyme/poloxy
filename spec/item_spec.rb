@@ -15,7 +15,7 @@ describe Poloxy::Item do
           message:     'Something happened!',
           received_at: Time.now,
         })
-        expect(i.group).to eq 'default'
+        expect(i.group).to eq Poloxy::DEFAULT_GROUP
         expect(i.level).to eq Poloxy::MIN_LEVEL
       end
     end

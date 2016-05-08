@@ -58,9 +58,9 @@ describe Poloxy::Graph do
       '/foo/bar'     => '/foo/bar',
       '/foo/bar/'    => '/foo/bar',
       ' /f oo/bar/ ' => '/foo/bar',
-      ''             => '/default',
-      '/'            => '/default',
-      '//'           => '/default',
+      ''             => "/#{Poloxy::DEFAULT_GROUP}",
+      '/'            => "/#{Poloxy::DEFAULT_GROUP}",
+      '//'           => "/#{Poloxy::DEFAULT_GROUP}",
       'root'         => '/root',
       '/root'        => '/root',
     }.each_pair do |str, group|

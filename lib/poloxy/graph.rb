@@ -50,7 +50,7 @@ class Poloxy::Graph
     _node = @root
     labels = group2labels group
     if labels.empty?
-      child = _node.child_by_label! 'default', @delimiter
+      child = _node.child_by_label! Poloxy::DEFAULT_GROUP, @delimiter
       @tree[child.id] ||= child
       return child
     end
