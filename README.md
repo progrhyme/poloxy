@@ -20,6 +20,7 @@ Server-side proxy software for delivering system alerts.
     * [HTTP API to send alerts](#http-api-to-send-alerts)
       * [Available Delivery Types](#available-delivery-types)
       * [Examples of cURL Requests](#examples-of-curl-requests)
+    * [CLI](#cli)
 * [Additional Resources of "poloxy"](#additional-resources-of-poloxy)
 * [Authors](#authors)
 * [License](#license)
@@ -48,6 +49,8 @@ It prevents bursting alerts flood to recipients' phones or any devices.
   - Viewer for incoming alerts and delivered notifications
   - One can check original alerts on this dashboard
   - Integrated with **API**
+- **CLI**
+  - Utility tool for manual tasks such as data purge
 
 # How to use "poloxy"
 
@@ -82,13 +85,14 @@ Here are configuration items:
 | log.level | String | `INFO` | Log level for std-lib `Logger` class |
 | log.rotate | String | \- | `shift_age` param for `Logger#new` |
 | log.file | String | \- | Path to log output file |
-| deliver.min_interval | Period | `1 min` | Seconds of minimum interval to deliver summarized alerts to recipients |
+| deliver.min_interval | Period | `1 min` | Minimum interval period to deliver summarized alerts to recipients |
 | deliver.item.merger | String | `PerItem` | Method to summarize alerts. See following section. |
 | database.connect | Hash | \- | Params to connect database. These params are passed to `Sequel#connect`. |
 | smtp.host | String | `localhost` | SMTP server address used for `Mail` delivery-type |
 | smtp.port | Integer | 25 | SMTP server port used for `Mail` delivery-type |
-| message.default_expire | Period | `2 hour` | Seconds to expire alerts. Expired alerts are taken as "CLEAR". |
-| message.default_snooze | Period | `30 min` | Seconds to snooze alerts. See following section. |
+| message.default_expire | Period | `2 hour` | Period to expire alerts. Expired alerts are taken as "CLEAR". |
+| message.default_snooze | Period | `30 min` | Period to snooze alerts. See following section. |
+| data.default_keep_period | Period | `2 day` | Default period to hold data |
 
 As for type _Period_, natural time expressions are supported powered by
 [chronic_duration](https://github.com/hpoydar/chronic_duration).  
@@ -217,6 +221,20 @@ curl -X POST http://poloxy.yourdomain.com/v1/item -d '{
         }
     }
 }'
+```
+
+### CLI
+
+You can run `bin/poloxy-cli` for some manual tasks.
+
+Here is usage of this CLI:
+
+```
+# Purge expired data older than PERIOD
+poloxy-cli purge [--[t]ime=PERIOD]
+
+# Help
+poloxy-cli help [command]
 ```
 
 # Additional Resources of "poloxy"
