@@ -1,6 +1,6 @@
 class Poloxy::Graph
   def initialize config: nil, logger: nil
-    @config = config || Poloxy::Config.new.graph
+    @config = config || Poloxy::Config.new
     @logger = logger
     @data_model = Poloxy::DataModel.new
     @tree = lambda {
@@ -22,7 +22,7 @@ class Poloxy::Graph
         if n.parent_id > 0
           parent = tree[n.parent_id]
           parent.add_child n
-          dlm = @config['delimiter']
+          dlm = @config.graph['delimiter']
           n.group = [parent.group, n.label].join(dlm).gsub(/#{dlm}+/, "#{dlm}")
         else
           @root = n
@@ -49,12 +49,12 @@ class Poloxy::Graph
     _node = @root
     labels = group2labels group
     if labels.empty?
-      child = _node.child_by_label! 'default', @config['delimiter']
+      child = _node.child_by_label! 'default', @config.graph['delimiter']
       @tree[child.id] ||= child
       return child
     end
     labels.each do |label|
-      _node = _node.child_by_label! label, @config['delimiter']
+      _node = _node.child_by_label! label, @config.graph['delimiter']
       unless _node
         raise Poloxy::Error, "Invalid group! #{group}"
       end
@@ -97,7 +97,7 @@ class Poloxy::Graph
   private
 
     def group2labels group
-      dlm = @config['delimiter']
+      dlm = @config.graph['delimiter']
       group.gsub(/\s+/, '').sub(/^#{dlm}*(.+)#{dlm}*$/, '\1').split(/#{dlm}+/)
     end
 

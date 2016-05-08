@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Poloxy::Graph do
   before :context do
-    @graph = Poloxy::Graph.new config: TestPoloxy.config.graph
+    @graph = Poloxy::Graph.new config: TestPoloxy.config
     @root  = @graph.node
   end
 

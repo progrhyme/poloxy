@@ -5,7 +5,7 @@ describe klass do
   before :context do
     @dm    = Poloxy::DataModel.new
     @klass = @dm.load_class 'GraphNode'
-    @graph = Poloxy::Graph.new config: TestPoloxy.config.graph
+    @graph = Poloxy::Graph.new config: TestPoloxy.config
     @root  = @graph.node
   end
 

@@ -40,7 +40,7 @@ class Poloxy::WebAPI < Sinatra::Application
   get '/board/?*' do
     @action = '#board'
 
-    graph = Poloxy::Graph.new config: config.graph
+    graph = Poloxy::Graph.new config: config
     group = '/%s' % [ params['splat'].join('/') ]
     @group_breadcrumb = group_to_breadcrumb group, base: '/board/'
 
