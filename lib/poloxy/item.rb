@@ -10,6 +10,9 @@ class Poloxy::Item
     params = args.dup
     params['group'] = str2group_path params['group'] || Poloxy::DEFAULT_GROUP
     params['level'] = Poloxy::MIN_LEVEL if params['level'].to_i < Poloxy::MIN_LEVEL
+    if params['misc']
+      params['misc'] = params['misc'].to_json
+    end
     params['received_at'] = now
     params['expire_at'] = now + @config.message['default_expire']
     item = @data_model.spawn 'Item', params
