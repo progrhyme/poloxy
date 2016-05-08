@@ -1,3 +1,10 @@
+## 0.3.2 (2016/5/9)
+
+Improve:
+
+- Config: support natural time expressions in config file
+- WebUI: show `snooze_to` field of `node_leaves` in `/board/:group` page
+
 ## 0.3.1 (2016/5/8)
 
 Change:
