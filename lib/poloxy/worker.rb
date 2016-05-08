@@ -39,9 +39,7 @@ class Poloxy::Worker
 
       @logger.debug "Messages undelivered:\n  #{mcontainer.undelivered}"
       mcontainer.undelivered.each do |msg|
-        node = @graph.node! msg.group
-        node.update_leaf msg
-        @graph.update_node node
+        @graph.update_by_message msg
       end
 
       @logger.debug "Messages to deliver:\n  #{mcontainer.messages}"
@@ -53,10 +51,8 @@ class Poloxy::Worker
           @logger.error "Failed to deliver! Error: #{e}"
         ensure
           if msg.item != Poloxy::MERGED_ITEM
-            node = @graph.node! msg.group
-            msg.node_id = node.id
-            node.update_leaf msg
-            @graph.update_node node
+            @graph.update_by_message msg
+            msg.node_id = @graph.node!(msg.group).id
           end
           msg.node_id ||= 0
           msg.save

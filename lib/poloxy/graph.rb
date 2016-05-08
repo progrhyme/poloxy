@@ -95,6 +95,13 @@ class Poloxy::Graph
     end
   end
 
+  # @param message [Poloxy::DataModel::Message]
+  def update_by_message message
+    node = self.node! message.group
+    node.update_leaf message
+    self.update_node node
+  end
+
   private
 
     def group2labels group
