@@ -21,3 +21,6 @@ url = 'sqlite://tmp/poloxy.sqlite.db'
 [message]
 default_expire = "2 hours"
 default_snooze = "30 min"
+
+[data]
+default_keep_period = "2 days"

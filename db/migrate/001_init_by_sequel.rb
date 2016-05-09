@@ -31,8 +31,8 @@ Sequel.migration do
       String   :title,      null:  false
       String   :body,       text:  true,  null:    false
       String   :misc,       text:  true
-      DateTime :expire_at,  null:  false
-      DateTime :created_at, index: true, null: false
+      DateTime :expire_at,  null:  false, index:   true
+      DateTime :created_at, null:  false
       DateTime :delivered_at
     end
 
@@ -46,8 +46,8 @@ Sequel.migration do
       String   :name,        null:  false
       String   :message,     text:  true,  null:    false
       String   :misc,        text:  true
-      DateTime :expire_at,   null:  false
-      DateTime :received_at, index: true, null: false
+      DateTime :expire_at,   null:  false, index:   true
+      DateTime :received_at, null:  false
     end
   end
 
