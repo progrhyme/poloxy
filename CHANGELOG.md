@@ -1,3 +1,15 @@
+## 0.3.3 (2016/5/9)
+
+Feature:
+
+- Implement new CLI `poloxy-cli` which purges old expired data
+
+Change:
+
+- Database:
+  - Change index column of `items` table from `received_at` to `expire_at`
+  - Change index column of `messages` table from `created_at` to `expire_at`
+
 ## 0.3.2 (2016/5/9)
 
 Improve:
