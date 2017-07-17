@@ -1,9 +1,9 @@
 # poloxy
-[![Build Status](https://travis-ci.org/key-amb/poloxy.svg?branch=master)](https://travis-ci.org/key-amb/poloxy)
+[![Build Status](https://travis-ci.org/progrhyme/poloxy.svg?branch=master)](https://travis-ci.org/progrhyme/poloxy)
 
 Server-side proxy software for delivering system alerts.
 
-[Documentation site](http://key-amb.github.io/poloxy-doc/) is now available.
+[Documentation site](http://progrhyme.github.io/poloxy-doc/) is now available.
 
 # What is "poloxy"?
 
@@ -16,7 +16,7 @@ The image bellow illustrates the concept of **"poloxy"**.
 It prevents bursting alerts flood to recipients' phones or any devices.
 
 <div align="center" style="border: 2px solid #aaa; padding: 10px;">
-<img src="https://raw.githubusercontent.com/key-amb/poloxy/resource/image/concept.png" alt="poloxy-concept">
+<img src="https://raw.githubusercontent.com/progrhyme/poloxy/resource/image/concept.png" alt="poloxy-concept">
 </div>
 
 # Components
@@ -34,7 +34,7 @@ It prevents bursting alerts flood to recipients' phones or any devices.
 
 # How to use "poloxy"
 
-See [documentation site](http://key-amb.github.io/poloxy-doc/) for guide to get started and detailed usage of **poloxy**.
+See [documentation site](http://progrhyme.github.io/poloxy-doc/) for guide to get started and detailed usage of **poloxy**.
 
 ## Requirements
 
@@ -50,16 +50,16 @@ See [documentation site](http://key-amb.github.io/poloxy-doc/) for guide to get 
 
 <div align="center">
 <a href="http://www.slideshare.net/YasutakeKiyoshi/introduction-to-poloxy-proxy-for-alerting" target="_blank">
-<img src="https://raw.githubusercontent.com/key-amb/poloxy/resource/image/ninirb_20160428-screenshot.png" alt="ninirb_20160428-screenshot">
+<img src="https://raw.githubusercontent.com/progrhyme/poloxy/resource/image/ninirb_20160428-screenshot.png" alt="ninirb_20160428-screenshot">
 </a>
 </div>
 
 # Authors
 
-YASUTAKE Kiyoshi <yasutake.kiyoshi@gmail.com>
+IKEDA Kiyoshi <progrhyme@gmail.com>
 
 # License
 
 The MIT License (MIT)
 
-Copyright (c) 2016 YASUTAKE Kiyoshi
+Copyright (c) 2016-2017 IKEDA Kiyoshi
